@@ -35,6 +35,7 @@ LightingScene.prototype.init = function(application) {
 	this.wall = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.wall1 = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
+	this.torus = new MyTorus(this, 1.5,0.1, 100, 100);
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);
@@ -252,6 +253,10 @@ LightingScene.prototype.display = function() {
 		//this.materialB.apply();
 		this.boardAppearance.apply();
 		this.boardB.display();
+	this.popMatrix();
+
+	this.pushMatrix();
+		this.torus.display();
 	this.popMatrix();
 
 	// ---- END Primitive drawing section

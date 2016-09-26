@@ -1,0 +1,50 @@
+<dsx> 
+	
+	
+	<scene root="1" axis_length="1" />
+	
+	<views default="view1" />
+	
+	<perspective id="p1" near="0" far="20" angle="0">
+        <from x="0" y="0" z="0" />
+        <to x="20" y="20" z="20" />
+    </perspective>
+	
+	<illumination doublesided="1" local="1" >
+    
+        <ambient r="100" g="100" b="100" a="100" />
+        <background r="100" g="100" b="100" a="100" />
+        
+    </illumination>
+	
+	<materials>
+    
+        
+        <material id="material1" >
+            <emission r="1" g="100" b="100" a="100" />
+            <ambient r="1" g="100" b="100" a="100" />
+            <diffuse r="1" g="100" b="100" a="100" />
+            <specular r="1" g="100" b="100" a="100" />
+            <shininess value="5" />
+        </material>
+        
+    </materials>
+	
+	<primitives>
+    
+		<primitive id="rectangle 1">
+        <rectangle x1="0" y1="0" x2="2" y2="2" />
+            
+            
+        </primitive>
+        
+    </primitives>
+	
+	<components>
+		<component id ="1">
+			<children>
+			
+			</children>
+		</component>
+	</components>
+</dsx>

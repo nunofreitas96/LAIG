@@ -21,12 +21,12 @@ MyTorus.prototype.initBuffers = function () {
 	this.indices = [];
 	this.texCoords = [];
 
-	this.angle = Math.PI * 2 / this.slices;
+	this.angle = Math.PI *2 / this.slices;
 
 	// generate vertices, normals and uvs
 	for (j = 0; j <= this.stacks; j++) {
 		for (i = 0; i <= this.slices; i++) {
-			var u = i / this.slices * (Math.PI);
+			var u = i / this.slices * (Math.PI *2 );
 			var v = j / this.stacks * Math.PI * 2;
 			// vertex
 			var x = (this.radius + this.tube * Math.cos(v)) * Math.cos(u);

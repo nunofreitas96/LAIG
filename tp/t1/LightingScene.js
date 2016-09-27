@@ -35,7 +35,7 @@ LightingScene.prototype.init = function(application) {
 	this.wall = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.wall1 = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
-	this.torus = new MyTorus(this, 1.5,0.1, 100, 100);
+	this.torus = new MyTorus(this, 1.5,0.8, 100, 100);
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);
@@ -237,6 +237,7 @@ LightingScene.prototype.display = function() {
 		this.table.display();
 	this.popMatrix();
 
+/*
 	// Board A
 	this.pushMatrix();
 		this.translate(4, 4.5, 0.2);
@@ -254,8 +255,10 @@ LightingScene.prototype.display = function() {
 		this.boardAppearance.apply();
 		this.boardB.display();
 	this.popMatrix();
-
+*/
 	this.pushMatrix();
+		this.rotate(90 * degToRad, 1, 0, 0);
+		this.translate(3, 3, -0.6);
 		this.torus.display();
 	this.popMatrix();
 

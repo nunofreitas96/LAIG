@@ -23,40 +23,40 @@ MyTable.prototype.display = function () {
 	this.materialD.setAmbient(0.67,0.67,0.67,1);
 	this.materialD.setDiffuse(0.67,0.67,0.67,1);
 	this.materialD.setSpecular(1,1,1,1);
-	
+
 
 	this.scene.pushMatrix();
-	this.scene.translate(0, 3.5, 0);
+	this.scene.translate(0, 2, 0);
 	this.scene.scale(5, 0.3, 3);
 	//this.materialC.apply();
 	this.tampo.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(-2.25, 1.75, -1.25);
-	this.scene.scale(0.3, 3.5, 0.3);
-	this.materialD.apply();
+	this.scene.translate(-2.25, 1, -1.25);
+	this.scene.scale(0.3, 2, 0.3);
+	//this.materialD.apply();
 	this.perna.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(2.25, 1.75, -1.25);
-	this.scene.scale(0.3, 3.5, 0.3);
-	this.materialD.apply();
+	this.scene.translate(2.25, 1, -1.25);
+	this.scene.scale(0.3, 2, 0.3);
+	//this.materialD.apply();
 	this.perna.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(-2.25, 1.75, 1.25);
-	this.scene.scale(0.3, 3.5, 0.3);
-	this.materialD.apply();
+	this.scene.translate(-2.25, 1, 1.25);
+	this.scene.scale(0.3, 2, 0.3);
+	//this.materialD.apply();
 	this.perna.display();
 	this.scene.popMatrix();
 
 	this.scene.pushMatrix();
-	this.scene.translate(2.25, 1.75, 1.25);
-	this.scene.scale(0.3, 3.5, 0.3);
-	this.materialD.apply();
+	this.scene.translate(2.25, 1, 1.25);
+	this.scene.scale(0.3, 2, 0.3);
+	//this.materialD.apply();
 	this.perna.display();
 	this.scene.popMatrix();
 };

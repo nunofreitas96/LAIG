@@ -1,4 +1,4 @@
-var degToRad = Math.PI / 180.0;
+ var degToRad = Math.PI / 180.0;
 
 var BOARD_WIDTH = 6.0;
 var BOARD_HEIGHT = 4.0;
@@ -32,10 +32,10 @@ LightingScene.prototype.init = function(application) {
 
 	// Scene elements
 	this.table = new MyTable(this);
-	this.wall = new MyQuad(this,-.5, 1.5, -.5, 1.5);
+	this.wall = new Plane(this,1,0, 2, 0, 1);
 	this.wall1 = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
-	this.torus = new MyTorus(this, 1.5,0.8, 100, 100);
+	this.torus = new MyTorus(this, .75,0.7, 100, 100);
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);
@@ -57,9 +57,9 @@ LightingScene.prototype.init = function(application) {
 	this.materialB.setShininess(120);
 
 	this.materialE = new CGFappearance(this);
-	this.materialE.setAmbient(0.3,0.3,0.3,1);
-	this.materialE.setDiffuse(0.1,0.2,0.4,1);
-	this.materialE.setSpecular(0.8,0.2,0.8,1);
+	this.materialE.setAmbient(0.656,0.796,0.59,1);
+	this.materialE.setDiffuse(0.656,0.796,0.59,1);
+	this.materialE.setSpecular(0.656,0.796,0.59,1);
 	this.materialE.setShininess(120);
 
 	this.materialF = new CGFappearance(this);
@@ -75,7 +75,8 @@ LightingScene.prototype.init = function(application) {
 	this.tableAppearance.setSpecular(0.1,0.1,1);
 	this.tableAppearance.setShininess(50);
 	this.tableAppearance.setDiffuse(0.8,0.8,0.8,1);
-	this.tableAppearance.loadTexture("../resources/images/table.png");
+	//this.tableAppearance.loadTexture("../resources/images/table.png");
+	this.tableAppearance.loadTexture("../resources/images/wood.png");
 
 	this.floorAppearance = new CGFappearance(this);
 	this.floorAppearance.setAmbient(0.3,0.3,0.3,1);
@@ -107,6 +108,24 @@ LightingScene.prototype.init = function(application) {
 	this.boardAppearance.setShininess(250);
 	this.boardAppearance.setDiffuse(0.35,0.35,0.35,1);
 	this.boardAppearance.loadTexture("../resources/images/board.png");
+
+	this.torusAppearance = new CGFappearance(this);
+	//pouca componente especular e baixo brilho, forte componente difusa
+	this.floorAppearance.setAmbient(0.3,0.3,0.3,1);
+	this.floorAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.floorAppearance.setSpecular(0.2,0.2,0.2,1);
+	this.floorAppearance.setShininess(10);
+	//this.torusAppearance.loadTexture("../resources/images/table.png");
+	this.torusAppearance.loadTexture("../resources/images/straw.png");
+	this.torusAppearance.setTextureWrap('REPEAT','REPEAT');
+
+	this.panelAppearance = new CGFappearance(this);
+	this.panelAppearance.setAmbient(0.3,0.3,0.3,1);
+	this.panelAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.panelAppearance.setSpecular(0.2,0.2,0.2,1);
+	this.panelAppearance.setShininess(10);
+	this.panelAppearance.loadTexture("../resources/images/panel.png");
+	this.panelAppearance.setTextureWrap('REPEAT','REPEAT');
 
 };
 
@@ -210,8 +229,8 @@ LightingScene.prototype.display = function() {
 		this.translate(0, 4, 7.5);
 		this.rotate(90 * degToRad, 0, 1, 0);
 		this.scale(15, 8, 0.2);
-		//this.materialE.apply();
-		this.windowAppearance.apply();
+		this.materialE.apply();
+		//this.windowAppearance.apply();
 		this.wall1.display();
 	this.popMatrix();
 
@@ -220,19 +239,13 @@ LightingScene.prototype.display = function() {
 		this.translate(7.5, 4, 0);
 		this.scale(15, 8, 0.2);
 		this.materialE.apply();
+		this.panelAppearance.apply();
 		this.wall.display();
 	this.popMatrix();
 
 	// First Table
 	this.pushMatrix();
 		this.translate(5, 0, 8);
-		this.tableAppearance.apply();
-		this.table.display();
-	this.popMatrix();
-
-	// Second Table
-	this.pushMatrix();
-		this.translate(12, 0, 8);
 		this.tableAppearance.apply();
 		this.table.display();
 	this.popMatrix();
@@ -258,7 +271,8 @@ LightingScene.prototype.display = function() {
 */
 	this.pushMatrix();
 		this.rotate(90 * degToRad, 1, 0, 0);
-		this.translate(3, 3, -0.6);
+		this.translate(5, 4, -0.6);
+		this.torusAppearance.apply();
 		this.torus.display();
 	this.popMatrix();
 

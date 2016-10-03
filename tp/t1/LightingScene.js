@@ -36,6 +36,7 @@ LightingScene.prototype.init = function(application) {
 	this.wall1 = new MyQuad(this,-.5, 1.5, -.5, 1.5);
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
 	this.torus = new MyTorus(this, .75,0.7, 100, 100);
+  this.pyramid = new MyPyramid(this);
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);

@@ -37,6 +37,7 @@ LightingScene.prototype.init = function(application) {
 	this.floor = new MyQuad(this, 0, 10, 0, 12);
 	this.torus = new MyTorus(this, .75,0.7, 100, 100);
   this.poster = new Plane(this, 1, 0, 1, 0, 1);
+  this.pyramid = new MyPyramid(this);
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);
@@ -259,26 +260,6 @@ LightingScene.prototype.display = function() {
 		this.table.display();
 	this.popMatrix();
 
-/*
-	// Board A
-	this.pushMatrix();
-		this.translate(4, 4.5, 0.2);
-		this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-		//this.materialA.apply();
-		this.slidesAppearance.apply();
-		this.boardA.display();
-	this.popMatrix();
-
-	// Board B
-	this.pushMatrix();
-		this.translate(10.5, 4.5, 0.2);
-		this.scale(BOARD_WIDTH, BOARD_HEIGHT, 1);
-		//this.materialB.apply();
-		this.boardAppearance.apply();
-		this.boardB.display();
-	this.popMatrix();
-*/
-
 // Torus assento
 	this.pushMatrix();
 		this.rotate(90 * degToRad, 1, 0, 0);
@@ -296,6 +277,12 @@ LightingScene.prototype.display = function() {
 		this.posterAppearance.apply();
 		this.poster.display();
 	this.popMatrix();
+
+  // pyramid
+  this.pushMatrix();
+    this.translate(5, 2 ,8);
+    this.pyramid.display();
+  this.popMatrix();
 
 	// ---- END Primitive drawing section
 

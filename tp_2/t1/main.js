@@ -14,6 +14,7 @@ serialInclude([
 	'MyTorus.js',
 	'MyPyramid.js',
 	'MySphere.js',
+	'MyBush.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);

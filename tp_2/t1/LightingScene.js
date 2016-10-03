@@ -38,7 +38,9 @@ LightingScene.prototype.init = function(application) {
 	this.torus = new MyTorus(this, .75,0.7, 100, 100);
   this.poster = new Plane(this, 1, 0, 1, 0, 1);
   this.pyramid = new MyPyramid(this);
-  this.esfera = new MySphere(this,100, 100);
+  //this.esfera = new MySphere(this,100, 100);
+  this.bush = new MyBush(this);
+
 
 	// Materials
 	this.materialDefault = new CGFappearance(this);
@@ -69,6 +71,10 @@ LightingScene.prototype.init = function(application) {
 	this.materialF.setDiffuse(0.43,0.62,0.01,1);
 	this.materialF.setSpecular(0.8,0.2,0.8,1);
 	this.materialF.setShininess(120);
+
+  this.materialG = new CGFappearance(this);
+  this.materialG.setEmission(1,1,1,1);
+  this.materialG.setShininess(120);
 
 	// Textures
 
@@ -282,14 +288,24 @@ LightingScene.prototype.display = function() {
 
   // pyramid
   this.pushMatrix();
-    this.translate(5, 2 ,8);
+    this.translate(10, 0 ,4);
+    this.scale(3,3,3);
     this.materialA.apply();
     this.pyramid.display();
   this.popMatrix();
 
   // sphere
+  /*
   this.pushMatrix();
     this.esfera.display();
+  this.popMatrix();
+  */
+
+  // Bush
+  this.pushMatrix();
+    this.translate(5,2.2,8);
+    this.scale(.2,.2,.2);
+    this.bush.display();
   this.popMatrix();
 
 	// ---- END Primitive drawing section

@@ -13,6 +13,7 @@ serialInclude([
 	'Plane.js',
 	'MyTorus.js',
 	'MyPyramid.js',
+	'MySphere.js',
 
 	main=function() {
 		var app = new CGFapplication(document.body);

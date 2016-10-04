@@ -15,6 +15,29 @@ function MyBush(scene) {
 	this.materialC = new CGFappearance(this.scene);
 	this.materialD = new CGFappearance(this.scene);
   */
+
+	this.bushAppearance = new CGFappearance(this.scene);
+	this.boleAppearance = new CGFappearance(this.scene);
+	this.baseAppearance = new CGFappearance(this.scene);
+
+
+	this.bushAppearance.setSpecular(0.1,0.1,1);
+	this.bushAppearance.setShininess(50);
+	this.bushAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.bushAppearance.loadTexture("../resources/images/bush.png");
+	this.bushAppearance.setTextureWrap('CLAMP_TO_EDGE','CLAMP_TO_EDGE');
+
+	this.boleAppearance.setSpecular(0.1,0.1,1);
+	this.boleAppearance.setShininess(50);
+	this.boleAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.boleAppearance.loadTexture("../resources/images/bole.png");
+	this.boleAppearance.setTextureWrap('CLAMP_TO_EDGE','CLAMP_TO_EDGE');
+
+	this.baseAppearance.setSpecular(0.1,0.1,1);
+	this.baseAppearance.setShininess(50);
+	this.baseAppearance.setDiffuse(0.8,0.8,0.8,1);
+	this.baseAppearance.loadTexture("../resources/images/table.png");
+	this.baseAppearance.setTextureWrap('REPEAT','REPEAT');
 };
 
 MyBush.prototype = Object.create(CGFobject.prototype);
@@ -31,11 +54,13 @@ MyBush.prototype.display = function () {
 	this.materialD.setSpecular(1,1,1,1);
 */
 
+
   // Base
 	this.scene.pushMatrix();
     this.scene.translate(0,.5,0);
   	this.scene.scale(8, 1, 5);
   	//this.materialC.apply();
+		this.baseAppearance.apply();
   	this.base.display();
 	this.scene.popMatrix();
 
@@ -44,6 +69,7 @@ MyBush.prototype.display = function () {
     this.scene.rotate(-Math.PI/2,1,0,0);
     this.scene.translate(0,0,1);
     this.scene.scale(.5,.5,.4);
+		this.boleAppearance.apply();
     this.tronco.display();
   this.scene.popMatrix();
 
@@ -51,6 +77,7 @@ MyBush.prototype.display = function () {
   this.scene.pushMatrix();
     this.scene.translate(-.5,5,0);
     this.scene.scale(4,2.5,2.5);
+		this.bushAppearance.apply();
     this.bush.display();
   this.scene.popMatrix();
 
@@ -58,6 +85,7 @@ MyBush.prototype.display = function () {
   this.scene.pushMatrix();
     this.scene.translate(2,3.5,1.5);
     this.scene.scale(2,1.5,1.5);
+		this.bushAppearance.apply();
     this.bush.display();
   this.scene.popMatrix();
 
@@ -65,6 +93,7 @@ MyBush.prototype.display = function () {
   this.scene.pushMatrix();
     this.scene.translate(-2.5,2.7,1);
     this.scene.scale(1.5,1,1);
+		this.bushAppearance.apply();
     this.bush.display();
   this.scene.popMatrix();
 };

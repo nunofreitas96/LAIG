@@ -166,7 +166,7 @@ LightingScene.prototype.initLights = function() {
 	this.lights[0].setAmbient(0, 0, 0, 1);
 	this.lights[0].setDiffuse(1.0, 1.0, 1.0, 1.0);
 	this.lights[0].setSpecular(255,255,0, 1.0);
-	//this.lights[0].enable();	//1.2 -> descomentar
+	this.lights[0].enable();	//1.2 -> descomentar
 
 	this.lights[1].setAmbient(0, 0, 0, 1);
 	this.lights[1].setDiffuse(1.0, 1.0, 1.0, 1.0);

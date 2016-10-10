@@ -3,8 +3,8 @@
 
 	<scene root="0" axis_length="1" />
 
-	<views default="p1">
-		<perspective id="p1" near="0" far="20" angle="0">
+	<views default="0">
+		<perspective id="0" near="0" far="20" angle="0">
 			<from x="0" y="0" z="0" />
 			<to x="20" y="20" z="20" />
 		</perspective>

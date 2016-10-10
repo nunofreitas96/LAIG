@@ -41,7 +41,13 @@ MySceneGraph.prototype.onXMLReady=function()
 	this.scene.onGraphLoaded();
 };
 
+
 MySceneGraph.prototype.parseSceneDXS = function(rootElement){
+	this.parseSceneRoot(rootElement);
+	this.parseViews(rootElement);
+}
+
+MySceneGraph.prototype.parseSceneRoot = function(rootElement){
 	var sceneRoot = rootElement.getElementsByTagName('scene');
 	if (sceneRoot == null) {
 		return "root not defined";
@@ -53,8 +59,37 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 	this.scene_root = sceneRoot[0].attributes.getNamedItem("root").value;
 	this.scene_axis = sceneRoot[0].attributes.getNamedItem("axis_length").value;
 	console.log("root id: "+this.scene_root+"; axis length: "+this.scene_axis);
-
 }
+
+MySceneGraph.prototype.parseViews = function(rootElement){
+	// declaracao obrigatoria de, pelo menos, uma vista/perspectiva
+	var views = rootElement.getElementsByTagName('views');
+	if(views == null){
+		return "views not defined";
+	}
+	if (views.length != 1){
+		return "views bad definition";
+	}
+
+	this.views_default = views[0].attributes.getNamedItem("default").value;
+	console.log("view default: "+this.views_default);
+
+	var tempViews=rootElement.getElementsByTagName('views');
+	if (tempViews == null || tempViews.length == 0) {
+		return "views perspectives are missing";
+	}
+	this.perspectives=[];
+	var descN=tempViews[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = tempViews[0].children[i];
+		this.perspectives[e.id].push(e.attributes.getNamedItem("near"));
+		this.perspectives[e.id].push(e.attributes.getNamedItem("far"));
+		this.perspectives[e.id].push(e.attributes.getNamedItem("angle"));
+		this.perspectives[e.id].push(e.attributes.getNamedItem("near"));
+		this.perspectives[e.id].push(e.attributes.getNamedItem("near"));
+	}
+}
+
 
 /*
  * Example of method that parses elements of one block and stores information in a specific data structure

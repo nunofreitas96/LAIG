@@ -3,13 +3,15 @@
 	
 	<scene root="1" axis_length="1" />
 	
-	<views default="view1" />
+	<views default="view1">
 	
 	<perspective id="p1" near="0" far="20" angle="0">
         <from x="0" y="0" z="0" />
         <to x="20" y="20" z="20" />
     </perspective>
 	
+	
+	</views>
 	<illumination doublesided="1" local="1" >
     
         <ambient r="100" g="100" b="100" a="100" />
@@ -33,7 +35,7 @@
 	<primitives>
     
 		<primitive id="rectangle 1">
-        <rectangle x1="0" y1="0" x2="2" y2="2" />
+        <rectangle x1="0" y1="0" x2="1" y2="1" />
         <triangle x1="0" y1="0" x2="2" y2="2" />
 		<cylinder base="0" top="1" height="1" slices="1" stacks="1" />
         <sphere radius="2" slices="1" stacks="1" />
@@ -88,6 +90,54 @@
 			<scale x="0.2" y="0.2" z="0.2" />
         </transformation>
 		
+		<transformation id="quad1T">
+			<translate x="0" y="0" z="0.5" />
+		</transformation>
+		
+		<transformation id="quad2T">
+			<translate x="0" y="0" z="-0.5" />
+			<rotate axis="x" angle="-90">
+			<translate x="0" y="0" z="0.5" />
+			<rotate axis="z" angle="-90">
+			
+		</transformation>
+		
+		<transformation id="quad3T">
+			<translate x="0" y="0" z="-1" />
+			<rotate axis="y" angle="180"/>
+			<rotate axis="z" angle="90"/>			
+		</transformation>
+		
+		<transformation id="quad4T">
+			<translate x="0" y="0" z="-0.5" />
+			<rotate axis="x" angle="90"/>
+			<translate x="0" y="0" z="0.5" />
+			<rotate axis="z" angle="270"/>
+		</transformation>
+		
+		<transformation id="quad5T">
+			<translate x="0" y="0" z="-0.5" />
+			<rotate axis="x" angle="270"/>
+			<translate x="0" y="0" z="0.5" />
+		</transformation>
+		
+		<transformation id="quad6T">
+			<translate x="0" y="0" z="-1" />
+			<rotate axis="y" angle="90"/>
+			<rotate axis="z" angle="360"/>
+			<rotate axis="y" angle="90"/>			
+		</transformation>
+		
+		<transformation id="BushBaseT">
+				<translate x="0" y ="0.5" z = "0"/>
+				<scale x="8" y ="1" z="5" />
+		</transformation>
+		
+		<transformation id="BushoTroncoT">
+			<rotate axis ="x" angle="-90"/>
+			<translate x="0" y ="0" z="1"/>
+			<scale x="8" y ="1" z="5" />
+			
 		
 	
 	</transformations>
@@ -107,9 +157,9 @@
 			</children>
 		</component>
 		
-		<component id ="Floor">
+		<component id ="LeftWall">
 			<transformation>
-				<transformationref id = "floorT">
+				<transformationref id = "LWallT">
 			</transformation>
 			
 			<material>
@@ -120,6 +170,130 @@
 				<primitiveref id ="rectangle">
 			</children>
 		</component>
+		
+		<component id ="PlaneWall">
+			<transformation>
+				<transformationref id = "PWallT">
+			</transformation>
+
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad1">
+			<transformation>
+				<transformationref id = "quad1T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad2">
+			<transformation>
+				<transformationref id = "quad2T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad3">
+			<transformation>
+				<transformationref id = "quad3T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad4">
+			<transformation>
+				<transformationref id = "quad4T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad5">
+			<transformation>
+				<transformationref id = "quad5T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad6">
+			<transformation>
+				<transformationref id = "quad6T">
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<primitiveref id ="rectangle">
+			</children>
+		</component>
+		
+		<component id ="UnitCubeQuad">
+			<transformation>
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+				<componentref id ="UnitCubeQuad1">
+				<componentref id ="UnitCubeQuad2">
+				<componentref id ="UnitCubeQuad3">
+				<componentref id ="UnitCubeQuad4">
+				<componentref id ="UnitCubeQuad5">
+				<componentref id ="UnitCubeQuad6">
+			</children>
+		</component>
+		
+		<component id = "Pyramid">
+			<transformation>
+			</transformation>
+			<material>
+			 <material id="ss" />
+            </materials>
+			
+			<children>
+			//TODO fazer o resto dos tirangulos como componentes
+			</children>
+		</component>
+		
+		<component id = "BushBase">
+			
+		
+		
+		
+		
 		
 		
 	</components>

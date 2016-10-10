@@ -4,7 +4,7 @@
  */
  function MyCylinder(scene, slices, stacks) {
  	CGFobject.call(this,scene);
-	
+
 	this.slices=slices;
 	this.stacks=stacks;
 
@@ -27,7 +27,7 @@
 	var i;
 	var j;
 	var k = 2*this.slices;
-	
+
 	this.vertices=[];
 	for(i=0;i<=this.stacks;i++){
 		for(j=0;j<this.slices;j++){
@@ -37,7 +37,7 @@
 	//this.vertices[1]=3;
 
 
-	
+
 
 	this.indices=[];
 	for(i=0;i<this.stacks*this.slices;i+=this.slices){
@@ -52,7 +52,7 @@
 
 	}
 
-	
+
 	var alpha=2*Math.PI/this.slices;
 
 	this.normals=[];
@@ -64,7 +64,7 @@
 		}
 	}
 
-	
+
 
  	//this.primitiveType = this.scene.gl.TRIANGLES;
  	this.initGLBuffers();

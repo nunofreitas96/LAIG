@@ -18,13 +18,41 @@
 	<!-- TODO lights and textures -->
 	<materials>
 		<material id="1" >
-			<emission r="1" g="100" b="100" a="100" />
-			<ambient r="1" g="100" b="100" a="100" />
-			<diffuse r="1" g="100" b="100" a="100" />
-			<specular r="1" g="100" b="100" a="100" />
-			<shininess value="5" />
+			<emission r="1" g="1" b="1" a="1" />
+			<ambient r="0.11" g="0.42" b="0.5" a="1" />
+			<diffuse r="0.11" g="0.42" b="0.5" a="1" />
+			<specular r="0" g="0.2" b="0.8" a="1" />
+			<shininess value="10" />
+		</material>
+	
+
+	
+		<material id="2" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0.3" g="0.3" b="0.3" a="1" />
+			<diffuse r="0.6" g="0.6" b="0.6" a="1" />
+			<specular r="0.8" g="0.8" b="0.8" a="1" />
+			<shininess value="120" />
+		</material>
+
+		<material id="3" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0.656" g="0.796" b="0.59" a="1" />
+			<diffuse r="0.656" g="0.796" b="0.59" a="1" />
+			<specular r="0.656" g="0.796" b="0.59" a="1" />
+			<shininess value="120" />
+		</material>
+
+		<material id="4" >
+			<emission r="0" g="0" b="0" a="0" />
+			<ambient r="0.3" g="0.3" b="0.3" a="1" />
+			<diffuse r="0.43" g="0.62" b="0.01" a="1" />
+			<specular r="0.8" g="0.2" b="0.8" a="1" />
+			<shininess value="120" />
 		</material>
 	</materials>
+
+
 
 
 	<primitives>
@@ -32,7 +60,7 @@
 			<rectangle x1="0" y1="0" x2="1" y2="1" />
 		</primitive>
 		<primitive id="triangulo">
-			<triangle x1="0" y1="0" x2="2" y2="2" />
+			<triangle x1="0" y1="0" x2="1" y2="1" />
 		</primitive>
 		<primitive id="cilindro">
 			<cylinder base="1" top="1" height="1" slices="100" stacks="10" />
@@ -133,11 +161,26 @@
 				<scale x="8" y ="1" z="5" />
 			</transformation>
 
-			<transformation id="BushoTroncoT">
+			<transformation id="BushTroncoT">
 				<rotate axis ="x" angle="-90"/>
 				<translate x="0" y ="0" z="1"/>
 				<scale x="8" y ="1" z="5" />
+			</transformation>
 
+			<transformation id="Bush1T">
+				<translate  x="2" y ="3.5" z="1.5" />
+				<scale x="4" y ="2.5" z="2.5" />
+			</transformation>
+
+			<transformation id="Bush3T">
+				<translate  x="-2.5" y ="2.7" z="1" />
+				<scale x="1.5" y ="1" z="1" />
+			</transformation>
+
+			<transformation id="Bush2T">
+				<translate  x="2" y ="3.5" z="1.5" />
+				<scale x="2" y ="1.5" z="1.5" />
+			</transformation>
 
 
 			</transformations>
@@ -149,7 +192,7 @@
 					</transformation>
 
 					<material>
-						<material id="ss" />
+						<material id="4" />
 					</materials>
 
 					<children>
@@ -163,7 +206,7 @@
 					</transformation>
 
 					<material>
-						<material id="ss" />
+						<material id="3" />
 					</materials>
 
 					<children>
@@ -176,6 +219,10 @@
 						<transformationref id = "PWallT"/>
 					</transformation>
 
+					<material>
+						<material id="3" />
+					</materials>
+
 					<children>
 						<primitiveref id ="rectangle"/>
 					</children>
@@ -186,7 +233,7 @@
 						<transformationref id = "quad1T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -199,7 +246,7 @@
 						<transformationref id = "quad2T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -212,7 +259,7 @@
 						<transformationref id = "quad3T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -225,7 +272,7 @@
 						<transformationref id = "quad4T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -238,7 +285,7 @@
 						<transformationref id = "quad5T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -251,7 +298,7 @@
 						<transformationref id = "quad6T"/>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -263,7 +310,7 @@
 					<transformation>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -280,7 +327,7 @@
 					<transformation>
 					</transformation>
 					<material>
-						<material id="ss" />
+						<material id="1" />
 					</materials>
 
 					<children>
@@ -289,7 +336,108 @@
 				</component>
 
 				<component id = "BushBase">
+					<transformation>
+						<transformationref id = "BushBaseT"/>
+					</transformation>
 
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="rectangulo"/>
+					</children>
+				</component>
+
+				<component id = "BushBase">
+					<transformation>
+						<transformationref id = "BushBaseT"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="rectangulo"/>
+					</children>
+				</component>
+
+				<component id = "BushTronco">
+					<transformation>
+						<transformationref id = "BushTroncoT"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="cilindro"/>
+					</children>
+				</component>
+
+				<component id = "Bush1">
+					<transformation>
+						<transformationref id = "Bush1T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="esfera"/>
+					</children>
+				</component>
+
+				<component id = "Bush2">
+					<transformation>
+						<transformationref id = "Bush2T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="esfera"/>
+					</children>
+				</component>
+
+				<component id = "Bush3">
+					<transformation>
+						<transformationref id = "Bush3T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="esfera"/>
+					</children>
+				</component>
+
+				<component id = "Torus">
+					<transformation>
+						<transformationref id = "TorusT"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="torus"/>
+					</children>
+				</component>
+
+				<component id = "Poster">
+					<transformation>
+						<transformationref id = "PosterT"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+					<children>
+						<primitiveref id ="rectangulo"/>
+					</children>
+				</component>
 
 
 

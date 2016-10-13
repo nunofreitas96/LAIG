@@ -16,6 +16,21 @@
 	</illumination>
 
 	<!-- TODO lights and textures -->
+
+
+
+	<textures>
+		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1" />
+		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="1" length_t="1" />   
+        <texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="1" />  
+        <texture id="posterA" file="../resources/images/naruto.png" length_s="1" length_t="1" />
+        <texture id="torusA" file="../resources/images/straw.png" length_s="1" length_t="1" />
+        <texture id="bushA1" file="../resources/images/bush.png" length_s="1" length_t="1" />
+        <texture id="bushA2" file="../resources/images/bole.png" length_s="1" length_t="1" />
+        <texture id="bushA3" file="../resources/images/table.png" length_s="1" length_t="1" />
+    </textures>
+
+
 	<materials>
 		<material id="1" >
 			<emission r="1" g="1" b="1" a="1" />
@@ -182,6 +197,37 @@
 				<scale x="2" y ="1.5" z="1.5" />
 			</transformation>
 
+			<transformation id="table1T">
+				<translate  x="0" y ="2" z="0" />
+				<scale x="5" y ="0.3" z="3" />
+			</transformation>
+
+			<transformation id="table2T">
+				<translate  x="-2.25" y ="1" z="-1.25" />
+				<scale x="0.3" y ="2" z="0.3" />
+			</transformation>
+
+			<transformation id="table3T">
+				<translate  x="2.25" y ="1" z="-1.25" />
+				<scale x="0.3" y ="2" z="0.3" />
+			</transformation>
+
+			<transformation id="table4T">
+				<translate  x="-2.25" y ="1" z="1.25" />
+				<scale x="0.3" y ="2" z="0.3" />
+			</transformation>
+
+			<transformation id="table5T">
+				<translate  x="2.25" y ="1" z="1.25" />
+				<scale x="0.3" y ="2" z="0.3" />
+			</transformation>
+
+			<transformation id="tableT">
+				<translate  x="5" y ="0" z="8" />
+				
+			</transformation>
+
+
 
 			</transformations>
 
@@ -194,6 +240,7 @@
 					<material>
 						<material id="4" />
 					</materials>
+					<texture id="floorA" />
 
 					<children>
 						<primitiveref id ="rectangle"/>
@@ -223,6 +270,7 @@
 						<material id="3" />
 					</materials>
 
+					<texture id="panelA" />
 					<children>
 						<primitiveref id ="rectangle"/>
 					</children>
@@ -340,18 +388,7 @@
 						<transformationref id = "BushBaseT"/>
 					</transformation>
 
-					<material>
-						<material id="1" />
-					</materials>
-					<children>
-						<primitiveref id ="rectangulo"/>
-					</children>
-				</component>
-
-				<component id = "BushBase">
-					<transformation>
-						<transformationref id = "BushBaseT"/>
-					</transformation>
+					<texture id="bushA1" />
 
 					<material>
 						<material id="1" />
@@ -365,6 +402,8 @@
 					<transformation>
 						<transformationref id = "BushTroncoT"/>
 					</transformation>
+
+					<texture id="bushA2" />
 
 					<material>
 						<material id="1" />
@@ -382,6 +421,9 @@
 					<material>
 						<material id="1" />
 					</materials>
+
+					<texture id="bushA3" />
+
 					<children>
 						<primitiveref id ="esfera"/>
 					</children>
@@ -395,6 +437,9 @@
 					<material>
 						<material id="1" />
 					</materials>
+
+					<texture id="bushA3" />
+
 					<children>
 						<primitiveref id ="esfera"/>
 					</children>
@@ -408,6 +453,10 @@
 					<material>
 						<material id="1" />
 					</materials>
+
+					<texture id="bushA3" />
+
+
 					<children>
 						<primitiveref id ="esfera"/>
 					</children>
@@ -421,6 +470,9 @@
 					<material>
 						<material id="1" />
 					</materials>
+
+					<texture id="torusA" />
+
 					<children>
 						<primitiveref id ="torus"/>
 					</children>
@@ -434,8 +486,112 @@
 					<material>
 						<material id="1" />
 					</materials>
+
+					<texture id="posterA" />
+
 					<children>
 						<primitiveref id ="rectangulo"/>
+					</children>
+				</component>
+
+				<component id = "TableTampo">
+					<transformation>
+						<transformationref id = "table1T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="UnitCubeQuad"/>
+					</children>
+				</component>
+
+				<component id = "TablePerna1">
+					<transformation>
+						<transformationref id = "table2T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="UnitCubeQuad"/>
+					</children>
+				</component>
+
+				<component id = "TablePerna2">
+					<transformation>
+						<transformationref id = "table3T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="UnitCubeQuad"/>
+					</children>
+				</component>
+
+
+				<component id = "TablePerna3">
+					<transformation>
+						<transformationref id = "table4T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="UnitCubeQuad"/>
+					</children>
+				</component>
+
+				<component id = "TablePerna4">
+					<transformation>
+						<transformationref id = "table5T"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="UnitCubeQuad"/>
+					</children>
+				</component>
+
+				<component id = "Table">
+					<transformation>
+						<transformationref id = "tableT"/>
+					</transformation>
+
+					<material>
+						<material id="1" />
+					</materials>
+
+					<texture id="tabelA" />
+
+					<children>
+						<componentref id ="TableTampo"/>
+						<componentref id ="TablePerna1"/>
+						<componentref id ="TablePerna2"/>
+						<componentref id ="TablePerna3"/>
+						<componentref id ="TablePerna4"/>
 					</children>
 				</component>
 

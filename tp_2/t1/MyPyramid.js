@@ -36,7 +36,7 @@ MyPyramid.prototype.initBuffers = function () {
 			];
 
 	this.indices = [
-      0, 4, 5,
+      		0, 4, 5,
 			1, 6, 7,
 			2, 8, 9,
 			3, 10, 11

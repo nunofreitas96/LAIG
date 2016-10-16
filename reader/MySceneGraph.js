@@ -144,9 +144,96 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 	console.log("\tillumination background R:"+this.illumination.background[0]+" G:"+this.illumination.background[1]+" B:"+this.illumination.background[2]+" A:"+this.illumination.background[3]);
 }
 
-MySceneGraph.prototype.parseLights = function(rootElement){	//TODO
-	console.log("TODO parse lights");
+MySceneGraph.prototype.parseLights = function(rootElement){
+	var lights = rootElement.getElementsByTagName('lights');
+	if (lights == null) {
+		return "lights not defined";
+	}
+	if (lights.length != 1) {
+		return "lights bad definition";
+	}
+
+	this.light = [];
+
+	var descN = lights[0].children.length;
+	var i = 0;
+	for (i = 0; i < descN; i++) {
+		var e = lights[0].children[i];
+		this.light[i] = [];
+		if (e.tagName == "omni") {
+			this.light[i][0] = "omni";
+			this.light[i][1] = e.id;
+			this.light[i][2] = e.attributes.getNamedItem('enabled').value;
+			console.log("lights "+this.light[i][0]+" ("+this.light[i][1]+") enabled: "+	this.light[i][2]);
+			this.light[i].location = [];
+			this.light[i].location[0] = e.children[0].attributes.getNamedItem('x').value;
+			this.light[i].location[1] = e.children[0].attributes.getNamedItem('y').value;
+			this.light[i].location[2] = e.children[0].attributes.getNamedItem('z').value;
+			this.light[i].location[3] = e.children[0].attributes.getNamedItem('w').value;
+			console.log("\t location x:"+this.light[i].location[0]+" y:"+this.light[i].location[1]+" z:"+this.light[i].location[2]+" w:"+this.light[i].location[3]);
+			this.light[i].ambient = [];
+			this.light[i].ambient[0] = e.children[1].attributes.getNamedItem('r').value;
+			this.light[i].ambient[1] = e.children[1].attributes.getNamedItem('g').value;
+			this.light[i].ambient[2] = e.children[1].attributes.getNamedItem('b').value;
+			this.light[i].ambient[3] = e.children[1].attributes.getNamedItem('a').value;
+			console.log("\t ambient r:"+this.light[i].ambient[0]+" g:"+this.light[i].ambient[1]+" b:"+this.light[i].ambient[2]+" a:"+this.light[i].ambient[3]);
+			this.light[i].diffuse = [];
+			this.light[i].diffuse[0] = e.children[2].attributes.getNamedItem('r').value;
+			this.light[i].diffuse[1] = e.children[2].attributes.getNamedItem('g').value;
+			this.light[i].diffuse[2] = e.children[2].attributes.getNamedItem('b').value;
+			this.light[i].diffuse[3] = e.children[2].attributes.getNamedItem('a').value;
+			console.log("\t diffuse r:"+this.light[i].diffuse[0]+" g:"+this.light[i].diffuse[1]+" b:"+this.light[i].diffuse[2]+" a:"+this.light[i].diffuse[3]);
+			this.light[i].specular = [];
+			this.light[i].specular[0] = e.children[3].attributes.getNamedItem('r').value;
+			this.light[i].specular[1] = e.children[3].attributes.getNamedItem('g').value;
+			this.light[i].specular[2] = e.children[3].attributes.getNamedItem('b').value;
+			this.light[i].specular[3] = e.children[3].attributes.getNamedItem('a').value;
+			console.log("\t specular r:"+this.light[i].specular[0]+" g:"+this.light[i].specular[1]+" b:"+this.light[i].specular[2]+" a:"+this.light[i].specular[3]);
+		}
+	}
+	for (var j = 0; j < descN; j++) {
+		var e = lights[0].children[j];
+		var k = i+j;
+		this.light[k] = [];
+		if (e.tagName == "spot") {
+			this.light[k][0] = "spot";
+			this.light[k][1] = e.id;
+			this.light[k][2] = e.attributes.getNamedItem('enabled').value;
+			this.light[k][3] = e.attributes.getNamedItem('angle').value;
+			this.light[k][4] = e.attributes.getNamedItem('exponent').value;
+			console.log("lights "+this.light[k][0]+" ("+this.light[k][1]+") enabled: "+	this.light[k][2]+" angle:"+this.light[k][3]+" exponent:"+this.light[k][4]);
+			this.light[k].target = [];
+			this.light[k].target[0] = e.children[0].attributes.getNamedItem('x').value;
+			this.light[k].target[1] = e.children[0].attributes.getNamedItem('y').value;
+			this.light[k].target[2] = e.children[0].attributes.getNamedItem('z').value;
+			console.log("\t target x:"+this.light[k].target[0]+" y:"+this.light[k].target[1]+" z:"+this.light[k].target[2]);
+			this.light[k].location = [];
+			this.light[k].location[0] = e.children[1].attributes.getNamedItem('x').value;
+			this.light[k].location[1] = e.children[1].attributes.getNamedItem('y').value;
+			this.light[k].location[2] = e.children[1].attributes.getNamedItem('z').value;
+			console.log("\t location x:"+this.light[k].location[0]+" y:"+this.light[k].location[1]+" z:"+this.light[k].location[2]);
+			this.light[k].ambient = [];
+			this.light[k].ambient[0] = e.children[2].attributes.getNamedItem('r').value;
+			this.light[k].ambient[1] = e.children[2].attributes.getNamedItem('g').value;
+			this.light[k].ambient[2] = e.children[2].attributes.getNamedItem('b').value;
+			this.light[k].ambient[3] = e.children[2].attributes.getNamedItem('a').value;
+			console.log("\t ambient r:"+this.light[k].ambient[0]+" g:"+this.light[k].ambient[1]+" b:"+this.light[k].ambient[2]+" a:"+this.light[k].ambient[3]);
+			this.light[k].diffuse = [];
+			this.light[k].diffuse[0] = e.children[3].attributes.getNamedItem('r').value;
+			this.light[k].diffuse[1] = e.children[3].attributes.getNamedItem('g').value;
+			this.light[k].diffuse[2] = e.children[3].attributes.getNamedItem('b').value;
+			this.light[k].diffuse[3] = e.children[3].attributes.getNamedItem('a').value;
+			console.log("\t diffuse r:"+this.light[k].diffuse[0]+" g:"+this.light[k].diffuse[1]+" b:"+this.light[k].diffuse[2]+" a:"+this.light[k].diffuse[3]);
+			this.light[k].specular = [];
+			this.light[k].specular[0] = e.children[4].attributes.getNamedItem('r').value;
+			this.light[k].specular[1] = e.children[4].attributes.getNamedItem('g').value;
+			this.light[k].specular[2] = e.children[4].attributes.getNamedItem('b').value;
+			this.light[k].specular[3] = e.children[4].attributes.getNamedItem('a').value;
+			console.log("\t specular r:"+this.light[k].specular[0]+" g:"+this.light[k].specular[1]+" b:"+this.light[k].specular[2]+" a:"+this.light[k].specular[3]);
+		}
+	}
 }
+
 
 MySceneGraph.prototype.parseTextures = function(rootElement){	//TODO
 	console.log("TODO parse textures");
@@ -174,7 +261,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 		var descNN = e.children.length;
 
 		console.log("material "+e.id);
-		
+
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
 

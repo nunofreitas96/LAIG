@@ -386,7 +386,60 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 }
 
 MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
-	console.log("TODO parse transformations");
+	var transf = rootElement.getElementsByTagName('transformations');
+	if (transf == null) {
+		return "transformations not defined";
+	}
+	if (transf.length != 1) {
+		return "transformations bad definition";
+	}
+
+	console.log("transformations");
+
+	var descN = transf[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = transf[0].children[i];
+		var ids = [];
+
+		if (e.tagName != "transformation" || e.attributes.length != 1 || ids.indexOf(e.id) >= 0) {
+			return "transformation is missing";
+		}
+
+		this.transformations = [];
+		this.transformations[i]=[];
+
+		this.transformations[i][0] = e.id;
+
+		var descNN = e.children.length;
+
+		for (var j = 0; j < descNN; j++) {
+			var f = e.children[j];
+
+			if (f.tagName == "translate") {
+				this.transformations[i].translate = [];
+				this.transformations[i][1] = "translate";
+				this.transformations[i].translate[0] = f.attributes.getNamedItem('x').value;
+				this.transformations[i].translate[1] = f.attributes.getNamedItem('y').value;
+				this.transformations[i].translate[2] = f.attributes.getNamedItem('z').value;
+				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") x:"+this.transformations[i].translate[0]+" y:"+this.transformations[i].translate[1]+" z:"+this.transformations[i].translate[2]);
+			}
+			else if (f.tagName == "rotate") {
+				this.transformations[i].rotate = [];
+				this.transformations[i][1] = "rotate";
+				this.transformations[i].rotate[0] = f.attributes.getNamedItem('axis').value;
+				this.transformations[i].rotate[1] = f.attributes.getNamedItem('angle').value;
+				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") axis:"+this.transformations[i].rotate[0]+" angle:"+this.transformations[i].rotate[1]);
+			}
+			else if (f.tagName == "scale") {
+				this.transformations[i].scale = [];
+				this.transformations[i][1] = "scale";
+				this.transformations[i].scale[0] = f.attributes.getNamedItem('x').value;
+				this.transformations[i].scale[1] = f.attributes.getNamedItem('y').value;
+				this.transformations[i].scale[2] = f.attributes.getNamedItem('z').value;
+				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") x:"+this.transformations[i].scale[0]+" y:"+this.transformations[i].scale[1]+" z:"+this.transformations[i].scale[2]);
+			}
+		}
+	}
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement){

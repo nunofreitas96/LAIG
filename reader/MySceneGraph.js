@@ -235,8 +235,30 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 }
 
 
-MySceneGraph.prototype.parseTextures = function(rootElement){	//TODO
-	console.log("TODO parse textures");
+MySceneGraph.prototype.parseTextures = function(rootElement){
+	var text = rootElement.getElementsByTagName('textures');
+	if (text == null) {
+		return "textures not defined";
+	}
+	if (text.length != 1) {
+		return "textures bad definition";
+	}
+
+	this.textures = [];
+
+	var descN = text[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = text[0].children[i];
+		if (e.tagName != "texture" || e.attributes.length != 4) {
+			return "texture is missing";
+		}
+		this.textures[i] = [];
+		this.textures[i][0]=e.attributes.getNamedItem('id').value;
+		this.textures[i][1]=e.attributes.getNamedItem('file').value;
+		this.textures[i][2]=e.attributes.getNamedItem('length_s').value;
+		this.textures[i][3]=e.attributes.getNamedItem('length_t').value;
+		console.log("texture ("+this.textures[i][0]+") file:"+this.textures[i][1]+" length_s:"+this.textures[i][2]+" length_t:"+this.textures[i][3]);
+	}
 }
 
 MySceneGraph.prototype.parseMaterials = function(rootElement){

@@ -137,36 +137,36 @@
 
 		<transformation id="quad2T">
 			<translate x="0" y="0" z="-0.5" />
-			<rotate axis="x" angle="-1.57079633"/>
+			<rotate axis="x" angle="-90"/>
 			<translate x="0" y="0" z="0.5" />
-			<rotate axis="z" angle="-1.57079633"/>
+			<rotate axis="z" angle="-90"/>
 
 		</transformation>
 
 		<transformation id="quad3T">
 			<translate x="0" y="0" z="-1" />
-			<rotate axis="y" angle="3.14159"/>
-			<rotate axis="z" angle="1.57079633"/>
+			<rotate axis="y" angle="180"/>
+			<rotate axis="z" angle="90"/>
 		</transformation>
 
 		<transformation id="quad4T">
 			<translate x="0" y="0" z="-0.5" />
-			<rotate axis="x" angle="1.57079633"/>
+			<rotate axis="x" angle="90"/>
 			<translate x="0" y="0" z="0.5" />
-			<rotate axis="z" angle="4.71238898"/>
+			<rotate axis="z" angle="270"/>
 		</transformation>
 
 		<transformation id="quad5T">
 			<translate x="0" y="0" z="-0.5" />
-			<rotate axis="x" angle="4.71238898"/>
+			<rotate axis="x" angle="270"/>
 			<translate x="0" y="0" z="0.5" />
 		</transformation>
 
 		<transformation id="quad6T">
 			<translate x="0" y="0" z="-1" />
-			<rotate axis="y" angle="1.57079633"/>
-			<rotate axis="z" angle="6.28318"/>
-			<rotate axis="y" angle="1.57079633"/>
+			<rotate axis="y" angle="90"/>
+			<rotate axis="z" angle="360"/>
+			<rotate axis="y" angle="90"/>
 		</transformation>
 
 		<transformation id="BushBaseT">
@@ -226,27 +226,27 @@
 
 		<transformation id="triangle1T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="y" angle="0.523598776"/>
+			<rotate axis="y" angle="30"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle2T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="y" angle="-0.523598776"/>
+			<rotate axis="y" angle="-30"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle3T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="z" angle="1.57079633"/>
-			<rotate axis="x" angle="-0.523598776"/>
+			<rotate axis="z" angle="90"/>
+			<rotate axis="x" angle="-30"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle4T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="z" angle="1.57079633"/>
-			<rotate axis="x" angle="0.523598776"/>
+			<rotate axis="z" angle="90"/>
+			<rotate axis="x" angle="30"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 

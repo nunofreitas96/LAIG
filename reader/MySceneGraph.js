@@ -46,7 +46,12 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 	this.parseSceneRoot(rootElement);
 	this.parseViews(rootElement);
 	this.parseIllumination(rootElement);
+	this.parseLights(rootElement);
+	this.parseTextures(rootElement);
 	this.parseMaterials(rootElement);
+	this.parsePrimitives(rootElement);
+	this.parseTransformations(rootElement);
+	this.parseComponents(rootElement);
 }
 
 MySceneGraph.prototype.parseSceneRoot = function(rootElement){
@@ -97,13 +102,13 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 		this.perspectives[e.id].from[0]=e.children[0].attributes.getNamedItem("x").value;
 		this.perspectives[e.id].from[1]=e.children[0].attributes.getNamedItem("y").value;
 		this.perspectives[e.id].from[2]=e.children[0].attributes.getNamedItem("z").value;
-		console.log(e.id+" perspective from with x:"+this.perspectives[e.id].from[0]+" y:"+this.perspectives[e.id].from[1]+" z:"+this.perspectives[e.id].from[2]);
+		console.log("\t"+e.id+" perspective from with x:"+this.perspectives[e.id].from[0]+" y:"+this.perspectives[e.id].from[1]+" z:"+this.perspectives[e.id].from[2]);
 
 		this.perspectives[e.id].to=[];
 		this.perspectives[e.id].to[0]=e.children[1].attributes.getNamedItem("x").value;
 		this.perspectives[e.id].to[1]=e.children[1].attributes.getNamedItem("y").value;
 		this.perspectives[e.id].to[2]=e.children[1].attributes.getNamedItem("z").value;
-		console.log(e.id+" perspective to with x:"+this.perspectives[e.id].to[0]+" y:"+this.perspectives[e.id].to[1]+" z:"+this.perspectives[e.id].to[2]);
+		console.log("\t"+e.id+" perspective to with x:"+this.perspectives[e.id].to[0]+" y:"+this.perspectives[e.id].to[1]+" z:"+this.perspectives[e.id].to[2]);
 	}
 }
 
@@ -121,7 +126,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 	if (this.illumination[0] == null || this.illumination[0] == null || this.illumination[1] == null || this.illumination[1] == null) {
 		return "illumination doublesided or local are missing";
 	}
-	//TODO 0 or 1
+	//TODO check 0 or 1
 	console.log("illumination doublesided: "+this.illumination[0]+" local: "+this.illumination[1]);
 
 	this.illumination.ambient=[];
@@ -129,29 +134,36 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 	this.illumination.ambient[1]=illum[0].children[0].attributes.getNamedItem("g").value;
 	this.illumination.ambient[2]=illum[0].children[0].attributes.getNamedItem("b").value;
 	this.illumination.ambient[3]=illum[0].children[0].attributes.getNamedItem("a").value;
-	console.log("illumination ambient R:"+this.illumination.ambient[0]+" G:"+this.illumination.ambient[1]+" B:"+this.illumination.ambient[2]+" A:"+this.illumination.ambient[3]);
+	console.log("\tillumination ambient R:"+this.illumination.ambient[0]+" G:"+this.illumination.ambient[1]+" B:"+this.illumination.ambient[2]+" A:"+this.illumination.ambient[3]);
 
 	this.illumination.background=[];
 	this.illumination.background[0]=illum[0].children[1].attributes.getNamedItem("r").value;
 	this.illumination.background[1]=illum[0].children[1].attributes.getNamedItem("g").value;
 	this.illumination.background[2]=illum[0].children[1].attributes.getNamedItem("b").value;
 	this.illumination.background[3]=illum[0].children[1].attributes.getNamedItem("a").value;
-	console.log("illumination background R:"+this.illumination.background[0]+" G:"+this.illumination.background[1]+" B:"+this.illumination.background[2]+" A:"+this.illumination.background[3]);
+	console.log("\tillumination background R:"+this.illumination.background[0]+" G:"+this.illumination.background[1]+" B:"+this.illumination.background[2]+" A:"+this.illumination.background[3]);
+}
+
+MySceneGraph.prototype.parseLights = function(rootElement){	//TODO
+	console.log("TODO parse lights");
+}
+
+MySceneGraph.prototype.parseTextures = function(rootElement){	//TODO
+	console.log("TODO parse textures");
 }
 
 MySceneGraph.prototype.parseMaterials = function(rootElement){
+
 	var mats = rootElement.getElementsByTagName('materials');
 	if (mats == null) {
 		return "materials not defined";
-	}
-	if (mats.length != 1) {
-		return "materials bad definition";
 	}
 
 	var tempMats=rootElement.getElementsByTagName('materials');
 	if (tempMats == null || tempMats.length == 0) {
 		return "materials are missing";
 	}
+
 
 	this.materials=[];
 
@@ -160,6 +172,9 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 		var e = mats[0].children[i];
 		this.materials[e.id]=[];
 		var descNN = e.children.length;
+
+		console.log("material "+e.id);
+		
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
 
@@ -169,7 +184,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 				this.materials[e.id].emission[1] = f.attributes.getNamedItem('g').value;
 				this.materials[e.id].emission[2] = f.attributes.getNamedItem('b').value;
 				this.materials[e.id].emission[3] = f.attributes.getNamedItem('a').value;
-				console.log("material "+e.id+" emission r:"+this.materials[e.id].emission[0]+" g:"+this.materials[e.id].emission[1]+" b:"+this.materials[e.id].emission[2]+" a:"+this.materials[e.id].emission[3]);
+				console.log("\tmaterial "+e.id+" emission r:"+this.materials[e.id].emission[0]+" g:"+this.materials[e.id].emission[1]+" b:"+this.materials[e.id].emission[2]+" a:"+this.materials[e.id].emission[3]);
 			}
 			else if (f.tagName == "ambient") {
 				this.materials[e.id].ambient = [];
@@ -177,7 +192,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 				this.materials[e.id].ambient[1] = f.attributes.getNamedItem('g').value;
 				this.materials[e.id].ambient[2] = f.attributes.getNamedItem('b').value;
 				this.materials[e.id].ambient[3] = f.attributes.getNamedItem('a').value;
-				console.log("material "+e.id+" ambient r:"+this.materials[e.id].ambient[0]+" g:"+this.materials[e.id].ambient[1]+" b:"+this.materials[e.id].ambient[2]+" a:"+this.materials[e.id].ambient[3]);
+				console.log("\tmaterial "+e.id+" ambient r:"+this.materials[e.id].ambient[0]+" g:"+this.materials[e.id].ambient[1]+" b:"+this.materials[e.id].ambient[2]+" a:"+this.materials[e.id].ambient[3]);
 			}
 			else if (f.tagName == "diffuse") {
 				this.materials[e.id].diffuse = [];
@@ -185,7 +200,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 				this.materials[e.id].diffuse[1] = f.attributes.getNamedItem('g').value;
 				this.materials[e.id].diffuse[2] = f.attributes.getNamedItem('b').value;
 				this.materials[e.id].diffuse[3] = f.attributes.getNamedItem('a').value;
-				console.log("material "+e.id+" diffuse r:"+this.materials[e.id].diffuse[0]+" g:"+this.materials[e.id].diffuse[1]+" b:"+this.materials[e.id].diffuse[2]+" a:"+this.materials[e.id].diffuse[3]);
+				console.log("\tmaterial "+e.id+" diffuse r:"+this.materials[e.id].diffuse[0]+" g:"+this.materials[e.id].diffuse[1]+" b:"+this.materials[e.id].diffuse[2]+" a:"+this.materials[e.id].diffuse[3]);
 			}
 			else if (f.tagName == "specular") {
 				this.materials[e.id].specular = [];
@@ -193,18 +208,27 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 				this.materials[e.id].specular[1] = f.attributes.getNamedItem('g').value;
 				this.materials[e.id].specular[2] = f.attributes.getNamedItem('b').value;
 				this.materials[e.id].specular[3] = f.attributes.getNamedItem('a').value;
-				console.log("material "+e.id+" specular r:"+this.materials[e.id].specular[0]+" g:"+this.materials[e.id].specular[1]+" b:"+this.materials[e.id].specular[2]+" a:"+this.materials[e.id].specular[3]);
+				console.log("\tmaterial "+e.id+" specular r:"+this.materials[e.id].specular[0]+" g:"+this.materials[e.id].specular[1]+" b:"+this.materials[e.id].specular[2]+" a:"+this.materials[e.id].specular[3]);
 			}
 			else if (f.tagName == "shininess") {
 				this.materials[e.id].shininess =  f.attributes.getNamedItem('value').value;
-				console.log("material "+e.id+" shininess:"+this.materials[e.id].shininess);
+				console.log("\tmaterial "+e.id+" shininess:"+this.materials[e.id].shininess);
 			}
 		}
 	}
-
 }
 
-// TODO lights and textures
+MySceneGraph.prototype.parsePrimitives = function(rootElement){	// TODO
+	console.log("TODO parse primitives");
+}
+
+MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
+	console.log("TODO parse transformations");
+}
+
+MySceneGraph.prototype.parseComponents = function(rootElement){
+	console.log("TODO parse components");
+}
 
 
 /*

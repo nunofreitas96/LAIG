@@ -12,10 +12,10 @@
 	</views>
 
 
-	<ilumination doublesided="1" local="1" >
+	<illumination doublesided="1" local="1" >
 		<ambient r="100" g="100" b="100" a="100" />
 		<background r="100" g="100" b="100" a="100" />
-	</ilumination>
+	</illumination>
 
 
 
@@ -109,13 +109,13 @@
 	<transformations>
 		<transformation id="floorT">
 			<translate x="7.5" y="0" z="7.5" />
-			<rotate axis="x" angle="-1.57079633" />
+			<rotate axis="x" angle="-90" />
 			<scale x="15" y="15" z="0.2" />
 		</transformation>
 
 		<transformation id="LWallT">
 			<translate x="0" y="4" z="7.5" />
-			<rotate axis="y" angle="-1.57079633" />
+			<rotate axis="y" angle="90" />
 			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
@@ -126,17 +126,15 @@
 
 		<transformation id="TableT">
 			<translate x="5" y="0" z="8" />
-			<rotate axis="y" angle="-1.57079633" />
-			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
 		<transformation id="TorusT">
-			<rotate axis="x" angle="1.57079633" />
+			<rotate axis="x" angle="90" />
 			<translate x="5" y="4" z="-0.6" />
 		</transformation>
 
 		<transformation id="PosterT">
-			<rotate axis="y" angle="1.57079633" />
+			<rotate axis="y" angle="90" />
 			<translate x="-7.5" y="4.5" z="0.1" />
 			<scale x="2.5" y="4" z="1" />
 		</transformation>
@@ -195,13 +193,13 @@
 		</transformation>
 
 		<transformation id="BushTroncoT">
-			<rotate axis ="x" angle="-1.57079633"/>
+			<rotate axis ="x" angle="-90"/>
 			<translate x="0" y ="0" z="1"/>
-			<scale x="8" y ="1" z="5" />
+			<scale x=".5" y =".5" z="4" />
 		</transformation>
 
 		<transformation id="Bush1T">
-			<translate  x="2" y ="3.5" z="1.5" />
+			<translate  x="-.5" y ="5" z="0" />
 			<scale x="4" y ="2.5" z="2.5" />
 		</transformation>
 
@@ -246,32 +244,33 @@
 
 		<transformation id="triangle1T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate <rotate axis="y" angle="0.523598776"/>
+			<rotate axis="y" angle="0.523598776"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle2T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate <rotate axis="y" angle="-0.523598776"/>
+			<rotate axis="y" angle="-0.523598776"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle3T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate <rotate axis="z" angle="1.57079633"/>
-			<rotate <rotate axis="x" angle="-0.523598776"/>
+			<rotate axis="z" angle="1.57079633"/>
+			<rotate axis="x" angle="-0.523598776"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle4T">
 			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate <rotate axis="z" angle="1.57079633"/>
-			<rotate <rotate axis="x" angle="0.523598776"/>
+			<rotate axis="z" angle="1.57079633"/>
+			<rotate axis="x" angle="0.523598776"/>
 			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="pyramidT">
 			<translate  x="10" y ="0" z="4" />
+			<scale x="3" y ="3" z="3" />
 		</transformation>
 	</transformations>
 

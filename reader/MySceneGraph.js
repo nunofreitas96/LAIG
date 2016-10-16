@@ -234,7 +234,6 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 	}
 }
 
-
 MySceneGraph.prototype.parseTextures = function(rootElement){
 	var text = rootElement.getElementsByTagName('textures');
 	if (text == null) {
@@ -244,6 +243,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		return "textures bad definition";
 	}
 
+	console.log("textures");
 	this.textures = [];
 
 	var descN = text[0].children.length;
@@ -257,7 +257,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		this.textures[i][1]=e.attributes.getNamedItem('file').value;
 		this.textures[i][2]=e.attributes.getNamedItem('length_s').value;
 		this.textures[i][3]=e.attributes.getNamedItem('length_t').value;
-		console.log("texture ("+this.textures[i][0]+") file:"+this.textures[i][1]+" length_s:"+this.textures[i][2]+" length_t:"+this.textures[i][3]);
+		console.log("\ttexture ("+this.textures[i][0]+") file:"+this.textures[i][1]+" length_s:"+this.textures[i][2]+" length_t:"+this.textures[i][3]);
 	}
 }
 
@@ -327,8 +327,62 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 	}
 }
 
-MySceneGraph.prototype.parsePrimitives = function(rootElement){	// TODO
-	console.log("TODO parse primitives");
+MySceneGraph.prototype.parsePrimitives = function(rootElement){
+	var prim = rootElement.getElementsByTagName('primitives');
+	if (prim == null) {
+		return "primitives not defined";
+	}
+	if (prim.length != 1) {
+		return "primitives bad definition";
+	}
+
+	console.log("primitives");
+	this.primitives = [];
+
+	var descN = prim[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = prim[0].children[i];
+		if (e.tagName != "primitive" || e.attributes.length != 1) {
+			return "primitive is missing";
+		}
+		var ids = [];
+		this.primitives = [];
+		this.primitives[i] = [];
+		if (e.tagName == "primitive" && ids.indexOf(e.id) < 0) {
+			ids[i] = e.id;
+			var f = e.children[0];
+			this.primitives[i][0] = f.tagName;
+			this.primitives[i][1] = e.id;
+			if (f.tagName == "rectangle" || f.tagName == "triangle") {
+				this.primitives[i][2] = f.attributes.getNamedItem("x1").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("y1").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("x2").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") x1:"+this.primitives[i][2]+" y1:"+this.primitives[i][3]+" x2:"+this.primitives[i][4]+" y2:"+this.primitives[i][5]);
+			}
+			else if (f.tagName == "cylinder") {
+				this.primitives[i][2] = f.attributes.getNamedItem("base").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("top").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("height").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") base:"+this.primitives[i][2]+" top:"+this.primitives[i][3]+" height:"+this.primitives[i][4]+" slices:"+this.primitives[i][5]+" stacks:"+this.primitives[i][6]);
+			}
+			else if (f.tagName == "sphere") {
+				this.primitives[i][2] = f.attributes.getNamedItem("radius").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") radius:"+this.primitives[i][2]+" slices:"+this.primitives[i][3]+" stacks:"+this.primitives[i][4]);
+			}
+			else if (f.tagName == "torus") {
+				this.primitives[i][2] = f.attributes.getNamedItem("inner").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("outer").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("loops").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+" inner:"+this.primitives[i][2]+" outer:"+this.primitives[i][3]+" slices:"+this.primitives[i][4]+" stacks:"+this.primitives[i][5]);
+			}
+		}
+	}
 }
 
 MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO

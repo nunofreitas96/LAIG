@@ -61,18 +61,15 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 	else if (this.parseMaterials(rootElement) != null) {
 		return 0;
 	}
-
-		/*
-	this.parseSceneRoot(rootElement);
-	this.parseViews(rootElement);
-	this.parseIllumination(rootElement);
-	this.parseLights(rootElement);
-	this.parseTextures(rootElement);
-	this.parseMaterials(rootElement);
-	this.parsePrimitives(rootElement);
-	this.parseTransformations(rootElement);
-	this.parseComponents(rootElement);
-	*/
+	else if (this.parseTransformations(rootElement) != null) {
+		return 0;
+	}
+	else if (this.parsePrimitives(rootElement) != null) {
+		return 0;
+	}
+	else if (this.parseComponents(rootElement) != null) {
+		return 0;
+	}
 	return;
 }
 
@@ -419,83 +416,34 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 	return;
 }
 
-MySceneGraph.prototype.parsePrimitives = function(rootElement){
-	var prim = rootElement.getElementsByTagName('primitives');
-	if (prim == null) {
-		return "primitives not defined";
-	}
-	if (prim.length != 1) {
-		return "primitives bad definition";
-	}
-
-	console.log("primitives");
-	this.primitives = [];
-
-	var descN = prim[0].children.length;
-	for (var i = 0; i < descN; i++) {
-		var e = prim[0].children[i];
-		if (e.tagName != "primitive" || e.attributes.length != 1) {
-			return "primitive is missing";
-		}
-		var ids = [];
-		this.primitives = [];
-		this.primitives[i] = [];
-		if (e.tagName == "primitive" && ids.indexOf(e.id) < 0) {
-			ids[i] = e.id;
-			var f = e.children[0];
-			this.primitives[i][0] = f.tagName;
-			this.primitives[i][1] = e.id;
-			if (f.tagName == "rectangle" || f.tagName == "triangle") {
-				this.primitives[i][2] = f.attributes.getNamedItem("x1").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("y1").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("x2").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("y2").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") x1:"+this.primitives[i][2]+" y1:"+this.primitives[i][3]+" x2:"+this.primitives[i][4]+" y2:"+this.primitives[i][5]);
-			}
-			else if (f.tagName == "cylinder") {
-				this.primitives[i][2] = f.attributes.getNamedItem("base").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("top").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("height").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") base:"+this.primitives[i][2]+" top:"+this.primitives[i][3]+" height:"+this.primitives[i][4]+" slices:"+this.primitives[i][5]+" stacks:"+this.primitives[i][6]);
-			}
-			else if (f.tagName == "sphere") {
-				this.primitives[i][2] = f.attributes.getNamedItem("radius").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") radius:"+this.primitives[i][2]+" slices:"+this.primitives[i][3]+" stacks:"+this.primitives[i][4]);
-			}
-			else if (f.tagName == "torus") {
-				this.primitives[i][2] = f.attributes.getNamedItem("inner").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("outer").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("loops").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+" inner:"+this.primitives[i][2]+" outer:"+this.primitives[i][3]+" slices:"+this.primitives[i][4]+" stacks:"+this.primitives[i][5]);
-			}
-		}
-	}
-}
-
 MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 	var transf = rootElement.getElementsByTagName('transformations');
 	if (transf == null) {
-		return "transformations not defined";
+		this.onXMLError("transformations not defined");
+		return -1;
 	}
 	if (transf.length != 1) {
-		return "transformations bad definition";
+		this.onXMLError("transformations bad definition");
+		return 0;
 	}
 
+	var ids = [];
 	console.log("transformations");
 
 	var descN = transf[0].children.length;
 	for (var i = 0; i < descN; i++) {
 		var e = transf[0].children[i];
-		var ids = [];
 
 		if (e.tagName != "transformation" || e.attributes.length != 1 || ids.indexOf(e.id) >= 0) {
-			return "transformation is missing";
+			this.onXMLError("transformation is missing");
+			return 0;
 		}
+
+		if (ids.indexOf(e.id) >= 0) {
+			this.onXMLError("transformation id duplicated");
+			return 0;
+		}
+		ids[i] = e.id;
 
 		this.transformations = [];
 		this.transformations[i]=[];
@@ -532,6 +480,85 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 			}
 		}
 	}
+
+	if (ids.length == 0) {
+		this.onXMLError("there must be at least one transformation");
+		return 0;
+	}
+	return;
+}
+
+MySceneGraph.prototype.parsePrimitives = function(rootElement){
+	var prim = rootElement.getElementsByTagName('primitives');
+	if (prim == null) {
+		this.onXMLError("primitives not defined");
+		return -1;
+	}
+	if (prim.length != 1) {
+		this.onXMLError("primitives bad definition");
+		return 0;
+	}
+
+	console.log("primitives");
+	this.primitives = [];
+	var ids = [];
+
+	var descN = prim[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = prim[0].children[i];
+		if (e.tagName != "primitive" || e.attributes.length != 1) {
+			this.onXMLError("primitive is missing");
+			return 0;
+		}
+
+		this.primitives = [];
+		this.primitives[i] = [];
+		if (e.tagName == "primitive" && ids.indexOf(e.id) < 0) {
+			ids[i] = e.id;
+			var f = e.children[0];
+			this.primitives[i][0] = f.tagName;
+			this.primitives[i][1] = e.id;
+			if (f.tagName == "rectangle" || f.tagName == "triangle") {
+				this.primitives[i][2] = f.attributes.getNamedItem("x1").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("y1").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("x2").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") x1:"+this.primitives[i][2]+" y1:"+this.primitives[i][3]+" x2:"+this.primitives[i][4]+" y2:"+this.primitives[i][5]);
+			}
+			else if (f.tagName == "cylinder") {
+				this.primitives[i][2] = f.attributes.getNamedItem("base").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("top").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("height").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") base:"+this.primitives[i][2]+" top:"+this.primitives[i][3]+" height:"+this.primitives[i][4]+" slices:"+this.primitives[i][5]+" stacks:"+this.primitives[i][6]);
+			}
+			else if (f.tagName == "sphere") {
+				this.primitives[i][2] = f.attributes.getNamedItem("radius").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") radius:"+this.primitives[i][2]+" slices:"+this.primitives[i][3]+" stacks:"+this.primitives[i][4]);
+			}
+			else if (f.tagName == "torus") {
+				this.primitives[i][2] = f.attributes.getNamedItem("inner").value;
+				this.primitives[i][3] = f.attributes.getNamedItem("outer").value;
+				this.primitives[i][4] = f.attributes.getNamedItem("slices").value;
+				this.primitives[i][5] = f.attributes.getNamedItem("loops").value;
+				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+" inner:"+this.primitives[i][2]+" outer:"+this.primitives[i][3]+" slices:"+this.primitives[i][4]+" stacks:"+this.primitives[i][5]);
+			}
+		}
+		else {
+			this.onXMLError("primitive bad definition or id duplicated");
+			return 0;
+		}
+	}
+
+	if (ids.length == 0) {
+		this.onXMLError("there must be at least one primitive");
+		return 0;
+	}
+
+	return;
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement){

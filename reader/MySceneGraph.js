@@ -58,6 +58,9 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 	else if (this.parseTextures(rootElement) != null) {
 		return 0;
 	}
+	else if (this.parseMaterials(rootElement) != null) {
+		return 0;
+	}
 
 		/*
 	this.parseSceneRoot(rootElement);
@@ -339,20 +342,28 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 
 	var mats = rootElement.getElementsByTagName('materials');
 	if (mats == null) {
-		return "materials not defined";
+		this.onXMLError("materials not defined");
+		return -1;
 	}
 
 	var tempMats=rootElement.getElementsByTagName('materials');
 	if (tempMats == null || tempMats.length == 0) {
-		return "materials are missing";
+		this.onXMLError("materials are missing");
+		return 0;
 	}
 
 
 	this.materials=[];
+	var ids = [];
 
 	var descN=mats[0].children.length;
 	for (var i = 0; i < descN; i++) {
 		var e = mats[0].children[i];
+		if (ids.indexOf(e.id) >= 0) {
+			this.onXMLError("material id duplicated");
+			return 0;
+		}
+		ids[i] = e.id;
 		this.materials[e.id]=[];
 		var descNN = e.children.length;
 
@@ -399,6 +410,13 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 			}
 		}
 	}
+
+	if (ids.length == 0) {
+		this.onXMLError("there must be at least one material");
+		return 0;
+	}
+
+	return;
 }
 
 MySceneGraph.prototype.parsePrimitives = function(rootElement){

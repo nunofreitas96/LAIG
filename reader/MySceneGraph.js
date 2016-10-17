@@ -86,9 +86,9 @@ MySceneGraph.prototype.parseSceneRoot = function(rootElement){
 		return 0;
 	}
 
-	this.scene_root = sceneRoot[0].attributes.getNamedItem("root").value;
-	this.scene_axis = sceneRoot[0].attributes.getNamedItem("axis_length").value;
-	console.log("root id: "+this.scene_root+"; axis length: "+this.scene_axis);
+	this.scene.scene_root = sceneRoot[0].attributes.getNamedItem("root").value;
+	this.scene.scene_axis = sceneRoot[0].attributes.getNamedItem("axis_length").value;
+	console.log("root id: "+this.scene.scene_root+"; axis length: "+this.scene.scene_axis);
 
 	return;
 }
@@ -106,11 +106,11 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 
 	var ids = [];
 
-	this.views_default = views[0].attributes.getNamedItem("default").value;
-	console.log("view default: "+this.views_default);
+	this.scene.views_default = views[0].attributes.getNamedItem("default").value;
+	console.log("view default: "+this.scene.views_default);
 
 	var tempViews=rootElement.getElementsByTagName('views');
-	this.perspectives=[];
+	this.scene.perspectives=[];
 
 	var descN=tempViews[0].children.length;
 	for (var i = 0; i < descN; i++) {
@@ -126,24 +126,24 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 		}
 		ids[i] = e.id;
 
-		this.perspectives[e.id]=[];
-		this.perspectives[e.id][0] = e.attributes.getNamedItem("near").value;
-		this.perspectives[e.id][1] = e.attributes.getNamedItem("far").value;
-		this.perspectives[e.id][2] = e.attributes.getNamedItem("angle").value;
-		console.log("perspective "+e.id+" near: "+this.perspectives[e.id][0]+" far: "+this.perspectives[e.id][1]+" angle: "+this.perspectives[e.id][2]);
+		this.scene.perspectives[e.id]=[];
+		this.scene.perspectives[e.id][0] = e.attributes.getNamedItem("near").value;
+		this.scene.perspectives[e.id][1] = e.attributes.getNamedItem("far").value;
+		this.scene.perspectives[e.id][2] = e.attributes.getNamedItem("angle").value;
+		console.log("perspective "+e.id+" near: "+this.scene.perspectives[e.id][0]+" far: "+this.scene.perspectives[e.id][1]+" angle: "+this.scene.perspectives[e.id][2]);
 
 		var descNN = e.children.length;
-		this.perspectives[e.id].from=[];
-		this.perspectives[e.id].from[0]=e.children[0].attributes.getNamedItem("x").value;
-		this.perspectives[e.id].from[1]=e.children[0].attributes.getNamedItem("y").value;
-		this.perspectives[e.id].from[2]=e.children[0].attributes.getNamedItem("z").value;
-		console.log("\t"+e.id+" perspective from with x:"+this.perspectives[e.id].from[0]+" y:"+this.perspectives[e.id].from[1]+" z:"+this.perspectives[e.id].from[2]);
+		this.scene.perspectives[e.id].from=[];
+		this.scene.perspectives[e.id].from[0]=e.children[0].attributes.getNamedItem("x").value;
+		this.scene.perspectives[e.id].from[1]=e.children[0].attributes.getNamedItem("y").value;
+		this.scene.perspectives[e.id].from[2]=e.children[0].attributes.getNamedItem("z").value;
+		console.log("\t"+e.id+" perspective from with x:"+this.scene.perspectives[e.id].from[0]+" y:"+this.scene.perspectives[e.id].from[1]+" z:"+this.scene.perspectives[e.id].from[2]);
 
-		this.perspectives[e.id].to=[];
-		this.perspectives[e.id].to[0]=e.children[1].attributes.getNamedItem("x").value;
-		this.perspectives[e.id].to[1]=e.children[1].attributes.getNamedItem("y").value;
-		this.perspectives[e.id].to[2]=e.children[1].attributes.getNamedItem("z").value;
-		console.log("\t"+e.id+" perspective to with x:"+this.perspectives[e.id].to[0]+" y:"+this.perspectives[e.id].to[1]+" z:"+this.perspectives[e.id].to[2]);
+		this.scene.perspectives[e.id].to=[];
+		this.scene.perspectives[e.id].to[0]=e.children[1].attributes.getNamedItem("x").value;
+		this.scene.perspectives[e.id].to[1]=e.children[1].attributes.getNamedItem("y").value;
+		this.scene.perspectives[e.id].to[2]=e.children[1].attributes.getNamedItem("z").value;
+		console.log("\t"+e.id+" perspective to with x:"+this.scene.perspectives[e.id].to[0]+" y:"+this.scene.perspectives[e.id].to[1]+" z:"+this.scene.perspectives[e.id].to[2]);
 	}
 
 	if (ids.length = 0) {
@@ -164,31 +164,31 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 		this.onXMLError("illumination bad definition");
 		return 0;
 	}
-	this.illumination = [];
+	this.scene.illumination = [];
 
-	this.illumination[0] = illum[0].attributes.getNamedItem('doublesided').value;
-	this.illumination[1] = illum[0].attributes.getNamedItem('local').value;
+	this.scene.illumination[0] = illum[0].attributes.getNamedItem('doublesided').value;
+	this.scene.illumination[1] = illum[0].attributes.getNamedItem('local').value;
 
-	if ((this.illumination[0] != 0 && this.illumination[0] != 1) || (this.illumination[1] != 0 && this.illumination[1] != 1)) {
+	if ((this.scene.illumination[0] != 0 && this.scene.illumination[0] != 1) || (this.scene.illumination[1] != 0 && this.scene.illumination[1] != 1)) {
 		this.onXMLError("illumination attributes must be tt");
 		return -1;
 	}
 
-	console.log("illumination doublesided: "+this.illumination[0]+" local: "+this.illumination[1]);
+	console.log("illumination doublesided: "+this.scene.illumination[0]+" local: "+this.scene.illumination[1]);
 
-	this.illumination.ambient=[];
-	this.illumination.ambient[0]=illum[0].children[0].attributes.getNamedItem("r").value;
-	this.illumination.ambient[1]=illum[0].children[0].attributes.getNamedItem("g").value;
-	this.illumination.ambient[2]=illum[0].children[0].attributes.getNamedItem("b").value;
-	this.illumination.ambient[3]=illum[0].children[0].attributes.getNamedItem("a").value;
-	console.log("\tillumination ambient R:"+this.illumination.ambient[0]+" G:"+this.illumination.ambient[1]+" B:"+this.illumination.ambient[2]+" A:"+this.illumination.ambient[3]);
+	this.scene.illumination.ambient=[];
+	this.scene.illumination.ambient[0]=illum[0].children[0].attributes.getNamedItem("r").value;
+	this.scene.illumination.ambient[1]=illum[0].children[0].attributes.getNamedItem("g").value;
+	this.scene.illumination.ambient[2]=illum[0].children[0].attributes.getNamedItem("b").value;
+	this.scene.illumination.ambient[3]=illum[0].children[0].attributes.getNamedItem("a").value;
+	console.log("\tillumination ambient R:"+this.scene.illumination.ambient[0]+" G:"+this.scene.illumination.ambient[1]+" B:"+this.scene.illumination.ambient[2]+" A:"+this.scene.illumination.ambient[3]);
 
-	this.illumination.background=[];
-	this.illumination.background[0]=illum[0].children[1].attributes.getNamedItem("r").value;
-	this.illumination.background[1]=illum[0].children[1].attributes.getNamedItem("g").value;
-	this.illumination.background[2]=illum[0].children[1].attributes.getNamedItem("b").value;
-	this.illumination.background[3]=illum[0].children[1].attributes.getNamedItem("a").value;
-	console.log("\tillumination background R:"+this.illumination.background[0]+" G:"+this.illumination.background[1]+" B:"+this.illumination.background[2]+" A:"+this.illumination.background[3]);
+	this.scene.illumination.background=[];
+	this.scene.illumination.background[0]=illum[0].children[1].attributes.getNamedItem("r").value;
+	this.scene.illumination.background[1]=illum[0].children[1].attributes.getNamedItem("g").value;
+	this.scene.illumination.background[2]=illum[0].children[1].attributes.getNamedItem("b").value;
+	this.scene.illumination.background[3]=illum[0].children[1].attributes.getNamedItem("a").value;
+	console.log("\tillumination background R:"+this.scene.illumination.background[0]+" G:"+this.scene.illumination.background[1]+" B:"+this.scene.illumination.background[2]+" A:"+this.scene.illumination.background[3]);
 
 	return;
 }
@@ -204,7 +204,7 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 		return 0;
 	}
 
-	this.light = [];
+	this.scene.light = [];
 	var ids = [];
 
 	var descN = lights[0].children.length;
@@ -218,72 +218,72 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 		}
 		ids[i] = e.id;
 
-		this.light[i] = [];
+		this.scene.light[i] = [];
 		if (e.tagName == "omni") {
-			this.light[i][0] = "omni";
-			this.light[i][1] = e.id;
-			this.light[i][2] = e.attributes.getNamedItem('enabled').value;
-			console.log("lights "+this.light[i][0]+" ("+this.light[i][1]+") enabled: "+	this.light[i][2]);
-			this.light[i].location = [];
-			this.light[i].location[0] = e.children[0].attributes.getNamedItem('x').value;
-			this.light[i].location[1] = e.children[0].attributes.getNamedItem('y').value;
-			this.light[i].location[2] = e.children[0].attributes.getNamedItem('z').value;
-			this.light[i].location[3] = e.children[0].attributes.getNamedItem('w').value;
-			console.log("\t location x:"+this.light[i].location[0]+" y:"+this.light[i].location[1]+" z:"+this.light[i].location[2]+" w:"+this.light[i].location[3]);
-			this.light[i].ambient = [];
-			this.light[i].ambient[0] = e.children[1].attributes.getNamedItem('r').value;
-			this.light[i].ambient[1] = e.children[1].attributes.getNamedItem('g').value;
-			this.light[i].ambient[2] = e.children[1].attributes.getNamedItem('b').value;
-			this.light[i].ambient[3] = e.children[1].attributes.getNamedItem('a').value;
-			console.log("\t ambient r:"+this.light[i].ambient[0]+" g:"+this.light[i].ambient[1]+" b:"+this.light[i].ambient[2]+" a:"+this.light[i].ambient[3]);
-			this.light[i].diffuse = [];
-			this.light[i].diffuse[0] = e.children[2].attributes.getNamedItem('r').value;
-			this.light[i].diffuse[1] = e.children[2].attributes.getNamedItem('g').value;
-			this.light[i].diffuse[2] = e.children[2].attributes.getNamedItem('b').value;
-			this.light[i].diffuse[3] = e.children[2].attributes.getNamedItem('a').value;
-			console.log("\t diffuse r:"+this.light[i].diffuse[0]+" g:"+this.light[i].diffuse[1]+" b:"+this.light[i].diffuse[2]+" a:"+this.light[i].diffuse[3]);
-			this.light[i].specular = [];
-			this.light[i].specular[0] = e.children[3].attributes.getNamedItem('r').value;
-			this.light[i].specular[1] = e.children[3].attributes.getNamedItem('g').value;
-			this.light[i].specular[2] = e.children[3].attributes.getNamedItem('b').value;
-			this.light[i].specular[3] = e.children[3].attributes.getNamedItem('a').value;
-			console.log("\t specular r:"+this.light[i].specular[0]+" g:"+this.light[i].specular[1]+" b:"+this.light[i].specular[2]+" a:"+this.light[i].specular[3]);
+			this.scene.light[i][0] = "omni";
+			this.scene.light[i][1] = e.id;
+			this.scene.light[i][2] = e.attributes.getNamedItem('enabled').value;
+			console.log("lights "+this.scene.light[i][0]+" ("+this.scene.light[i][1]+") enabled: "+	this.scene.light[i][2]);
+			this.scene.light[i].location = [];
+			this.scene.light[i].location[0] = e.children[0].attributes.getNamedItem('x').value;
+			this.scene.light[i].location[1] = e.children[0].attributes.getNamedItem('y').value;
+			this.scene.light[i].location[2] = e.children[0].attributes.getNamedItem('z').value;
+			this.scene.light[i].location[3] = e.children[0].attributes.getNamedItem('w').value;
+			console.log("\t location x:"+this.scene.light[i].location[0]+" y:"+this.scene.light[i].location[1]+" z:"+this.scene.light[i].location[2]+" w:"+this.scene.light[i].location[3]);
+			this.scene.light[i].ambient = [];
+			this.scene.light[i].ambient[0] = e.children[1].attributes.getNamedItem('r').value;
+			this.scene.light[i].ambient[1] = e.children[1].attributes.getNamedItem('g').value;
+			this.scene.light[i].ambient[2] = e.children[1].attributes.getNamedItem('b').value;
+			this.scene.light[i].ambient[3] = e.children[1].attributes.getNamedItem('a').value;
+			console.log("\t ambient r:"+this.scene.light[i].ambient[0]+" g:"+this.scene.light[i].ambient[1]+" b:"+this.scene.light[i].ambient[2]+" a:"+this.scene.light[i].ambient[3]);
+			this.scene.light[i].diffuse = [];
+			this.scene.light[i].diffuse[0] = e.children[2].attributes.getNamedItem('r').value;
+			this.scene.light[i].diffuse[1] = e.children[2].attributes.getNamedItem('g').value;
+			this.scene.light[i].diffuse[2] = e.children[2].attributes.getNamedItem('b').value;
+			this.scene.light[i].diffuse[3] = e.children[2].attributes.getNamedItem('a').value;
+			console.log("\t diffuse r:"+this.scene.light[i].diffuse[0]+" g:"+this.scene.light[i].diffuse[1]+" b:"+this.scene.light[i].diffuse[2]+" a:"+this.scene.light[i].diffuse[3]);
+			this.scene.light[i].specular = [];
+			this.scene.light[i].specular[0] = e.children[3].attributes.getNamedItem('r').value;
+			this.scene.light[i].specular[1] = e.children[3].attributes.getNamedItem('g').value;
+			this.scene.light[i].specular[2] = e.children[3].attributes.getNamedItem('b').value;
+			this.scene.light[i].specular[3] = e.children[3].attributes.getNamedItem('a').value;
+			console.log("\t specular r:"+this.scene.light[i].specular[0]+" g:"+this.scene.light[i].specular[1]+" b:"+this.scene.light[i].specular[2]+" a:"+this.scene.light[i].specular[3]);
 		}
 		else if (e.tagName == "spot") {
-			this.light[i][0] = "spot";
-			this.light[i][1] = e.id;
-			this.light[i][2] = e.attributes.getNamedItem('enabled').value;
-			this.light[i][3] = e.attributes.getNamedItem('angle').value;
-			this.light[i][4] = e.attributes.getNamedItem('exponent').value;
-			console.log("lights "+this.light[i][0]+" ("+this.light[i][1]+") enabled: "+	this.light[i][2]+" angle:"+this.light[i][3]+" exponent:"+this.light[i][4]);
-			this.light[i].target = [];
-			this.light[i].target[0] = e.children[0].attributes.getNamedItem('x').value;
-			this.light[i].target[1] = e.children[0].attributes.getNamedItem('y').value;
-			this.light[i].target[2] = e.children[0].attributes.getNamedItem('z').value;
-			console.log("\t target x:"+this.light[i].target[0]+" y:"+this.light[i].target[1]+" z:"+this.light[i].target[2]);
-			this.light[i].location = [];
-			this.light[i].location[0] = e.children[1].attributes.getNamedItem('x').value;
-			this.light[i].location[1] = e.children[1].attributes.getNamedItem('y').value;
-			this.light[i].location[2] = e.children[1].attributes.getNamedItem('z').value;
-			console.log("\t location x:"+this.light[i].location[0]+" y:"+this.light[i].location[1]+" z:"+this.light[i].location[2]);
-			this.light[i].ambient = [];
-			this.light[i].ambient[0] = e.children[2].attributes.getNamedItem('r').value;
-			this.light[i].ambient[1] = e.children[2].attributes.getNamedItem('g').value;
-			this.light[i].ambient[2] = e.children[2].attributes.getNamedItem('b').value;
-			this.light[i].ambient[3] = e.children[2].attributes.getNamedItem('a').value;
-			console.log("\t ambient r:"+this.light[i].ambient[0]+" g:"+this.light[i].ambient[1]+" b:"+this.light[i].ambient[2]+" a:"+this.light[i].ambient[3]);
-			this.light[i].diffuse = [];
-			this.light[i].diffuse[0] = e.children[3].attributes.getNamedItem('r').value;
-			this.light[i].diffuse[1] = e.children[3].attributes.getNamedItem('g').value;
-			this.light[i].diffuse[2] = e.children[3].attributes.getNamedItem('b').value;
-			this.light[i].diffuse[3] = e.children[3].attributes.getNamedItem('a').value;
-			console.log("\t diffuse r:"+this.light[i].diffuse[0]+" g:"+this.light[i].diffuse[1]+" b:"+this.light[i].diffuse[2]+" a:"+this.light[i].diffuse[3]);
-			this.light[i].specular = [];
-			this.light[i].specular[0] = e.children[4].attributes.getNamedItem('r').value;
-			this.light[i].specular[1] = e.children[4].attributes.getNamedItem('g').value;
-			this.light[i].specular[2] = e.children[4].attributes.getNamedItem('b').value;
-			this.light[i].specular[3] = e.children[4].attributes.getNamedItem('a').value;
-			console.log("\t specular r:"+this.light[i].specular[0]+" g:"+this.light[i].specular[1]+" b:"+this.light[i].specular[2]+" a:"+this.light[i].specular[3]);
+			this.scene.light[i][0] = "spot";
+			this.scene.light[i][1] = e.id;
+			this.scene.light[i][2] = e.attributes.getNamedItem('enabled').value;
+			this.scene.light[i][3] = e.attributes.getNamedItem('angle').value;
+			this.scene.light[i][4] = e.attributes.getNamedItem('exponent').value;
+			console.log("lights "+this.scene.light[i][0]+" ("+this.scene.light[i][1]+") enabled: "+	this.scene.light[i][2]+" angle:"+this.scene.light[i][3]+" exponent:"+this.scene.light[i][4]);
+			this.scene.light[i].target = [];
+			this.scene.light[i].target[0] = e.children[0].attributes.getNamedItem('x').value;
+			this.scene.light[i].target[1] = e.children[0].attributes.getNamedItem('y').value;
+			this.scene.light[i].target[2] = e.children[0].attributes.getNamedItem('z').value;
+			console.log("\t target x:"+this.scene.light[i].target[0]+" y:"+this.scene.light[i].target[1]+" z:"+this.scene.light[i].target[2]);
+			this.scene.light[i].location = [];
+			this.scene.light[i].location[0] = e.children[1].attributes.getNamedItem('x').value;
+			this.scene.light[i].location[1] = e.children[1].attributes.getNamedItem('y').value;
+			this.scene.light[i].location[2] = e.children[1].attributes.getNamedItem('z').value;
+			console.log("\t location x:"+this.scene.light[i].location[0]+" y:"+this.scene.light[i].location[1]+" z:"+this.scene.light[i].location[2]);
+			this.scene.light[i].ambient = [];
+			this.scene.light[i].ambient[0] = e.children[2].attributes.getNamedItem('r').value;
+			this.scene.light[i].ambient[1] = e.children[2].attributes.getNamedItem('g').value;
+			this.scene.light[i].ambient[2] = e.children[2].attributes.getNamedItem('b').value;
+			this.scene.light[i].ambient[3] = e.children[2].attributes.getNamedItem('a').value;
+			console.log("\t ambient r:"+this.scene.light[i].ambient[0]+" g:"+this.scene.light[i].ambient[1]+" b:"+this.scene.light[i].ambient[2]+" a:"+this.scene.light[i].ambient[3]);
+			this.scene.light[i].diffuse = [];
+			this.scene.light[i].diffuse[0] = e.children[3].attributes.getNamedItem('r').value;
+			this.scene.light[i].diffuse[1] = e.children[3].attributes.getNamedItem('g').value;
+			this.scene.light[i].diffuse[2] = e.children[3].attributes.getNamedItem('b').value;
+			this.scene.light[i].diffuse[3] = e.children[3].attributes.getNamedItem('a').value;
+			console.log("\t diffuse r:"+this.scene.light[i].diffuse[0]+" g:"+this.scene.light[i].diffuse[1]+" b:"+this.scene.light[i].diffuse[2]+" a:"+this.scene.light[i].diffuse[3]);
+			this.scene.light[i].specular = [];
+			this.scene.light[i].specular[0] = e.children[4].attributes.getNamedItem('r').value;
+			this.scene.light[i].specular[1] = e.children[4].attributes.getNamedItem('g').value;
+			this.scene.light[i].specular[2] = e.children[4].attributes.getNamedItem('b').value;
+			this.scene.light[i].specular[3] = e.children[4].attributes.getNamedItem('a').value;
+			console.log("\t specular r:"+this.scene.light[i].specular[0]+" g:"+this.scene.light[i].specular[1]+" b:"+this.scene.light[i].specular[2]+" a:"+this.scene.light[i].specular[3]);
 		}
 	}
 	if (ids.length == 0) {
@@ -305,7 +305,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 	}
 
 	console.log("textures");
-	this.textures = [];
+	this.scene.textures = [];
 	var ids = [];
 
 	var descN = text[0].children.length;
@@ -320,12 +320,12 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 			return 0;
 		}
 		ids[i] = e.id;
-		this.textures[i] = [];
-		this.textures[i][0]=e.attributes.getNamedItem('id').value;
-		this.textures[i][1]=e.attributes.getNamedItem('file').value;
-		this.textures[i][2]=e.attributes.getNamedItem('length_s').value;
-		this.textures[i][3]=e.attributes.getNamedItem('length_t').value;
-		console.log("\ttexture ("+this.textures[i][0]+") file:"+this.textures[i][1]+" length_s:"+this.textures[i][2]+" length_t:"+this.textures[i][3]);
+		this.scene.textures[i] = [];
+		this.scene.textures[i][0]=e.attributes.getNamedItem('id').value;
+		this.scene.textures[i][1]=e.attributes.getNamedItem('file').value;
+		this.scene.textures[i][2]=e.attributes.getNamedItem('length_s').value;
+		this.scene.textures[i][3]=e.attributes.getNamedItem('length_t').value;
+		console.log("\ttexture ("+this.scene.textures[i][0]+") file:"+this.scene.textures[i][1]+" length_s:"+this.scene.textures[i][2]+" length_t:"+this.scene.textures[i][3]);
 	}
 
 	if (ids.length == 0) {
@@ -350,7 +350,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 	}
 
 
-	this.materials=[];
+	this.scene.materials=[];
 	var ids = [];
 
 	var descN=mats[0].children.length;
@@ -361,7 +361,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 			return 0;
 		}
 		ids[i] = e.id;
-		this.materials[e.id]=[];
+		this.scene.materials[e.id]=[];
 		var descNN = e.children.length;
 
 		console.log("material "+e.id);
@@ -370,40 +370,40 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 			var f = e.children[j];
 
 			if (f.tagName == "emission") {
-				this.materials[e.id].emission = [];
-				this.materials[e.id].emission[0] = f.attributes.getNamedItem('r').value;
-				this.materials[e.id].emission[1] = f.attributes.getNamedItem('g').value;
-				this.materials[e.id].emission[2] = f.attributes.getNamedItem('b').value;
-				this.materials[e.id].emission[3] = f.attributes.getNamedItem('a').value;
-				console.log("\tmaterial "+e.id+" emission r:"+this.materials[e.id].emission[0]+" g:"+this.materials[e.id].emission[1]+" b:"+this.materials[e.id].emission[2]+" a:"+this.materials[e.id].emission[3]);
+				this.scene.materials[e.id].emission = [];
+				this.scene.materials[e.id].emission[0] = f.attributes.getNamedItem('r').value;
+				this.scene.materials[e.id].emission[1] = f.attributes.getNamedItem('g').value;
+				this.scene.materials[e.id].emission[2] = f.attributes.getNamedItem('b').value;
+				this.scene.materials[e.id].emission[3] = f.attributes.getNamedItem('a').value;
+				console.log("\tmaterial "+e.id+" emission r:"+this.scene.materials[e.id].emission[0]+" g:"+this.scene.materials[e.id].emission[1]+" b:"+this.scene.materials[e.id].emission[2]+" a:"+this.scene.materials[e.id].emission[3]);
 			}
 			else if (f.tagName == "ambient") {
-				this.materials[e.id].ambient = [];
-				this.materials[e.id].ambient[0] = f.attributes.getNamedItem('r').value;
-				this.materials[e.id].ambient[1] = f.attributes.getNamedItem('g').value;
-				this.materials[e.id].ambient[2] = f.attributes.getNamedItem('b').value;
-				this.materials[e.id].ambient[3] = f.attributes.getNamedItem('a').value;
-				console.log("\tmaterial "+e.id+" ambient r:"+this.materials[e.id].ambient[0]+" g:"+this.materials[e.id].ambient[1]+" b:"+this.materials[e.id].ambient[2]+" a:"+this.materials[e.id].ambient[3]);
+				this.scene.materials[e.id].ambient = [];
+				this.scene.materials[e.id].ambient[0] = f.attributes.getNamedItem('r').value;
+				this.scene.materials[e.id].ambient[1] = f.attributes.getNamedItem('g').value;
+				this.scene.materials[e.id].ambient[2] = f.attributes.getNamedItem('b').value;
+				this.scene.materials[e.id].ambient[3] = f.attributes.getNamedItem('a').value;
+				console.log("\tmaterial "+e.id+" ambient r:"+this.scene.materials[e.id].ambient[0]+" g:"+this.scene.materials[e.id].ambient[1]+" b:"+this.scene.materials[e.id].ambient[2]+" a:"+this.scene.materials[e.id].ambient[3]);
 			}
 			else if (f.tagName == "diffuse") {
-				this.materials[e.id].diffuse = [];
-				this.materials[e.id].diffuse[0] = f.attributes.getNamedItem('r').value;
-				this.materials[e.id].diffuse[1] = f.attributes.getNamedItem('g').value;
-				this.materials[e.id].diffuse[2] = f.attributes.getNamedItem('b').value;
-				this.materials[e.id].diffuse[3] = f.attributes.getNamedItem('a').value;
-				console.log("\tmaterial "+e.id+" diffuse r:"+this.materials[e.id].diffuse[0]+" g:"+this.materials[e.id].diffuse[1]+" b:"+this.materials[e.id].diffuse[2]+" a:"+this.materials[e.id].diffuse[3]);
+				this.scene.materials[e.id].diffuse = [];
+				this.scene.materials[e.id].diffuse[0] = f.attributes.getNamedItem('r').value;
+				this.scene.materials[e.id].diffuse[1] = f.attributes.getNamedItem('g').value;
+				this.scene.materials[e.id].diffuse[2] = f.attributes.getNamedItem('b').value;
+				this.scene.materials[e.id].diffuse[3] = f.attributes.getNamedItem('a').value;
+				console.log("\tmaterial "+e.id+" diffuse r:"+this.scene.materials[e.id].diffuse[0]+" g:"+this.scene.materials[e.id].diffuse[1]+" b:"+this.scene.materials[e.id].diffuse[2]+" a:"+this.scene.materials[e.id].diffuse[3]);
 			}
 			else if (f.tagName == "specular") {
-				this.materials[e.id].specular = [];
-				this.materials[e.id].specular[0] = f.attributes.getNamedItem('r').value;
-				this.materials[e.id].specular[1] = f.attributes.getNamedItem('g').value;
-				this.materials[e.id].specular[2] = f.attributes.getNamedItem('b').value;
-				this.materials[e.id].specular[3] = f.attributes.getNamedItem('a').value;
-				console.log("\tmaterial "+e.id+" specular r:"+this.materials[e.id].specular[0]+" g:"+this.materials[e.id].specular[1]+" b:"+this.materials[e.id].specular[2]+" a:"+this.materials[e.id].specular[3]);
+				this.scene.materials[e.id].specular = [];
+				this.scene.materials[e.id].specular[0] = f.attributes.getNamedItem('r').value;
+				this.scene.materials[e.id].specular[1] = f.attributes.getNamedItem('g').value;
+				this.scene.materials[e.id].specular[2] = f.attributes.getNamedItem('b').value;
+				this.scene.materials[e.id].specular[3] = f.attributes.getNamedItem('a').value;
+				console.log("\tmaterial "+e.id+" specular r:"+this.scene.materials[e.id].specular[0]+" g:"+this.scene.materials[e.id].specular[1]+" b:"+this.scene.materials[e.id].specular[2]+" a:"+this.scene.materials[e.id].specular[3]);
 			}
 			else if (f.tagName == "shininess") {
-				this.materials[e.id].shininess =  f.attributes.getNamedItem('value').value;
-				console.log("\tmaterial "+e.id+" shininess:"+this.materials[e.id].shininess);
+				this.scene.materials[e.id].shininess =  f.attributes.getNamedItem('value').value;
+				console.log("\tmaterial "+e.id+" shininess:"+this.scene.materials[e.id].shininess);
 			}
 		}
 	}
@@ -445,10 +445,10 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 		}
 		ids[i] = e.id;
 
-		this.transformations = [];
-		this.transformations[i]=[];
+		this.scene.transformations = [];
+		this.scene.transformations[i]=[];
 
-		this.transformations[i][0] = e.id;
+		this.scene.transformations[i][0] = e.id;
 
 		var descNN = e.children.length;
 
@@ -456,27 +456,27 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 			var f = e.children[j];
 
 			if (f.tagName == "translate") {
-				this.transformations[i].translate = [];
-				this.transformations[i][1] = "translate";
-				this.transformations[i].translate[0] = f.attributes.getNamedItem('x').value;
-				this.transformations[i].translate[1] = f.attributes.getNamedItem('y').value;
-				this.transformations[i].translate[2] = f.attributes.getNamedItem('z').value;
-				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") x:"+this.transformations[i].translate[0]+" y:"+this.transformations[i].translate[1]+" z:"+this.transformations[i].translate[2]);
+				this.scene.transformations[i].translate = [];
+				this.scene.transformations[i][1] = "translate";
+				this.scene.transformations[i].translate[0] = f.attributes.getNamedItem('x').value;
+				this.scene.transformations[i].translate[1] = f.attributes.getNamedItem('y').value;
+				this.scene.transformations[i].translate[2] = f.attributes.getNamedItem('z').value;
+				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].translate[0]+" y:"+this.scene.transformations[i].translate[1]+" z:"+this.scene.transformations[i].translate[2]);
 			}
 			else if (f.tagName == "rotate") {
-				this.transformations[i].rotate = [];
-				this.transformations[i][1] = "rotate";
-				this.transformations[i].rotate[0] = f.attributes.getNamedItem('axis').value;
-				this.transformations[i].rotate[1] = f.attributes.getNamedItem('angle').value;
-				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") axis:"+this.transformations[i].rotate[0]+" angle:"+this.transformations[i].rotate[1]);
+				this.scene.transformations[i].rotate = [];
+				this.scene.transformations[i][1] = "rotate";
+				this.scene.transformations[i].rotate[0] = f.attributes.getNamedItem('axis').value;
+				this.scene.transformations[i].rotate[1] = f.attributes.getNamedItem('angle').value;
+				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") axis:"+this.scene.transformations[i].rotate[0]+" angle:"+this.scene.transformations[i].rotate[1]);
 			}
 			else if (f.tagName == "scale") {
-				this.transformations[i].scale = [];
-				this.transformations[i][1] = "scale";
-				this.transformations[i].scale[0] = f.attributes.getNamedItem('x').value;
-				this.transformations[i].scale[1] = f.attributes.getNamedItem('y').value;
-				this.transformations[i].scale[2] = f.attributes.getNamedItem('z').value;
-				console.log("\ttransformation "+  this.transformations[i][1]+" ("+this.transformations[i][0]+") x:"+this.transformations[i].scale[0]+" y:"+this.transformations[i].scale[1]+" z:"+this.transformations[i].scale[2]);
+				this.scene.transformations[i].scale = [];
+				this.scene.transformations[i][1] = "scale";
+				this.scene.transformations[i].scale[0] = f.attributes.getNamedItem('x').value;
+				this.scene.transformations[i].scale[1] = f.attributes.getNamedItem('y').value;
+				this.scene.transformations[i].scale[2] = f.attributes.getNamedItem('z').value;
+				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].scale[0]+" y:"+this.scene.transformations[i].scale[1]+" z:"+this.scene.transformations[i].scale[2]);
 			}
 		}
 	}
@@ -500,7 +500,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	}
 
 	console.log("primitives");
-	this.primitives = [];
+	this.scene.primitives = [];
 	var ids = [];
 
 	var descN = prim[0].children.length;
@@ -511,40 +511,40 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			return 0;
 		}
 
-		this.primitives = [];
-		this.primitives[i] = [];
+		this.scene.primitives = [];
+		this.scene.primitives[i] = [];
 		if (e.tagName == "primitive" && ids.indexOf(e.id) < 0) {
 			ids[i] = e.id;
 			var f = e.children[0];
-			this.primitives[i][0] = f.tagName;
-			this.primitives[i][1] = e.id;
+			this.scene.primitives[i][0] = f.tagName;
+			this.scene.primitives[i][1] = e.id;
 			if (f.tagName == "rectangle" || f.tagName == "triangle") {
-				this.primitives[i][2] = f.attributes.getNamedItem("x1").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("y1").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("x2").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("y2").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") x1:"+this.primitives[i][2]+" y1:"+this.primitives[i][3]+" x2:"+this.primitives[i][4]+" y2:"+this.primitives[i][5]);
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("x1").value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
 			}
 			else if (f.tagName == "cylinder") {
-				this.primitives[i][2] = f.attributes.getNamedItem("base").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("top").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("height").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") base:"+this.primitives[i][2]+" top:"+this.primitives[i][3]+" height:"+this.primitives[i][4]+" slices:"+this.primitives[i][5]+" stacks:"+this.primitives[i][6]);
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("base").value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem("top").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("height").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("slices").value;
+				this.scene.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") base:"+this.scene.primitives[i][2]+" top:"+this.scene.primitives[i][3]+" height:"+this.scene.primitives[i][4]+" slices:"+this.scene.primitives[i][5]+" stacks:"+this.scene.primitives[i][6]);
 			}
 			else if (f.tagName == "sphere") {
-				this.primitives[i][2] = f.attributes.getNamedItem("radius").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+") radius:"+this.primitives[i][2]+" slices:"+this.primitives[i][3]+" stacks:"+this.primitives[i][4]);
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("radius").value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem("slices").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
+				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") radius:"+this.scene.primitives[i][2]+" slices:"+this.scene.primitives[i][3]+" stacks:"+this.scene.primitives[i][4]);
 			}
 			else if (f.tagName == "torus") {
-				this.primitives[i][2] = f.attributes.getNamedItem("inner").value;
-				this.primitives[i][3] = f.attributes.getNamedItem("outer").value;
-				this.primitives[i][4] = f.attributes.getNamedItem("slices").value;
-				this.primitives[i][5] = f.attributes.getNamedItem("loops").value;
-				console.log("\tprimitive "+this.primitives[i][0]+" ("+this.primitives[i][1]+" inner:"+this.primitives[i][2]+" outer:"+this.primitives[i][3]+" slices:"+this.primitives[i][4]+" stacks:"+this.primitives[i][5]);
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("inner").value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem("outer").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("slices").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("loops").value;
+				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+" inner:"+this.scene.primitives[i][2]+" outer:"+this.scene.primitives[i][3]+" slices:"+this.scene.primitives[i][4]+" stacks:"+this.scene.primitives[i][5]);
 			}
 		}
 		else {
@@ -562,7 +562,66 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement){
-	console.log("TODO parse components");
+	var comps = rootElement.getElementsByTagName('components');
+	if (comps == null) {
+		this.onXMLError("components not defined");
+		return 0;
+	}
+	if (comps.length != 1) {
+		this.onXMLError("components bad definition");
+		return 0;
+	}
+
+	this.scene.components = [];
+	var ids = [];
+
+	var descN = comps[0].children.length;
+	for (var i = 0; i < descN; i++) {
+		var e = comps[0].children[i];
+
+		if (ids.indexOf(e.id) >= 0) {
+			this.onXMLError("component id duplicated");
+			return 0;
+		}
+		ids[i] = e.id;
+
+		if (e.tagName != "component") {
+			this.onXMLError("component bad definition");
+			return 0;
+		}
+
+		var descNN = e.children.length;
+		var transfs = 0;
+		var mats = 0;
+		var texts = 0;
+		var childs = 0;
+		if (descNN <= 0) {
+			this.onXMLError("there must be at least on transformation in component");
+			return 0;
+		}
+		for (var j = 0; j < descNN; j++) {
+			var f = e.children[j];
+			if (e.tagName == "transformation") {
+				transfs++;
+				// TODO parse rest os transformation
+			}
+			else if (e.tagName == "materials") {
+				mats++;
+				//TODO parse rest of materials
+			}
+			else if (e.tagName == "texture") {
+				texs++;
+				// TODO rest of textures
+			}
+			else if (e.tagName == "children") {
+				childs++;
+				// TODO rest of children
+			}
+
+		}
+	}
+
+	return;
 }
 
 

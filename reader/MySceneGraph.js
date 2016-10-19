@@ -8,7 +8,15 @@ function MySceneGraph(filename, scene) {
 
 	// File reading
 	this.reader = new CGFXMLreader();
-
+	
+	this.scene.perspectives=[];
+	this.scene.transformations = [];
+	this.scene.illumination = [];
+	this.scene.light = [];
+	this.scene.textures = [];
+	this.scene.materials=[];
+	this.scene.components = [];
+	this.scene.primitives = [];
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -110,7 +118,7 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 	console.log("view default: "+this.scene.views_default);
 
 	var tempViews=rootElement.getElementsByTagName('views');
-	this.scene.perspectives=[];
+	
 
 	var descN=tempViews[0].children.length;
 	for (var i = 0; i < descN; i++) {
@@ -164,7 +172,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 		this.onXMLError("illumination bad definition");
 		return 0;
 	}
-	this.scene.illumination = [];
+	
 
 	this.scene.illumination[0] = illum[0].attributes.getNamedItem('doublesided').value;
 	this.scene.illumination[1] = illum[0].attributes.getNamedItem('local').value;
@@ -204,7 +212,7 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 		return 0;
 	}
 
-	this.scene.light = [];
+	
 	var ids = [];
 
 	var descN = lights[0].children.length;
@@ -305,7 +313,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 	}
 
 	console.log("textures");
-	this.scene.textures = [];
+	
 	var ids = [];
 
 	var descN = text[0].children.length;
@@ -350,7 +358,7 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 	}
 
 
-	this.scene.materials=[];
+
 	var ids = [];
 
 	var descN=mats[0].children.length;
@@ -445,10 +453,11 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 		}
 		ids[i] = e.id;
 
-		this.scene.transformations = [];
+		
 		this.scene.transformations[i]=[];
 
 		this.scene.transformations[i][0] = e.id;
+		
 
 		var descNN = e.children.length;
 
@@ -480,13 +489,22 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 			}
 		}
 	}
-
 	if (ids.length == 0) {
 		this.onXMLError("there must be at least one transformation");
 		return 0;
 	}
 	return;
 }
+/*
+MySceneGraph.prototype.getTransformation = function(id){
+	var i =0;
+	for(i; i <this.scene.transformations.length; i++){
+		if(this.scene.transformations[i][0] == id){
+			return this.scene.transformations[i];
+		}
+	}
+	return null;
+}*/
 
 MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	var prim = rootElement.getElementsByTagName('primitives');
@@ -500,7 +518,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	}
 
 	console.log("primitives");
-	this.scene.primitives = [];
+	
 	var ids = [];
 
 	var descN = prim[0].children.length;
@@ -562,6 +580,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement){
+
 	var comps = rootElement.getElementsByTagName('components');
 	if (comps == null) {
 		this.onXMLError("components not defined");
@@ -572,7 +591,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 		return 0;
 	}
 
-	this.scene.components = [];
+	
 	var ids = [];
 
 	var descN = comps[0].children.length;
@@ -599,21 +618,38 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			this.onXMLError("there must be at least on transformation in component");
 			return 0;
 		}
+		console.log("transformations2");
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
-			if (e.tagName == "transformation") {
+			console.log(f.tagName);
+			if (f.tagName == "transformation") {
 				transfs++;
-				// TODO parse rest os transformation
+				var x =0, matrix = mat4.create();
+				
+				for(x; x < f.children.length; x++){
+					console.log(x);
+					console.log(f.children[x].tagName);
+					if(f.children[x].tagName == "transformationref"){
+						var trId = f.children[x].attributes.getNamedItem('id').value;
+						console.log(trId);
+						console.log(this.scene.transformations[0]);
+
+
+						console.log(this.scene.transformations[0][0]);
+						//TODO guardar na array components[1] or something
+					}
+				}
+
 			}
-			else if (e.tagName == "materials") {
+			else if (f.tagName == "materials") {
 				mats++;
 				//TODO parse rest of materials
 			}
-			else if (e.tagName == "texture") {
+			else if (f.tagName == "texture") {
 				texs++;
 				// TODO rest of textures
 			}
-			else if (e.tagName == "children") {
+			else if (f.tagName == "children") {
 				childs++;
 				// TODO rest of children
 			}

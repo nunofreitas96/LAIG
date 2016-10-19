@@ -7,12 +7,12 @@ XMLscene.prototype = Object.create(CGFscene.prototype);
 XMLscene.prototype.constructor = XMLscene;
 
 XMLscene.prototype.init = function (application) {
-  this.grafo=[];    // TODO saber se e necessario ou basta usarmos this.graph?
+  //this.grafo=[];    // TODO saber se e necessario ou basta usarmos this.graph?
 
   CGFscene.prototype.init.call(this, application);
 
   this.initCameras();
-
+	
   this.initLights();
 
   this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -54,7 +54,7 @@ XMLscene.prototype.onGraphLoaded = function ()
   this.lights[0].enable();
   */
 };
-/*
+
 XMLscene.prototype.processaGrafo= function(nodeName){
   var material = null;
   if (nodeName!=null) {
@@ -64,10 +64,12 @@ XMLscene.prototype.processaGrafo= function(nodeName){
     }
     if (material != null) {
       // TODO :
-      //this.applyMaterial(material);
+      this.applyMaterial(material);
       //this.mulMatrix(node.m);
       if (node.Primitive != null) {
-        //desenha primitiva
+        this.pushMatrix();
+		this.graph.primitives[node.primitive].display();
+		this.popMatrix();
       }
       for(var i = 0; i < node.children.length; i++){
         this.pushMatrix();    // comecamos a processar o descendente
@@ -78,7 +80,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
     }
   }
 }
-*/
+
 XMLscene.prototype.display = function () {
   // ---- BEGIN Background, camera and axis setup
 
@@ -109,6 +111,10 @@ XMLscene.prototype.display = function () {
   // This is one possible way to do it
   if (this.graph.loadedOk)
   {
+	  
     this.lights[0].update();
+    this.processaGrafo(this.graph.rootNode);
+   
   };
+ 
 };

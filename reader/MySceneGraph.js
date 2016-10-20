@@ -8,7 +8,7 @@ function MySceneGraph(filename, scene) {
 
 	// File reading
 	this.reader = new CGFXMLreader();
-	
+
 	this.scene.perspectives=[];
 	this.scene.transformations = [];
 	this.scene.illumination = [];
@@ -119,7 +119,7 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 	console.log("view default: "+this.scene.views_default);
 
 	var tempViews=rootElement.getElementsByTagName('views');
-	
+
 
 	var descN=tempViews[0].children.length;
 	for (var i = 0; i < descN; i++) {
@@ -173,7 +173,7 @@ MySceneGraph.prototype.parseIllumination = function(rootElement){
 		this.onXMLError("illumination bad definition");
 		return 0;
 	}
-	
+
 
 	this.scene.illumination[0] = illum[0].attributes.getNamedItem('doublesided').value;
 	this.scene.illumination[1] = illum[0].attributes.getNamedItem('local').value;
@@ -213,7 +213,7 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 		return 0;
 	}
 
-	
+
 	var ids = [];
 
 	var descN = lights[0].children.length;
@@ -314,7 +314,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 	}
 
 	console.log("textures");
-	
+
 	var ids = [];
 
 	var descN = text[0].children.length;
@@ -455,11 +455,11 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 		}
 		ids[i] = e.id;
 
-		
+
 		this.scene.transformations[i]=[];
 
 		this.scene.transformations[i][0] = e.id;
-		
+
 
 		var descNN = e.children.length;
 
@@ -520,7 +520,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	}
 
 	console.log("primitives");
-	
+
 	var ids = [];
 
 	var descN = prim[0].children.length;
@@ -560,7 +560,6 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
 				this.primitives[i] = this.scene.primitives[i];
-				scene.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") radius:"+this.scene.primitives[i][2]+" slices:"+this.scene.primitives[i][3]+" stacks:"+this.scene.primitives[i][4]);
 			}
 			else if (f.tagName == "torus") {
@@ -598,7 +597,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 		return 0;
 	}
 
-	
+	console.log("components");
 	var ids = [];
 
 	var descN = comps[0].children.length;
@@ -617,51 +616,67 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			return 0;
 		}
 
-		var descNN = e.children.length;
 		var transfs = 0;
 		var mats = 0;
 		var texts = 0;
 		var childs = 0;
+
 		if (descNN <= 0) {
 			this.onXMLError("there must be at least on transformation in component");
 			return 0;
 		}
 
-		
-		//console.log("transformations2");
+		console.log("\tcomponent "+e.attributes.getNamedItem('id').value);
+		var descNN = e.children.length;
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
-			//console.log(f.tagName);
-			
+			this.scene.components[i][j]=[];
+			// transformation
 			if (f.tagName == "transformation") {
 				transfs++;
-				var x =0;
-				
-				for(x; x < f.children.length; x++){
-					//console.log(x);
-					//console.log(f.children[x].tagName);
-					if(f.children[x].tagName == "transformationref"){
-						var trId = f.children[x].attributes.getNamedItem('id').value;
-						
-						/*console.log(trId);
-						console.log(this.scene.transformations[0]);
-						console.log(this.scene.components); TODO retirar*/
-						this.scene.components[i].push(trId);
-						/*console.log(this.scene.components[i]);
-
-						console.log(this.scene.transformations[0][0]);*/
-						//TODO retirar
+				console.log("\t\ttransformation");
+				this.scene.components[i][j].transformation=[];
+				for(var k = 0; k < f.children.length; k++){
+					var g = f.children[k];
+					if(g.tagName == "transformationref"){
+						var trId = g.attributes.getNamedItem('id').value;
+						this.scene.components[i][j].transformation[0] = "transformationref";
+						this.scene.components[i][j].transformation[1] = trId;
+						console.log("\t\t\t"+this.scene.components[i][j].transformation[0]+" "+this.scene.components[i][j].transformation[1]);
+						break;
+					}
+					else if (g.tagName == "translate") {
+						var l = this.scene.components[i][j].transformation.length;
+						this.scene.components[i][j].transformation[l] = ["translate", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value];
+						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]+" "+this.scene.components[i][j].transformation[l][3]);
+					}
+					else if (g.tagName == "rotate") {
+						var l = this.scene.components[i][j].transformation.length;
+						this.scene.components[i][j].transformation[l] = ["rotate", g.attributes.getNamedItem('axis').value, g.attributes.getNamedItem('angle').value];
+						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]);
+					}
+					else if (g.tagName == "scale") {
+						var l = this.scene.components[i][j].transformation.length;
+						this.scene.components[i][j].transformation[l] = ["scale", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value];
+						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]+" "+this.scene.components[i][j].transformation[l][3]);
 					}
 				}
-
 			}
 			else if (f.tagName == "materials") {
 				mats++;
-				if(f.children[0].tagName == "material"){
-					var matId = f.children[0].attributes.getNamedItem('id').value;
-					this.scene.components[i].push(matId);
+				console.log("\t\tmaterials");
+				this.scene.components[i][j].materials=[];
+				for (var k = 0; k < f.children.length; k++) {
+					var g = f.children[k];
+					if (g.tagName == "material") {
+						var l = this.scene.components[i][j].materials.length;
+						this.scene.components[i][j].materials[l] = g.attributes.getNamedItem('id').value;
+						console.log("\t\t\tmaterial "+ this.scene.components[i][j].materials[l]);
+					}
+					else {
+						// sera preciso??
+					}
 				}
-
 			}
 			else if (f.tagName == "texture") {
 				texts++;
@@ -672,7 +687,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			else if (f.tagName == "children") {
 				childs++;
 				var x =0;
-				
+
 				for(x; x < f.children.length; x++){
 					//console.log(x);
 					//console.log(f.children[x].tagName);
@@ -680,21 +695,21 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 					if(f.children[x].tagName == "primitiveref"){
 						var prId = f.children[x].attributes.getNamedItem('id').value;
 						this.scene.components[i].push(prId);
-						
+
 					}
 					if(f.children[x].tagName == "componentref"){
 						var compId = f.children[x].attributes.getNamedItem('id').value;
 						this.scene.components[i].push(compId);
-						
+
 					}
 				}
 			}
 
 		}
-		console.log("checker");
-			console.log(this.scene.components[i][0]);
+	//	console.log("checker");
+		//	console.log(this.scene.components[i][0]);
 	}
-	
+
 	return;
 }
 

@@ -499,13 +499,13 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 }
 /*
 MySceneGraph.prototype.getTransformation = function(id){
-	var i =0;
-	for(i; i <this.scene.transformations.length; i++){
-		if(this.scene.transformations[i][0] == id){
-			return this.scene.transformations[i];
-		}
-	}
-	return null;
+var i =0;
+for(i; i <this.scene.transformations.length; i++){
+if(this.scene.transformations[i][0] == id){
+return this.scene.transformations[i];
+}
+}
+return null;
 }*/
 
 MySceneGraph.prototype.parsePrimitives = function(rootElement){
@@ -602,7 +602,6 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 
 	var descN = comps[0].children.length;
 	for (var i = 0; i < descN; i++) {
-		this.scene.components[i] = [];
 		var e = comps[0].children[i];
 
 		if (ids.indexOf(e.id) >= 0) {
@@ -621,57 +620,56 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 		var texts = 0;
 		var childs = 0;
 
-		if (descNN <= 0) {
-			this.onXMLError("there must be at least on transformation in component");
-			return 0;
-		}
+		this.scene.components[i] = {
+			id: e.attributes.getNamedItem('id').value
+		};
+		//this.scene.components[i] = e.attributes.getNamedItem('id').value;
+		this.scene.components[i].transformation = [];
+		this.scene.components[i].materials = [];
+		this.scene.components[i].textures = [];
+		this.scene.components[i].children = [];
 
-		console.log("\tcomponent "+e.attributes.getNamedItem('id').value);
+
+		console.log(typeof this.scene.components[i]);
+
+		console.log("\tcomponent "+this.scene.components[i].id);
 		var descNN = e.children.length;
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
-			this.scene.components[i][j]=[];
+
 			// transformation
 			if (f.tagName == "transformation") {
 				transfs++;
 				console.log("\t\ttransformation");
-				this.scene.components[i][j].transformation=[];
 				for(var k = 0; k < f.children.length; k++){
 					var g = f.children[k];
 					if(g.tagName == "transformationref"){
-						var trId = g.attributes.getNamedItem('id').value;
-						this.scene.components[i][j].transformation[0] = "transformationref";
-						this.scene.components[i][j].transformation[1] = trId;
-						console.log("\t\t\t"+this.scene.components[i][j].transformation[0]+" "+this.scene.components[i][j].transformation[1]);
+						this.scene.components[i].transformation.push(["transformationref", g.attributes.getNamedItem('id').value]);
+						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 						break;
-					}
+					}// TODO test this:
 					else if (g.tagName == "translate") {
-						var l = this.scene.components[i][j].transformation.length;
-						this.scene.components[i][j].transformation[l] = ["translate", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value];
-						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]+" "+this.scene.components[i][j].transformation[l][3]);
+						this.scene.components[i].transformation.push(["translate", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value]);
+						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 					else if (g.tagName == "rotate") {
-						var l = this.scene.components[i][j].transformation.length;
-						this.scene.components[i][j].transformation[l] = ["rotate", g.attributes.getNamedItem('axis').value, g.attributes.getNamedItem('angle').value];
-						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]);
+						this.scene.components[i].transformation.push(["rotate", g.attributes.getNamedItem('axis').value, g.attributes.getNamedItem('angle').value]);
+						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 					else if (g.tagName == "scale") {
-						var l = this.scene.components[i][j].transformation.length;
-						this.scene.components[i][j].transformation[l] = ["scale", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value];
-						console.log("\t\t\t"+this.scene.components[i][j].transformation[l][0]+" "+this.scene.components[i][j].transformation[l][1]+" "+this.scene.components[i][j].transformation[l][2]+" "+this.scene.components[i][j].transformation[l][3]);
+						this.scene.components[i].transformation.push(["scale", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value]);
+						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 				}
 			}
 			else if (f.tagName == "materials") {
 				mats++;
 				console.log("\t\tmaterials");
-				this.scene.components[i][j].materials=[];
 				for (var k = 0; k < f.children.length; k++) {
 					var g = f.children[k];
 					if (g.tagName == "material") {
-						var l = this.scene.components[i][j].materials.length;
-						this.scene.components[i][j].materials[l] = g.attributes.getNamedItem('id').value;
-						console.log("\t\t\tmaterial "+ this.scene.components[i][j].materials[l]);
+						this.scene.components[i].materials.push(g.attributes.getNamedItem('id').value);
+						console.log("\t\t\tmaterial "+ this.scene.components[i].materials[this.scene.components[i].materials.length -1]);
 					}
 					else {
 						// sera preciso??
@@ -680,34 +678,18 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			}
 			else if (f.tagName == "texture") {
 				texts++;
-					var texId = f.attributes.getNamedItem('id').value;
-					this.scene.components[i].push(texId);
-					//this.scene.components[i].texture = texId;
+				this.scene.components[i].textures.push(f.attributes.getNamedItem('id').value);
+				console.log("\t\ttexture "+this.scene.components[i].textures[this.scene.components[i].textures.length -1]);
 			}
 			else if (f.tagName == "children") {
 				childs++;
-				var x =0;
-
-				for(x; x < f.children.length; x++){
-					//console.log(x);
-					//console.log(f.children[x].tagName);
-					//TODO arranjar maneira de identificar!
-					if(f.children[x].tagName == "primitiveref"){
-						var prId = f.children[x].attributes.getNamedItem('id').value;
-						this.scene.components[i].push(prId);
-
-					}
-					if(f.children[x].tagName == "componentref"){
-						var compId = f.children[x].attributes.getNamedItem('id').value;
-						this.scene.components[i].push(compId);
-
-					}
+				console.log("\t\tchildren");
+				for (var k = 0; k < f.children.length; k++) {
+						this.scene.components[i].children.push([f.children[k].tagName, f.children[k].attributes.getNamedItem('id').value]);
+						console.log("\t\t\t"+this.scene.components[i].children[this.scene.components[i].children.length -1]);
 				}
 			}
-
 		}
-	//	console.log("checker");
-		//	console.log(this.scene.components[i][0]);
 	}
 
 	return;

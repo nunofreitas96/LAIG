@@ -596,6 +596,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 
 	var descN = comps[0].children.length;
 	for (var i = 0; i < descN; i++) {
+		this.scene.components[i] = [];
 		var e = comps[0].children[i];
 
 		if (ids.indexOf(e.id) >= 0) {
@@ -618,45 +619,74 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			this.onXMLError("there must be at least on transformation in component");
 			return 0;
 		}
-		console.log("transformations2");
+
+		
+		//console.log("transformations2");
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
-			console.log(f.tagName);
+			//console.log(f.tagName);
+			
 			if (f.tagName == "transformation") {
 				transfs++;
-				var x =0, matrix = mat4.create();
+				var x =0;
 				
 				for(x; x < f.children.length; x++){
-					console.log(x);
-					console.log(f.children[x].tagName);
+					//console.log(x);
+					//console.log(f.children[x].tagName);
 					if(f.children[x].tagName == "transformationref"){
 						var trId = f.children[x].attributes.getNamedItem('id').value;
-						console.log(trId);
+						
+						/*console.log(trId);
 						console.log(this.scene.transformations[0]);
+						console.log(this.scene.components); TODO retirar*/
+						this.scene.components[i].push(trId);
+						/*console.log(this.scene.components[i]);
 
-
-						console.log(this.scene.transformations[0][0]);
-						//TODO guardar na array components[1] or something
+						console.log(this.scene.transformations[0][0]);*/
+						//TODO retirar
 					}
 				}
 
 			}
 			else if (f.tagName == "materials") {
 				mats++;
-				//TODO parse rest of materials
+				if(f.children[0].tagName == "material"){
+					var matId = f.children[0].attributes.getNamedItem('id').value;
+					this.scene.components[i].push(matId);
+				}
+
 			}
 			else if (f.tagName == "texture") {
-				texs++;
-				// TODO rest of textures
+				texts++;
+					var texId = f.attributes.getNamedItem('id').value;
+					this.scene.components[i].push(texId);
 			}
 			else if (f.tagName == "children") {
 				childs++;
-				// TODO rest of children
+				var x =0;
+				
+				for(x; x < f.children.length; x++){
+					//console.log(x);
+					//console.log(f.children[x].tagName);
+					//TODO arranjar maneira de identificar!
+					if(f.children[x].tagName == "primitiveref"){
+						var prId = f.children[x].attributes.getNamedItem('id').value;
+						this.scene.components[i].push(prId);
+						
+					}
+					if(f.children[x].tagName == "componentref"){
+						var compId = f.children[x].attributes.getNamedItem('id').value;
+						this.scene.components[i].push(compId);
+						
+					}
+				}
 			}
 
 		}
+		console.log("checker");
+			console.log(this.scene.components[i]);
 	}
-
+	
 	return;
 }
 

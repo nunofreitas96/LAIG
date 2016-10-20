@@ -111,7 +111,7 @@ XMLscene.prototype.display = function () {
   // This is one possible way to do it
   if (this.graph.loadedOk)
   {
-	  
+	//console.log(this.primitives[0]);
     this.lights[0].update();
     this.processaGrafo(this.graph.rootNode);
    

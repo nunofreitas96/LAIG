@@ -17,6 +17,7 @@ function MySceneGraph(filename, scene) {
 	this.scene.materials=[];
 	this.scene.components = [];
 	this.scene.primitives = [];
+	this.primitives =[];
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -333,6 +334,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		this.scene.textures[i][1]=e.attributes.getNamedItem('file').value;
 		this.scene.textures[i][2]=e.attributes.getNamedItem('length_s').value;
 		this.scene.textures[i][3]=e.attributes.getNamedItem('length_t').value;
+		//var t= new Texture(this.scene.textures[i][0],this.scene.textures[i][1],this.scene.textures[i][2],this.scene.textures[i][3]);
 		console.log("\ttexture ("+this.scene.textures[i][0]+") file:"+this.scene.textures[i][1]+" length_s:"+this.scene.textures[i][2]+" length_t:"+this.scene.textures[i][3]);
 	}
 
@@ -541,6 +543,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
 				this.scene.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
 			}
 			else if (f.tagName == "cylinder") {
@@ -549,12 +552,15 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("height").value;
 				this.scene.primitives[i][5] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
+				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") base:"+this.scene.primitives[i][2]+" top:"+this.scene.primitives[i][3]+" height:"+this.scene.primitives[i][4]+" slices:"+this.scene.primitives[i][5]+" stacks:"+this.scene.primitives[i][6]);
 			}
 			else if (f.tagName == "sphere") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("radius").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
+				this.primitives[i] = this.scene.primitives[i];
+				scene.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") radius:"+this.scene.primitives[i][2]+" slices:"+this.scene.primitives[i][3]+" stacks:"+this.scene.primitives[i][4]);
 			}
 			else if (f.tagName == "torus") {
@@ -562,6 +568,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("outer").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][5] = f.attributes.getNamedItem("loops").value;
+				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+" inner:"+this.scene.primitives[i][2]+" outer:"+this.scene.primitives[i][3]+" slices:"+this.scene.primitives[i][4]+" stacks:"+this.scene.primitives[i][5]);
 			}
 		}
@@ -660,6 +667,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 				texts++;
 					var texId = f.attributes.getNamedItem('id').value;
 					this.scene.components[i].push(texId);
+					//this.scene.components[i].texture = texId;
 			}
 			else if (f.tagName == "children") {
 				childs++;
@@ -684,7 +692,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 
 		}
 		console.log("checker");
-			console.log(this.scene.components[i]);
+			console.log(this.scene.components[i][0]);
 	}
 	
 	return;

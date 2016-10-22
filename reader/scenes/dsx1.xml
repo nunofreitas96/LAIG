@@ -290,6 +290,7 @@
 				<componentref id = "Torus" />
 				<componentref id = "Poster" />
 				<componentref id = "Table" />
+				<componentref id = "Bush" />
 			</children>
 		</component>
 		<component id ="Floor">

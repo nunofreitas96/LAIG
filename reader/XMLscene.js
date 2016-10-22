@@ -58,22 +58,16 @@ XMLscene.prototype.onGraphLoaded = function ()
 XMLscene.prototype.processaGrafo= function(nodeName){
   var material = null;
   if (nodeName!=null) {
-    var node = this.graph.components[nodeName];
-    console.log(this.graph.components[nodeName].material)
+    var node = this.graph[nodeName];
     if (node.material != null) {    // nao basta na declaracao ja referir a igualdade?
-      material = this.graph.materials[node.material];
-      //console.log(this.graph.materials[node.material]);
+      material = node.material;
     }
     if (material != null) {
       // TODO :
-      console.log(material);
-      material.apply();
-      console.log(node.primitive);
-      //console.log(this.graph.primitives[node.primitive]);
+      this.applyMaterial(material);
       //this.mulMatrix(node.m);
-      if (node.primitive != null) {
+      if (node.Primitive != null) {
         this.pushMatrix();
-        console.log(this.graph.primitives[node.primitive]);
 		this.graph.primitives[node.primitive].display();
 		this.popMatrix();
       }
@@ -119,7 +113,7 @@ XMLscene.prototype.display = function () {
   {
 	//console.log(this.primitives[0]);
     this.lights[0].update();
-    this.processaGrafo("LeftWall");
+    this.processaGrafo(this.graph.rootNode);
    
   };
  

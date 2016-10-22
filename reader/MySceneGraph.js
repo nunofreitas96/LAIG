@@ -1,4 +1,3 @@
-
 function MySceneGraph(filename, scene) {
 	this.loadedOk = null;
 
@@ -17,7 +16,13 @@ function MySceneGraph(filename, scene) {
 	this.scene.materials=[];
 	this.scene.components = [];
 	this.scene.primitives = [];
-	this.primitives =[];
+	this.primitives ={};
+	this.transformations = {};
+	this.illumination ={};
+	this.light = {};
+	this.textures = {};
+	this.materials = {}
+	this.components = {}
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.

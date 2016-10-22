@@ -12,7 +12,7 @@ XMLscene.prototype.init = function (application) {
   CGFscene.prototype.init.call(this, application);
 
   this.initCameras();
-	
+
   this.initLights();
 
   this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -59,25 +59,32 @@ XMLscene.prototype.processaGrafo= function(nodeName){
   var material = null;
   if (nodeName!=null) {
     var node = this.graph[nodeName];
+
     if (node.material != null) {    // nao basta na declaracao ja referir a igualdade?
-      material = node.material;
+      material = this.graph.materials[node.material];
     }
     if (material != null) {
       // TODO :
-      this.applyMaterial(material);
+      //console.log(material);
+      material.apply();
       //this.mulMatrix(node.m);
-      if (node.Primitive != null) {
-        this.pushMatrix();
-		this.graph.primitives[node.primitive].display();
-		this.popMatrix();
-      }
-      for(var i = 0; i < node.children.length; i++){
-        this.pushMatrix();    // comecamos a processar o descendente
-        //this.applyMaterial(material);
-        this.processaGrafo(node.children[i]);
-        this.popMatrix();     // recuperamos o descendente
-      }
     }
+
+    if (node.primitive != null) {
+      this.pushMatrix();
+      console.log("\t\t\t"+nodeName+" "+node.primitive);
+      console.log(this.graph.primitives[node.primitive]);
+      this.graph.primitives[node.primitive].display();
+      this.popMatrix();
+    }
+
+    for(var i = 0; i < node.children.length; i++){
+      this.pushMatrix();    // comecamos a processar o descendente
+      //this.applyMaterial(material);
+      this.processaGrafo(node.children[i]);
+      this.popMatrix();     // recuperamos o descendente
+    }
+
   }
 }
 
@@ -101,7 +108,7 @@ XMLscene.prototype.display = function () {
   this.setDefaultAppearance();
 
   // graph processing --- me
-//  this.processaGrafo("1");
+  //  this.processaGrafo("1");
 
 
   // ---- END Background, camera and axis setup
@@ -111,10 +118,12 @@ XMLscene.prototype.display = function () {
   // This is one possible way to do it
   if (this.graph.loadedOk)
   {
-	//console.log(this.primitives[0]);
+
+    //console.log(this.primitives[0]);
     this.lights[0].update();
-    this.processaGrafo(this.graph.rootNode);
-   
+    //console.log(this.scene_root);
+    this.processaGrafo(this.scene_root);
+
   };
- 
+
 };

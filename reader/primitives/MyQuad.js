@@ -1,15 +1,20 @@
 /**
- * MyQuad
- * @param gl {WebGLRenderingContext}
- * @constructor
- */
-function MyQuad(scene, minS, maxS, minT, maxT) {
+* MyQuad
+* @param gl {WebGLRenderingContext}
+* @constructor
+*/
+function MyQuad(scene, minX, maxX, minY, maxY) {
 	CGFobject.call(this,scene);
 
-	this.minS=minS;
-	this.maxS=maxS;
-	this.minT=minT;
-	this.maxT=maxT;
+	this.minS=0;
+	this.maxS=1;
+	this.minT=0;
+	this.maxT=1;
+
+	this.minX = minX;
+	this.minY = minY;
+	this.maxX = maxX;
+	this.maxY = maxY;
 
 	this.initBuffers();
 };
@@ -20,18 +25,18 @@ MyQuad.prototype.constructor=MyQuad;
 MyQuad.prototype.initBuffers = function () {
 
 	this.vertices = [
-			-0.5, 0.5, 0,
-			-0.5, -0.5, 0,
-			0.5, 0.5, 0,
-			0.5, -0.5, 0 
-			];
+		this.minX, this.minY, 0,
+		this.maxX, this.minY, 0,
+		this.minX, this.maxY, 0,
+		this.maxX, this.maxY, 0
+	];
 
 	this.indices = [
-            0, 1, 2, 
-			3, 2, 1
-        ];
-		
-	
+		0, 1, 2,
+		3, 2, 1
+	];
+
+
 
 	this.normals = [	//1.3 -> vetores normais - homogenizar luz
 		0, 0, 1,

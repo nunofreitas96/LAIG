@@ -286,6 +286,11 @@
 				<componentref id= "Floor" />
 				<componentref id= "LeftWall" />
 				<componentref id= "PlaneWall" />
+				<componentref id = "Pyramid" />
+				<componentref id = "Torus" />
+				<componentref id = "Poster" />
+				<componentref id = "Table" />
+				<componentref id = "Bush" />
 			</children>
 		</component>
 		<component id ="Floor">
@@ -574,6 +579,22 @@
 
 			<children>
 				<primitiveref id ="esfera"/>
+			</children>
+		</component>
+
+		<component id="Bush">
+			<transformation>
+			</transformation>
+			<materials>
+				<material id="inherit" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<componentref id="BushBase" />
+				<componentref id="BushTronco" />
+				<componentref id="Bush1" />
+				<componentref id="Bush2" />
+				<componentref id="Bush3" />
 			</children>
 		</component>
 

@@ -541,7 +541,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			var f = e.children[0];
 			this.scene.primitives[i][0] = f.tagName;
 			this.scene.primitives[i][1] = e.id;
-			if (f.tagName == "rectangle" || f.tagName == "triangle") {
+			if (f.tagName == "rectangle") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("x1").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
@@ -550,8 +550,15 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
 
 				var rectangle = new MyQuad(this.scene, parseInt(this.scene.primitives[i][2]),parseInt(this.scene.primitives[i][4]),parseInt(this.scene.primitives[i][3]),parseInt(this.scene.primitives[i][5]));
-				//this.primitives[f.tagName] = rectangle;
 				this.primitives[e.id] = rectangle;
+			}
+			else if (f.tagName == "triangle") {
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("x1").value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				this.primitives[i] = this.scene.primitives[i];
+				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
 			}
 			else if (f.tagName == "cylinder") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("base").value;

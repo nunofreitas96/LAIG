@@ -261,7 +261,7 @@
 			<rectangle x1="0" y1="0" x2="1" y2="1" />
 		</primitive>
 		<primitive id="triangulo">
-			<triangle x1="0" y1="0" x2="1" y2="1" />
+			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0.5" y3="1" z3="0"/>
 		</primitive>
 		<primitive id="cilindro">
 			<cylinder base="1" top="1" height="1" slices="100" stacks="10" />
@@ -285,7 +285,7 @@
 			<children>
 				
 				
-				<componentref id="Torus"/>
+				<componentref id="triangle4"/>
 			</children>
 		</component>
 		<component id ="Floor">

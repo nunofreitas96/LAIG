@@ -555,10 +555,18 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			else if (f.tagName == "triangle") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("x1").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
-				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
-				this.scene.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("z1").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("x2").value;
+				this.scene.primitives[i][6] = f.attributes.getNamedItem("y2").value;
+				this.scene.primitives[i][7] = f.attributes.getNamedItem("z2").value;
+				this.scene.primitives[i][8] = f.attributes.getNamedItem("x3").value;
+				this.scene.primitives[i][9] = f.attributes.getNamedItem("y3").value;
+				this.scene.primitives[i][10] = f.attributes.getNamedItem("z3").value;
 				this.primitives[i] = this.scene.primitives[i];
+				
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
+				var triangle = new MyTriangle(this.scene,parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseFloat(this.scene.primitives[i][4]),parseFloat(this.scene.primitives[i][5]),parseFloat(this.scene.primitives[i][6]),parseFloat(this.scene.primitives[i][7]),parseFloat(this.scene.primitives[i][8]),parseFloat(this.scene.primitives[i][9]),parseFloat(this.scene.primitives[i][10]));
+				this.primitives[e.id] = triangle;
 			}
 			else if (f.tagName == "cylinder") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("base").value;

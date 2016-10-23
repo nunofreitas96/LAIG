@@ -277,15 +277,14 @@
 	<components>
 		<component id = "root">
 			<transformation>
+				<transformation id="LWallT">
 			</transformation>
 			<materials>
 				<material id = "2" />
 			</materials>
 			<texture id = "none" />
 			<children>
-				
-				<componentref id = "Bush1" />
-				<componentref id = "UnitCubeQuad5"/>
+				<componentref id = "UnitCubeQuad1"/>
 			</children>
 		</component>
 		<component id ="Floor">

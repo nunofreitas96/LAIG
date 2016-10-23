@@ -72,14 +72,15 @@ XMLscene.prototype.processaGrafo= function(nodeName){
 
     if (node.primitive != null) {
       this.pushMatrix();
-      console.log("\t\t\t"+nodeName+" "+node.primitive);
-      console.log(this.graph.primitives[node.primitive]);
+      console.log("XML transf "+node.m);
+      this.multMatrix(node.m);
       this.graph.primitives[node.primitive].display();
       this.popMatrix();
     }
 
     for(var i = 0; i < node.children.length; i++){
       this.pushMatrix();    // comecamos a processar o descendente
+      this.multMatrix(node.m);
       //this.applyMaterial(material);
       this.processaGrafo(node.children[i]);
       this.popMatrix();     // recuperamos o descendente

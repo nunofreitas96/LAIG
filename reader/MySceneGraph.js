@@ -20,6 +20,7 @@ function MySceneGraph(filename, scene) {
 
 	this.primitives = {};
 	this.materials = {};
+	this.transformations = {};
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -476,16 +477,22 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 
 		var descNN = e.children.length;
 
+		//TODO problema aqui
+
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
+
+			var matrix = mat4.create();
 
 			if (f.tagName == "translate") {
 				this.scene.transformations[i].translate = [];
 				this.scene.transformations[i][1] = "translate";
-				this.scene.transformations[i].translate[0] = f.attributes.getNamedItem('x').value;
-				this.scene.transformations[i].translate[1] = f.attributes.getNamedItem('y').value;
-				this.scene.transformations[i].translate[2] = f.attributes.getNamedItem('z').value;
+				this.scene.transformations[i].translate[0] = parseFloat(f.attributes.getNamedItem('x').value);
+				this.scene.transformations[i].translate[1] = parseFloat(f.attributes.getNamedItem('y').value);
+				this.scene.transformations[i].translate[2] = parseFloat(f.attributes.getNamedItem('z').value);
 				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].translate[0]+" y:"+this.scene.transformations[i].translate[1]+" z:"+this.scene.transformations[i].translate[2]);
+				var coords = [this.scene.transformations[i].translate[0], this.scene.transformations[i].translate[1], this.scene.transformations[i].translate[2]];
+				mat4.translate(matrix, matrix, coords);
 			}
 			else if (f.tagName == "rotate") {
 				this.scene.transformations[i].rotate = [];
@@ -493,15 +500,31 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 				this.scene.transformations[i].rotate[0] = f.attributes.getNamedItem('axis').value;
 				this.scene.transformations[i].rotate[1] = f.attributes.getNamedItem('angle').value;
 				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") axis:"+this.scene.transformations[i].rotate[0]+" angle:"+this.scene.transformations[i].rotate[1]);
+				var angle = parseFloat(this.scene.transformations[i].rotate[1]) * (Math.PI/180);
+				var coords;
+				if (this.scene.transformations[i].rotate[0] == "x") {
+					coords = [1, 0, 0];
+				}
+				else if (this.scene.transformations[i].rotate[0] == "y") {
+					coords = [0, 1, 0];
+				}
+				else if (this.scene.transformations[i].rotate[0] == "z") {
+					coords = [0, 0, 1];
+				}
+				mat4.translate(matrix, matrix, angle, coords);
 			}
 			else if (f.tagName == "scale") {
 				this.scene.transformations[i].scale = [];
 				this.scene.transformations[i][1] = "scale";
-				this.scene.transformations[i].scale[0] = f.attributes.getNamedItem('x').value;
-				this.scene.transformations[i].scale[1] = f.attributes.getNamedItem('y').value;
-				this.scene.transformations[i].scale[2] = f.attributes.getNamedItem('z').value;
+				this.scene.transformations[i].scale[0] = parseFloat(f.attributes.getNamedItem('x').value);
+				this.scene.transformations[i].scale[1] = parseFloat(f.attributes.getNamedItem('y').value);
+				this.scene.transformations[i].scale[2] = parseFloat(f.attributes.getNamedItem('z').value);
 				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].scale[0]+" y:"+this.scene.transformations[i].scale[1]+" z:"+this.scene.transformations[i].scale[2]);
+				var coords = [this.scene.transformations[i].scale[0], this.scene.transformations[i].scale[1], this.scene.transformations[i].scale[2]];
+				mat4.scale(matrix, matrix, coords);
 			}
+
+			this.transformations[e.id] = matrix;
 		}
 	}
 	if (ids.length == 0) {
@@ -667,15 +690,15 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 						break;
 					}// TODO test this:
 					else if (g.tagName == "translate") {
-						this.scene.components[i].transformation.push(["translate", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value]);
+						this.scene.components[i].transformation.push(["translate", parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value)]);
 						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 					else if (g.tagName == "rotate") {
-						this.scene.components[i].transformation.push(["rotate", g.attributes.getNamedItem('axis').value, g.attributes.getNamedItem('angle').value]);
+						this.scene.components[i].transformation.push(["rotate", g.attributes.getNamedItem('axis').value, parseFloat(g.attributes.getNamedItem('angle').value)]);
 						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 					else if (g.tagName == "scale") {
-						this.scene.components[i].transformation.push(["scale", g.attributes.getNamedItem('x').value, g.attributes.getNamedItem('y').value, g.attributes.getNamedItem('z').value]);
+						this.scene.components[i].transformation.push(["scale", parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value)]);
 						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
 					}
 				}
@@ -713,6 +736,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 	return;
 }
 
+
 MySceneGraph.prototype.buildGraph = function(){
 	//console.log(this.scene.components.length);
 	for (var i = 0; i < this.scene.components.length; i++) {
@@ -729,7 +753,46 @@ MySceneGraph.prototype.buildGraph = function(){
 		// material <- o primeiro material
 		this[no].material = this.scene.components[i].materials[0];
 
-		// TODO matriz tranformacao m
+		// transformacoes
+		var matrix= mat4.create();
+		this[no].m = matrix;
+		for (var j = 0; j < this.scene.components[i].transformation.length; j++) {
+			var matrix = mat4.create();
+			var matrix2 = this[no].m;
+			if(typeof this.scene.components[i].transformation[j] != 'undefined'){
+				console.log("TRANFS ("+no+") "+this.scene.components[i].transformation[j]);
+				if(this.scene.components[i].transformation[j][0] == "transformationref"){
+					matrix = this.transformations[this.scene.components[i].transformation[0][1]];
+					console.log("ref "+ matrix);
+				}
+				else if (this.scene.components[i].transformation[j][0] == "translate") {
+					var coords = [this.scene.components[i].transformation[j][1], this.scene.components[i].transformation[j][2], this.scene.components[i].transformation[j][3]];
+					mat4.translate(matrix, matrix2, coords);
+					console.log("trans "+ matrix);
+				}
+				else if (this.scene.components[i].transformation[j][0] == "scale") {
+					var coords = [this.scene.components[i].transformation[j][1], this.scene.components[i].transformation[j][2], this.scene.components[i].transformation[j][3]];
+					mat4.scale(matrix, matrix2, coords);
+					console.log("scale "+matrix);
+				}
+				else if (this.scene.components[i].transformation[j][0] == "rotate") {
+					var coords;
+					if (this.scene.components[i].transformation[j][1] == "x") {
+						coords = [1, 0, 0];
+					}
+					else if (this.scene.components[i].transformation[j][1] == "y") {
+						coords = [0, 1, 0];
+					}
+					else if (this.scene.components[i].transformation[j][1] == "z") {
+						coords = [0, 0, 1];
+					}
+					mat4.rotate(matrix,matrix2, parseFloat(this.scene.components[i].transformation[j][2])*(Math.PI/180), coords);
+					console.log("rot "+matrix);
+				}
+			}
+			console.log(matrix);
+			this[no].m = matrix;
+		}
 
 		// texture
 		this[no].texture = this.scene.components[i].texture;

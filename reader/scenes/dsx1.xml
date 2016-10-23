@@ -262,7 +262,7 @@
 		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="1" y2="1" />
 		</primitive>
-		<primitive id="triangulo">
+		<primitive id="triangle">
 			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0.5" y3="1" z3="0"/>
 		</primitive>
 		<primitive id="cilindro">
@@ -290,6 +290,8 @@
 				<componentref id="PlaneWall" />
 				<componentref id="Poster" />
 				<componentref id="Table" />
+				<componentref id="Torus" />
+				<componentref id="Pyramid" />
 			</children>
 		</component>
 		<component id ="Floor">
@@ -481,7 +483,7 @@
 			</materials>
 
 			<children>
-				<primitiveref id = "triangulo"/>
+				<primitiveref id = "triangle"/>
 			</children>
 		</component>
 

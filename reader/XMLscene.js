@@ -13,7 +13,7 @@ XMLscene.prototype.init = function (application) {
 
   this.initCameras();
 
-  this.initLights();
+
 
   this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -27,9 +27,63 @@ XMLscene.prototype.init = function (application) {
 
 XMLscene.prototype.initLights = function () {
 
-  this.lights[0].setPosition(2, 3, 3, 1);
+  /*this.lights[0].setPosition(2, 3, 3, 1);
   this.lights[0].setDiffuse(1.0,1.0,1.0,1.0);
-  this.lights[0].update();
+  this.lights[0].update();*/
+  for(var i =0; i < this.light.length; i++){
+    console.log(this.light[i]);
+    console.log(this.light[i][0]);
+    if(this.light[i][0] == "omni"){
+      console.log("ailmao");
+      console.log(this.lights[i]);
+      this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),parseFloat(this.light[i].location[3]));
+      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
+      this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
+      this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
+
+      if(this.light[i][2] == "true"){
+        this.lights[i].enable();
+      }
+      //this.myInterface.addLightBox(i,this.light[i][1]);
+
+      this.lights[i].setVisible(true);
+      for(var j =0; j < this.lights.length; i++){
+      this.lights[i].update();}
+
+
+
+
+
+    }
+
+     if(this.light[i][0] == "spot"){
+
+      console.log(this.lights[i]);
+      this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),1);
+      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
+      this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
+      this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
+      //this.lights[i].setPosition(parseFloat(this.light[i].target[0]),parseFloat(this.light[i].target[1]),parseFloat(this.light[i].target[2]));
+      console.log(this.lights[i]);
+      if(this.light[i][2] == "true"){
+        this.lights[i].enable();
+      }
+      //this.myInterface.addLightBox(i,this.light[i][1]);
+
+      this.lights[i].setVisible(true);
+      this.lights[i].update();
+
+
+
+
+
+    }
+
+
+  }
+
+
+
 };
 
 XMLscene.prototype.initCameras = function () {
@@ -47,12 +101,16 @@ XMLscene.prototype.setDefaultAppearance = function () {
 // As loading is asynchronous, this may be called already after the application has started the run loop
 XMLscene.prototype.onGraphLoaded = function ()
 {
+
+
   //TODO
   /*
   this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
   this.lights[0].setVisible(true);
   this.lights[0].enable();
   */
+
+   this.initLights();
 };
 
 XMLscene.prototype.processaGrafo= function(nodeName){
@@ -72,8 +130,10 @@ XMLscene.prototype.processaGrafo= function(nodeName){
 
     if (node.primitive != null) {
       this.pushMatrix();
-      //console.log("XML transf "+node.m);
       this.multMatrix(node.m);
+      console.log("\t\t\t"+nodeName+" "+node.primitive);
+      console.log(this.graph.primitives[node.primitive]);
+      console.log(this.graph.omnilights[1]);
       this.graph.primitives[node.primitive].display();
       this.popMatrix();
     }

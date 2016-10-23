@@ -21,6 +21,8 @@ function MySceneGraph(filename, scene) {
 	this.primitives = {};
 	this.materials = {};
 	this.transformations = {};
+	this.omnilights = [];
+	this.spotlights = [];
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -262,6 +264,7 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 			this.scene.light[i].specular[2] = e.children[3].attributes.getNamedItem('b').value;
 			this.scene.light[i].specular[3] = e.children[3].attributes.getNamedItem('a').value;
 			console.log("\t specular r:"+this.scene.light[i].specular[0]+" g:"+this.scene.light[i].specular[1]+" b:"+this.scene.light[i].specular[2]+" a:"+this.scene.light[i].specular[3]);
+
 		}
 		else if (e.tagName == "spot") {
 			this.scene.light[i][0] = "spot";
@@ -584,10 +587,18 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 			else if (f.tagName == "triangle") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("x1").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("y1").value;
-				this.scene.primitives[i][4] = f.attributes.getNamedItem("x2").value;
-				this.scene.primitives[i][5] = f.attributes.getNamedItem("y2").value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem("z1").value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem("x2").value;
+				this.scene.primitives[i][6] = f.attributes.getNamedItem("y2").value;
+				this.scene.primitives[i][7] = f.attributes.getNamedItem("z2").value;
+				this.scene.primitives[i][8] = f.attributes.getNamedItem("x3").value;
+				this.scene.primitives[i][9] = f.attributes.getNamedItem("y3").value;
+				this.scene.primitives[i][10] = f.attributes.getNamedItem("z3").value;
 				this.primitives[i] = this.scene.primitives[i];
+
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") x1:"+this.scene.primitives[i][2]+" y1:"+this.scene.primitives[i][3]+" x2:"+this.scene.primitives[i][4]+" y2:"+this.scene.primitives[i][5]);
+				var triangle = new MyTriangle(this.scene,parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseFloat(this.scene.primitives[i][4]),parseFloat(this.scene.primitives[i][5]),parseFloat(this.scene.primitives[i][6]),parseFloat(this.scene.primitives[i][7]),parseFloat(this.scene.primitives[i][8]),parseFloat(this.scene.primitives[i][9]),parseFloat(this.scene.primitives[i][10]));
+				this.primitives[e.id] = triangle;
 			}
 			else if (f.tagName == "cylinder") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("base").value;
@@ -597,13 +608,15 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
 				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") base:"+this.scene.primitives[i][2]+" top:"+this.scene.primitives[i][3]+" height:"+this.scene.primitives[i][4]+" slices:"+this.scene.primitives[i][5]+" stacks:"+this.scene.primitives[i][6]);
+				var cyl = new MyCylinder(this.scene,parseFloat(this.scene.primitives[i][4]),parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseFloat(this.scene.primitives[i][6]),parseFloat(this.scene.primitives[i][5]) );
+				this.primitives[e.id] = cyl;
 			}
 			else if (f.tagName == "sphere") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("radius").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
 				//this.primitives[i] = this.scene.primitives[i];
-				var sphere = new MySphere(this.scene,this.scene.primitives[i][2],this.scene.primitives[i][3], this.scene.primitives[i][4]);
+				var sphere = new MySphere(this.scene,parseInt(this.scene.primitives[i][2]),parseInt(this.scene.primitives[i][3]), parseInt(this.scene.primitives[i][4]));
 				this.primitives[e.id] = sphere;
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") radius:"+this.scene.primitives[i][2]+" slices:"+this.scene.primitives[i][3]+" stacks:"+this.scene.primitives[i][4]);
 			}
@@ -614,7 +627,7 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][5] = f.attributes.getNamedItem("loops").value;
 				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+" inner:"+this.scene.primitives[i][2]+" outer:"+this.scene.primitives[i][3]+" slices:"+this.scene.primitives[i][4]+" stacks:"+this.scene.primitives[i][5]);
-				var torus = new MyTorus(this.scene,this.scene.primitives[i][2],this.scene.primitives[i][3],this.scene.primitives[i][4]    );
+				var torus = new MyTorus(this.scene,parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseInt(this.scene.primitives[i][4]),parseInt(this.scene.primitives[i][5]));
 				this.primitives[e.id] = torus;
 			}
 		}

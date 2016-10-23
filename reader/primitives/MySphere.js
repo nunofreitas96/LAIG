@@ -2,9 +2,9 @@
  * MySphere
  * @constructor
  */
- function MySphere(scene, slices, stacks) {
+ function MySphere(scene, radius,slices, stacks) {
  	CGFobject.call(this,scene);
-	
+	this.radius = radius;
 	this.slices = slices;
 	this.stacks = stacks;
 
@@ -34,8 +34,8 @@
 		for (i = 1; i <= this.slices; i++) {
 			var zangle = this.angle*i;
 			var hangle = j*(Math.PI)/this.stacks;
-			var x = Math.sin(zangle) * Math.sin(hangle);
-			var y = Math.cos(zangle) * Math.sin(hangle);
+			var x = this.radius*Math.sin(zangle) * Math.sin(hangle);
+			var y = this.radius*Math.cos(zangle) * Math.sin(hangle);
 			var z = Math.cos(hangle);
     		this.vertices.push(x,y,z);
     		this.normals.push(x,y,z);

@@ -283,14 +283,9 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id= "Floor" />
-				<componentref id= "LeftWall" />
-				<componentref id= "PlaneWall" />
-				<componentref id = "Pyramid" />
-				<componentref id = "Torus" />
-				<componentref id = "Poster" />
-				<componentref id = "Table" />
-				<componentref id = "Bush" />
+				
+				<componentref id = "Bush1" />
+				<componentref id = "UnitCubeQuad5"/>
 			</children>
 		</component>
 		<component id ="Floor">

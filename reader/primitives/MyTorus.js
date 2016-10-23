@@ -2,6 +2,8 @@
  * MyTorus
  * @constructor
  */
+
+ 
 function MyTorus(scene, radius, tube, slices, stacks) {
 	CGFobject.call(this, scene);
 	this.radius = radius;

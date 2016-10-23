@@ -573,7 +573,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("radius").value;
 				this.scene.primitives[i][3] = f.attributes.getNamedItem("slices").value;
 				this.scene.primitives[i][4] = f.attributes.getNamedItem("stacks").value;
-				this.primitives[i] = this.scene.primitives[i];
+				//this.primitives[i] = this.scene.primitives[i];
+				var sphere = new MySphere(this.scene,this.scene.primitives[i][2],this.scene.primitives[i][3], this.scene.primitives[i][4]);
+				this.primitives[e.id] = sphere;
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") radius:"+this.scene.primitives[i][2]+" slices:"+this.scene.primitives[i][3]+" stacks:"+this.scene.primitives[i][4]);
 			}
 			else if (f.tagName == "torus") {
@@ -583,6 +585,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][5] = f.attributes.getNamedItem("loops").value;
 				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+" inner:"+this.scene.primitives[i][2]+" outer:"+this.scene.primitives[i][3]+" slices:"+this.scene.primitives[i][4]+" stacks:"+this.scene.primitives[i][5]);
+				var torus = new MyTorus(this.scene,this.scene.primitives[i][2],this.scene.primitives[i][3],this.scene.primitives[i][4]    );
+				this.primitives[e.id] = torus;
 			}
 		}
 		else {

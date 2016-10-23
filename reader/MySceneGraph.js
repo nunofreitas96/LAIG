@@ -337,13 +337,20 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 			return 0;
 		}
 		ids[i] = e.id;
-		this.scene.textures[i] = [];
+		this.scene.textures[e.attributes.getNamedItem('id').value] = {
+			file: e.attributes.getNamedItem('file').value,
+			length_s: e.attributes.getNamedItem('length_s').value,
+			length_t: e.attributes.getNamedItem('length_t').value
+		};
+		/*
 		this.scene.textures[i][0]=e.attributes.getNamedItem('id').value;
 		this.scene.textures[i][1]=e.attributes.getNamedItem('file').value;
 		this.scene.textures[i][2]=e.attributes.getNamedItem('length_s').value;
 		this.scene.textures[i][3]=e.attributes.getNamedItem('length_t').value;
+		*/
 		//var t= new Texture(this.scene.textures[i][0],this.scene.textures[i][1],this.scene.textures[i][2],this.scene.textures[i][3]);
-		console.log("\ttexture ("+this.scene.textures[i][0]+") file:"+this.scene.textures[i][1]+" length_s:"+this.scene.textures[i][2]+" length_t:"+this.scene.textures[i][3]);
+		//console.log("\ttexture ("+this.scene.textures[i][0]+") file:"+this.scene.textures[i][1]+" length_s:"+this.scene.textures[i][2]+" length_t:"+this.scene.textures[i][3]);
+		console.log("\ttexture ("+e.id+") file:"+this.scene.textures[e.id].file+" length_s:"+this.scene.textures[e.id].length_s+" length_t:"+this.scene.textures[e.id].length_t);
 	}
 
 	if (ids.length == 0) {

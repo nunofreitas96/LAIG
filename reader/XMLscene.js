@@ -72,7 +72,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
 
     if (node.primitive != null) {
       this.pushMatrix();
-      console.log("XML transf "+node.m);
+      //console.log("XML transf "+node.m);
       this.multMatrix(node.m);
       this.graph.primitives[node.primitive].display();
       this.popMatrix();

@@ -116,7 +116,7 @@
 
 		<transformation id="PosterT">
 			<rotate axis="y" angle="90" />
-			<translate x="-7.5" y="4.5" z="0.1" />
+			<translate x="-8.75" y="2.5" z="0.1" />
 			<scale x="2.5" y="4" z="1" />
 		</transformation>
 
@@ -131,11 +131,11 @@
 		</transformation>
 
 		<transformation id="quad1T">
-			<translate x="0" y="0" z="0.5" />
+			<translate x="-.5" y="-.5" z="0.5" />
 		</transformation>
 
 		<transformation id="quad2T">
-			<translate x="0" y="0" z="-0.5" />
+			<translate x="-.5" y="0" z="-0.5" />
 			<rotate axis="x" angle="-90"/>
 			<translate x="0" y="0" z="0.5" />
 			<rotate axis="z" angle="-90"/>
@@ -143,29 +143,26 @@
 		</transformation>
 
 		<transformation id="quad3T">
-			<translate x="0" y="0" z="-1" />
+			<translate x="-.5" y="-.5" z="-.5" />
 			<rotate axis="y" angle="180"/>
 			<rotate axis="z" angle="90"/>
 		</transformation>
 
 		<transformation id="quad4T">
-			<translate x="0" y="0" z="-0.5" />
+			<translate x="-.5" y="0" z=".5" />
 			<rotate axis="x" angle="90"/>
 			<translate x="0" y="0" z="0.5" />
 			<rotate axis="z" angle="270"/>
 		</transformation>
 
 		<transformation id="quad5T">
-			<translate x="0" y="0" z="-0.5" />
-			<rotate axis="x" angle="270"/>
-			<translate x="0" y="0" z="0.5" />
+			<translate x=".5" y="-.5" z=".5" />
+			<rotate axis="y" angle="90" />
 		</transformation>
 
 		<transformation id="quad6T">
-			<translate x="0" y="0" z="-1" />
-			<rotate axis="y" angle="90"/>
-			<rotate axis="z" angle="360"/>
-			<rotate axis="y" angle="90"/>
+			<translate x="-.5" y="-.5" z="-.5" />
+			<rotate axis="y" angle="-90"/>
 		</transformation>
 
 		<transformation id="BushBaseT">
@@ -285,6 +282,8 @@
 				<componentref id="Floor" />
 				<componentref id="LeftWall" />
 				<componentref id="PlaneWall" />
+				<componentref id="Poster" />
+				<componentref id="Table" />
 			</children>
 		</component>
 		<component id ="Floor">

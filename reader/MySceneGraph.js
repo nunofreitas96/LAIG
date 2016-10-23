@@ -20,6 +20,8 @@ function MySceneGraph(filename, scene) {
 
 	this.primitives = {};
 	this.materials = {};
+	this.omnilights = [];
+	this.spotlights = [];
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -261,6 +263,7 @@ MySceneGraph.prototype.parseLights = function(rootElement){
 			this.scene.light[i].specular[2] = e.children[3].attributes.getNamedItem('b').value;
 			this.scene.light[i].specular[3] = e.children[3].attributes.getNamedItem('a').value;
 			console.log("\t specular r:"+this.scene.light[i].specular[0]+" g:"+this.scene.light[i].specular[1]+" b:"+this.scene.light[i].specular[2]+" a:"+this.scene.light[i].specular[3]);
+
 		}
 		else if (e.tagName == "spot") {
 			this.scene.light[i][0] = "spot";
@@ -576,6 +579,8 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][6] = f.attributes.getNamedItem("stacks").value;
 				this.primitives[i] = this.scene.primitives[i];
 				console.log("\tprimitive "+this.scene.primitives[i][0]+" ("+this.scene.primitives[i][1]+") base:"+this.scene.primitives[i][2]+" top:"+this.scene.primitives[i][3]+" height:"+this.scene.primitives[i][4]+" slices:"+this.scene.primitives[i][5]+" stacks:"+this.scene.primitives[i][6]);
+				var cyl = new MyCylinder(this.scene,parseFloat(this.scene.primitives[i][4]),parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseFloat(this.scene.primitives[i][6]),parseFloat(this.scene.primitives[i][5]) );
+				this.primitives[e.id] = cyl;
 			}
 			else if (f.tagName == "sphere") {
 				this.scene.primitives[i][2] = f.attributes.getNamedItem("radius").value;

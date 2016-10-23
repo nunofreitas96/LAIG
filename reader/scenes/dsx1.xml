@@ -227,29 +227,26 @@
 		</transformation>
 
 		<transformation id="triangle1T">
-			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="y" angle="30"/>
-			<translate  x="0.5" y ="0.5" z="1" />
+			<translate  x="0" y ="0" z="0" />
+			<rotate axis="x" angle="-30" />
 		</transformation>
 
 		<transformation id="triangle2T">
-			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="y" angle="-30"/>
-			<translate  x="0.5" y ="0.5" z="1" />
+			<translate  x="1" y ="0" z="0" />
+			<rotate axis="y" angle="90" />
+			<rotate axis="x" angle="-30" />
 		</transformation>
 
 		<transformation id="triangle3T">
-			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="z" angle="90"/>
+			<translate x="0" y="0" z="-1" />
+			<rotate axis="y" angle="-90"/>
 			<rotate axis="x" angle="-30"/>
-			<translate  x="0.5" y ="0.5" z="1" />
 		</transformation>
 
 		<transformation id="triangle4T">
-			<translate  x="0" y ="-0.5" z="-1" />
-			<rotate axis="z" angle="90"/>
-			<rotate axis="x" angle="30"/>
-			<translate  x="0.5" y ="0.5" z="1" />
+			<translate x="1" y="0" z="-1" />
+			<rotate axis="y" angle="180"/>
+			<rotate axis="x" angle="-30"/>
 		</transformation>
 
 		<transformation id="pyramidT">
@@ -272,7 +269,7 @@
 			<sphere radius="1" slices="100" stacks="100" />
 		</primitive>
 		<primitive id="torus">
-			<torus inner=".75" outer=".4" slices="100" loops="100" />
+			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
 	</primitives>
 
@@ -292,6 +289,7 @@
 				<componentref id="Table" />
 				<componentref id="Torus" />
 				<componentref id="Pyramid" />
+				<componentref id="Bush" />
 			</children>
 		</component>
 		<component id ="Floor">
@@ -515,7 +513,7 @@
 				<material id="1" />
 			</materials>
 			<children>
-				<primitiveref id ="rectangle"/>
+				<componentref id="UnitCubeQuad" />
 			</children>
 		</component>
 
@@ -585,6 +583,8 @@
 
 		<component id="Bush">
 			<transformation>
+				<translate x="5" y="2.15" z="8" />
+				<scale x=".2" y=".2" z=".2" />
 			</transformation>
 			<materials>
 				<material id="inherit" />

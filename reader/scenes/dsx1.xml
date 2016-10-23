@@ -90,19 +90,18 @@
 
 	<transformations>
 		<transformation id="floorT">
-			<translate x="7.5" y="0" z="7.5" />
+			<translate x="0" y="0" z="15" />
 			<rotate axis="x" angle="-90" />
 			<scale x="15" y="15" z="0.2" />
 		</transformation>
 
 		<transformation id="LWallT">
-			<translate x="0" y="4" z="7.5" />
+			<translate x="0" y="0" z="15" />
 			<rotate axis="y" angle="90" />
 			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
 		<transformation id="PWallT">
-			<translate x="7.5" y="4" z="0" />
 			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
@@ -277,14 +276,15 @@
 	<components>
 		<component id = "root">
 			<transformation>
-				<transformation id="LWallT">
 			</transformation>
 			<materials>
 				<material id = "2" />
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id = "UnitCubeQuad1"/>
+				<componentref id="Floor" />
+				<componentref id="LeftWall" />
+				<componentref id="PlaneWall" />
 			</children>
 		</component>
 		<component id ="Floor">

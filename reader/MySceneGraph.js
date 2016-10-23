@@ -83,7 +83,7 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 		return 0;
 	}
 	this.buildGraph();
-	console.log("AQUI: "+this["LeftWall"].primitive);
+	//console.log("AQUI: "+this["LeftWall"].primitive);
 	return;
 }
 
@@ -477,12 +477,16 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 
 		var descNN = e.children.length;
 
-		//TODO problema aqui
+		//TO
+
+		var matrix = mat4.create();
+		this.transformations[e.id] = matrix;
 
 		for (var j = 0; j < descNN; j++) {
 			var f = e.children[j];
 
 			var matrix = mat4.create();
+			var matrix2 = this.transformations[e.id];
 
 			if (f.tagName == "translate") {
 				this.scene.transformations[i].translate = [];
@@ -492,7 +496,8 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 				this.scene.transformations[i].translate[2] = parseFloat(f.attributes.getNamedItem('z').value);
 				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].translate[0]+" y:"+this.scene.transformations[i].translate[1]+" z:"+this.scene.transformations[i].translate[2]);
 				var coords = [this.scene.transformations[i].translate[0], this.scene.transformations[i].translate[1], this.scene.transformations[i].translate[2]];
-				mat4.translate(matrix, matrix, coords);
+				mat4.translate(matrix, matrix2, coords);
+				console.log("\t\tmatrix: "+matrix);
 			}
 			else if (f.tagName == "rotate") {
 				this.scene.transformations[i].rotate = [];
@@ -511,7 +516,8 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 				else if (this.scene.transformations[i].rotate[0] == "z") {
 					coords = [0, 0, 1];
 				}
-				mat4.translate(matrix, matrix, angle, coords);
+				mat4.rotate(matrix, matrix2, angle, coords);
+				console.log("\t\tmatrix "+matrix);
 			}
 			else if (f.tagName == "scale") {
 				this.scene.transformations[i].scale = [];
@@ -521,7 +527,7 @@ MySceneGraph.prototype.parseTransformations = function(rootElement){	//TODO
 				this.scene.transformations[i].scale[2] = parseFloat(f.attributes.getNamedItem('z').value);
 				console.log("\ttransformation "+  this.scene.transformations[i][1]+" ("+this.scene.transformations[i][0]+") x:"+this.scene.transformations[i].scale[0]+" y:"+this.scene.transformations[i].scale[1]+" z:"+this.scene.transformations[i].scale[2]);
 				var coords = [this.scene.transformations[i].scale[0], this.scene.transformations[i].scale[1], this.scene.transformations[i].scale[2]];
-				mat4.scale(matrix, matrix, coords);
+				mat4.scale(matrix, matrix2, coords);
 			}
 
 			this.transformations[e.id] = matrix;
@@ -687,7 +693,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 					if(g.tagName == "transformationref"){
 						this.scene.components[i].transformation.push(["transformationref", g.attributes.getNamedItem('id').value]);
 						console.log("\t\t\t"+this.scene.components[i].transformation[this.scene.components[i].transformation.length -1]);
-						break;
+						//continue;
 					}// TODO test this:
 					else if (g.tagName == "translate") {
 						this.scene.components[i].transformation.push(["translate", parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value)]);

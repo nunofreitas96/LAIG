@@ -19,10 +19,6 @@ serialInclude([ '../lib/CGF.js',
                 'primitives/MySphere.js',
                 'primitives/MyTorus.js',
                 'primitives/MyTriangle.js',
-                // TODO descomentar assim que estiverem criadas
-                //'primitives/MyTriangle.js',
-                //'primitives/MyCylinderSurface.js',
-                //'primitives/MyCylinderCircle.js',
 
 main=function()
 {

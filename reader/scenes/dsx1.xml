@@ -96,19 +96,18 @@
 
 	<transformations>
 		<transformation id="floorT">
-			<translate x="7.5" y="0" z="7.5" />
+			<translate x="0" y="0" z="15" />
 			<rotate axis="x" angle="-90" />
 			<scale x="15" y="15" z="0.2" />
 		</transformation>
 
 		<transformation id="LWallT">
-			<translate x="0" y="4" z="7.5" />
+			<translate x="0" y="0" z="15" />
 			<rotate axis="y" angle="90" />
 			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
 		<transformation id="PWallT">
-			<translate x="7.5" y="4" z="0" />
 			<scale x="15" y="8" z="0.2" />
 		</transformation>
 
@@ -123,7 +122,7 @@
 
 		<transformation id="PosterT">
 			<rotate axis="y" angle="90" />
-			<translate x="-7.5" y="4.5" z="0.1" />
+			<translate x="-8.75" y="2.5" z="0.1" />
 			<scale x="2.5" y="4" z="1" />
 		</transformation>
 
@@ -138,11 +137,11 @@
 		</transformation>
 
 		<transformation id="quad1T">
-			<translate x="0" y="0" z="0.5" />
+			<translate x="-.5" y="-.5" z="0.5" />
 		</transformation>
 
 		<transformation id="quad2T">
-			<translate x="0" y="0" z="-0.5" />
+			<translate x="-.5" y="0" z="-0.5" />
 			<rotate axis="x" angle="-90"/>
 			<translate x="0" y="0" z="0.5" />
 			<rotate axis="z" angle="-90"/>
@@ -150,29 +149,26 @@
 		</transformation>
 
 		<transformation id="quad3T">
-			<translate x="0" y="0" z="-1" />
+			<translate x="-.5" y="-.5" z="-.5" />
 			<rotate axis="y" angle="180"/>
 			<rotate axis="z" angle="90"/>
 		</transformation>
 
 		<transformation id="quad4T">
-			<translate x="0" y="0" z="-0.5" />
+			<translate x="-.5" y="0" z=".5" />
 			<rotate axis="x" angle="90"/>
 			<translate x="0" y="0" z="0.5" />
 			<rotate axis="z" angle="270"/>
 		</transformation>
 
 		<transformation id="quad5T">
-			<translate x="0" y="0" z="-0.5" />
-			<rotate axis="x" angle="270"/>
-			<translate x="0" y="0" z="0.5" />
+			<translate x=".5" y="-.5" z=".5" />
+			<rotate axis="y" angle="90" />
 		</transformation>
 
 		<transformation id="quad6T">
-			<translate x="0" y="0" z="-1" />
-			<rotate axis="y" angle="90"/>
-			<rotate axis="z" angle="360"/>
-			<rotate axis="y" angle="90"/>
+			<translate x="-.5" y="-.5" z="-.5" />
+			<rotate axis="y" angle="-90"/>
 		</transformation>
 
 		<transformation id="BushBaseT">
@@ -266,7 +262,7 @@
 		<primitive id="rectangle">
 			<rectangle x1="0" y1="0" x2="1" y2="1" />
 		</primitive>
-		<primitive id="triangulo">
+		<primitive id="triangle">
 			<triangle x1="0" y1="0" z1="0" x2="1" y2="0" z2="0" x3="0.5" y3="1" z3="0"/>
 		</primitive>
 		<primitive id="cilindro">
@@ -289,9 +285,13 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				
-				
-				<componentref id="BushTronco"/>
+				<componentref id="Floor" />
+				<componentref id="LeftWall" />
+				<componentref id="PlaneWall" />
+				<componentref id="Poster" />
+				<componentref id="Table" />
+				<componentref id="Torus" />
+				<componentref id="Pyramid" />
 			</children>
 		</component>
 		<component id ="Floor">
@@ -483,7 +483,7 @@
 			</materials>
 
 			<children>
-				<primitiveref id = "triangulo"/>
+				<primitiveref id = "triangle"/>
 			</children>
 		</component>
 

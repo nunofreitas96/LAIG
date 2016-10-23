@@ -13,7 +13,7 @@ XMLscene.prototype.init = function (application) {
 
   this.initCameras();
 
- 
+
 
   this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
@@ -37,10 +37,10 @@ XMLscene.prototype.initLights = function () {
       console.log("ailmao");
       console.log(this.lights[i]);
       this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),parseFloat(this.light[i].location[3]));
-      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));      
+      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
       this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
       this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
-     
+
       if(this.light[i][2] == "true"){
         this.lights[i].enable();
       }
@@ -50,17 +50,17 @@ XMLscene.prototype.initLights = function () {
       for(var j =0; j < this.lights.length; i++){
       this.lights[i].update();}
 
-      
+
 
 
 
     }
 
      if(this.light[i][0] == "spot"){
-     
+
       console.log(this.lights[i]);
       this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),1);
-      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));      
+      this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
       this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
       this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
       //this.lights[i].setPosition(parseFloat(this.light[i].target[0]),parseFloat(this.light[i].target[1]),parseFloat(this.light[i].target[2]));
@@ -130,6 +130,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
 
     if (node.primitive != null) {
       this.pushMatrix();
+      this.multMatrix(node.m);
       console.log("\t\t\t"+nodeName+" "+node.primitive);
       console.log(this.graph.primitives[node.primitive]);
       console.log(this.graph.omnilights[1]);
@@ -139,6 +140,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
 
     for(var i = 0; i < node.children.length; i++){
       this.pushMatrix();    // comecamos a processar o descendente
+      this.multMatrix(node.m);
       //this.applyMaterial(material);
       this.processaGrafo(node.children[i]);
       this.popMatrix();     // recuperamos o descendente

@@ -270,7 +270,7 @@
 			<sphere radius="1" slices="100" stacks="100" />
 		</primitive>
 		<primitive id="torus">
-			<torus inner=".75" outer=".7" slices="100" loops="100" />
+			<torus inner=".75" outer=".4" slices="100" loops="100" />
 		</primitive>
 	</primitives>
 
@@ -284,8 +284,8 @@
 			<texture id = "none" />
 			<children>
 				
-				<componentref id = "Bush1" />
-				<componentref id = "UnitCubeQuad5"/>
+				
+				<componentref id="Torus"/>
 			</children>
 		</component>
 		<component id ="Floor">

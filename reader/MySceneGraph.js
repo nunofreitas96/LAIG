@@ -337,11 +337,18 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 			return 0;
 		}
 		ids[i] = e.id;
+		/*
 		this.scene.textures[e.attributes.getNamedItem('id').value] = {
 			file: e.attributes.getNamedItem('file').value,
 			length_s: e.attributes.getNamedItem('length_s').value,
 			length_t: e.attributes.getNamedItem('length_t').value
 		};
+		*/
+		var file = e.attributes.getNamedItem('file').value;
+		var length_s = e.attributes.getNamedItem('length_s').value;
+		var length_t = e.attributes.getNamedItem('length_t').value;
+		this.scene.textures[e.id] = new CGFtexture(this.scene, file, length_t, length_s);
+		console.log("----> "+e.id+", "+this.scene.textures[e.id]);
 		/*
 		this.scene.textures[i][0]=e.attributes.getNamedItem('id').value;
 		this.scene.textures[i][1]=e.attributes.getNamedItem('file').value;
@@ -350,7 +357,7 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		*/
 		//var t= new Texture(this.scene.textures[i][0],this.scene.textures[i][1],this.scene.textures[i][2],this.scene.textures[i][3]);
 		//console.log("\ttexture ("+this.scene.textures[i][0]+") file:"+this.scene.textures[i][1]+" length_s:"+this.scene.textures[i][2]+" length_t:"+this.scene.textures[i][3]);
-		console.log("\ttexture ("+e.id+") file:"+this.scene.textures[e.id].file+" length_s:"+this.scene.textures[e.id].length_s+" length_t:"+this.scene.textures[e.id].length_t);
+		//console.log("\ttexture ("+e.id+") file:"+this.scene.textures[e.id].file+" length_s:"+this.scene.textures[e.id].length_s+" length_t:"+this.scene.textures[e.id].length_t);
 	}
 
 	if (ids.length == 0) {
@@ -438,8 +445,9 @@ MySceneGraph.prototype.parseMaterials = function(rootElement){
 			material.setDiffuse(this.scene.materials[e.id].diffuse[0], this.scene.materials[e.id].diffuse[1], this.scene.materials[e.id].diffuse[2], this.scene.materials[e.id].diffuse[3]);
 			material.setSpecular(this.scene.materials[e.id].specular[0], this.scene.materials[e.id].specular[1], this.scene.materials[e.id].specular[2], this.scene.materials[e.id].specular[3]);
 			material.setShininess(this.scene.materials[e.id].shininess);
-			console.log(e.id);
+			//console.log(e.id);
 			this.materials[e.id] = material;
+			//console.log("-----> "+this.materials[e.id].shininess);
 	}
 
 	if (ids.length == 0) {
@@ -778,6 +786,7 @@ MySceneGraph.prototype.buildGraph = function(){
 
 		// material <- o primeiro material
 		this[no].material = this.scene.components[i].materials[0];
+		//console.log("______"+this[no].material);
 
 		// transformacoes
 		var matrix= mat4.create();
@@ -786,20 +795,20 @@ MySceneGraph.prototype.buildGraph = function(){
 			var matrix = mat4.create();
 			var matrix2 = this[no].m;
 			if(typeof this.scene.components[i].transformation[j] != 'undefined'){
-				console.log("TRANFS ("+no+") "+this.scene.components[i].transformation[j]);
+				//console.log("TRANFS ("+no+") "+this.scene.components[i].transformation[j]);
 				if(this.scene.components[i].transformation[j][0] == "transformationref"){
 					matrix = this.transformations[this.scene.components[i].transformation[0][1]];
-					console.log("ref "+ matrix);
+					//console.log("ref "+ matrix);
 				}
 				else if (this.scene.components[i].transformation[j][0] == "translate") {
 					var coords = [this.scene.components[i].transformation[j][1], this.scene.components[i].transformation[j][2], this.scene.components[i].transformation[j][3]];
 					mat4.translate(matrix, matrix2, coords);
-					console.log("trans "+ matrix);
+					//console.log("trans "+ matrix);
 				}
 				else if (this.scene.components[i].transformation[j][0] == "scale") {
 					var coords = [this.scene.components[i].transformation[j][1], this.scene.components[i].transformation[j][2], this.scene.components[i].transformation[j][3]];
 					mat4.scale(matrix, matrix2, coords);
-					console.log("scale "+matrix);
+					//console.log("scale "+matrix);
 				}
 				else if (this.scene.components[i].transformation[j][0] == "rotate") {
 					var coords;
@@ -813,10 +822,10 @@ MySceneGraph.prototype.buildGraph = function(){
 						coords = [0, 0, 1];
 					}
 					mat4.rotate(matrix,matrix2, parseFloat(this.scene.components[i].transformation[j][2])*(Math.PI/180), coords);
-					console.log("rot "+matrix);
+					//console.log("rot "+matrix);
 				}
 			}
-			console.log(matrix);
+			//console.log(matrix);
 			this[no].m = matrix;
 		}
 

@@ -25,7 +25,7 @@
 
 
 	<lights>
-		<omni id="omni1" enabled="false" >
+		<omni id="omni1" enabled="true" >
 			<location x="2" y="1" z="1" w="0" />
 			<ambient r="1" g="1" b="1" a="0" />
 			<diffuse r="1" g="1" b="1" a="0" />
@@ -282,8 +282,8 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id="Floor" />
 				<componentref id="LeftWall" />
+				<componentref id="Floor" />
 				<componentref id="PlaneWall" />
 				<componentref id="Poster" />
 				<componentref id="Table" />
@@ -316,7 +316,7 @@
 				<material id="3" />
 			</materials>
 
-			<texture id = "inherit" />
+			<texture id = "none" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
@@ -445,7 +445,7 @@
 				<transformationref id = "triangle1T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 			<texture id = "inherit" />
 
@@ -502,7 +502,7 @@
 			<materials>
 				<material id="1" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id = "none" />
 			<children>
 				<componentref id="triangle1"/>
 				<componentref id="triangle2"/>
@@ -517,7 +517,7 @@
 				<transformationref id = "BushBaseT"/>
 			</transformation>
 
-			<texture id="bushA1" />
+			<texture id="bushA3" />
 
 			<materials>
 				<material id="1" />
@@ -551,7 +551,7 @@
 				<material id="1" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 			<children>
 				<primitiveref id ="esfera"/>
@@ -567,7 +567,7 @@
 				<material id="1" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 			<children>
 				<primitiveref id ="esfera"/>
@@ -583,7 +583,7 @@
 				<material id="1" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 
 			<children>
@@ -597,9 +597,9 @@
 				<scale x=".2" y=".2" z=".2" />
 			</transformation>
 			<materials>
-				<material id="inherit" />
+				<material id="1" />
 			</materials>
-			<texture id="inherit" />
+			<texture id="none" />
 			<children>
 				<componentref id="BushBase" />
 				<componentref id="BushTronco" />

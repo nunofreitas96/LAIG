@@ -120,7 +120,7 @@ XMLscene.prototype.onGraphLoaded = function ()
 
 XMLscene.prototype.processaGrafo= function(nodeName){
   var material = null;
-  var appearance = new CGFappearance(this);
+  //var appearance = new CGFtexture();
 
   if (nodeName!=null) {
     var node = this.graph[nodeName];
@@ -134,18 +134,28 @@ XMLscene.prototype.processaGrafo= function(nodeName){
         }
         else {
           material = this.materials[this.materials.length -1];
+          
         }
         //console.log(material);
-        material.apply();
+       
       }
     }
     //console.log(this.textures['tabelA'].file);
     //TODO nem todos os comps tem textures
     //TODO tratar de none
-    console.log("---> "+node.texture);
+    //console.log("---> "+node.texture);
     if (node.texture != "none" && node.texture != "inherit") {
       // TODO load fora desta func!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      //appearance.loadTexture(this.textures[node.texture].file);
+      console.log(this.textures[node.texture].file);
+      
+      /*appearance.setAmbient(material.ambient);
+      appearance.setDiffuse(material.diffuse);
+      appearance.setSpecular(material.specular);
+      appearance.setShininess(material.shininess);*/
+      material.loadTexture(this.textures[node.texture].file);
+       
+
+
     }
     //console.log(this.textures[node.texture]);
     //appearance.loadTexture(this.textures[node.texture].file);
@@ -155,7 +165,10 @@ XMLscene.prototype.processaGrafo= function(nodeName){
     if (node.primitive != null) {
       this.pushMatrix();
       this.multMatrix(node.m);
-     // appearance.apply();
+      material.apply();
+	  //console.log(appearance);
+      //appearance.apply();
+      console.log(node);
       this.graph.primitives[node.primitive].display();
       this.popMatrix();
     }
@@ -164,7 +177,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
       this.pushMatrix();    // comecamos a processar o descendente
       this.multMatrix(node.m);
       //this.applyMaterial(material);
-      appearance.apply();
+      //appearance.apply();
       this.processaGrafo(node.children[i]);
       this.popMatrix();     // recuperamos o descendente
     }

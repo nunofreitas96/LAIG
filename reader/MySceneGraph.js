@@ -13,7 +13,7 @@ function MySceneGraph(filename, scene) {
 	this.scene.transformations = [];
 	this.scene.illumination = [];
 	this.scene.light = [];
-	this.scene.textures = [];
+	this.scene.textures = {};
 	this.scene.materials=[];
 	this.scene.components = [];
 	this.scene.primitives = [];

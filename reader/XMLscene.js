@@ -114,6 +114,8 @@ XMLscene.prototype.onGraphLoaded = function ()
   this.lights[0].setVisible(true);
   this.lights[0].enable();
   */
+
+   this.initLights();
 };
 
 XMLscene.prototype.processaGrafo= function(nodeName){
@@ -143,7 +145,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
     console.log("---> "+node.texture);
     if (node.texture != "none" && node.texture != "inherit") {
       // TODO load fora desta func!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      appearance.loadTexture(this.textures[node.texture].file);
+      //appearance.loadTexture(this.textures[node.texture].file);
     }
     //console.log(this.textures[node.texture]);
     //appearance.loadTexture(this.textures[node.texture].file);
@@ -153,7 +155,7 @@ XMLscene.prototype.processaGrafo= function(nodeName){
     if (node.primitive != null) {
       this.pushMatrix();
       this.multMatrix(node.m);
-      appearance.apply();
+     // appearance.apply();
       this.graph.primitives[node.primitive].display();
       this.popMatrix();
     }

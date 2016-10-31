@@ -85,11 +85,10 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 		return 0;
 	}
 	this.buildGraph();
-	//console.log("AQUI: "+this["LeftWall"].primitive);
+
 	return;
 }
 
-// TODO se necessario converter de string para o tipo pedido
 
 MySceneGraph.prototype.parseSceneRoot = function(rootElement){
 	var sceneRoot = rootElement.getElementsByTagName('scene');

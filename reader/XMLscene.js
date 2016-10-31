@@ -25,7 +25,7 @@ XMLscene.prototype.init = function (application) {
 
   this.axis=new CGFaxis(this);
 
-  this.materials = [];
+  this.myMaterials = [];
   this.myTextures = [];
 };
 
@@ -44,7 +44,6 @@ XMLscene.prototype.initLights = function () {
       if(this.light[i][2] == "true"){
         this.lights[i].enable();
       }
-      //this.myInterface.addLightBox(i,this.light[i][1]);
 
       this.lights[i].setVisible(true);
       this.lights[i].update();
@@ -55,21 +54,17 @@ XMLscene.prototype.initLights = function () {
         this.enableLight[i] = false;
       }
       this.myInterface.lightBox(i,this.light[i][1]);
-
-
-
     }
 
     if(this.light[i][0] == "spot"){
-
-      console.log(this.lights[i]);
+      //console.log(this.lights[i]);
       this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),1);
       this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
       this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
       this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
       this.lights[i].setSpotDirection(parseFloat(this.light[i].target[0])- parseFloat(this.light[i].location[0]),parseFloat(this.light[i].target[1]) - parseFloat(this.light[i].location[1]),parseFloat(this.light[i].target[2]) - parseFloat(this.light[i].location[2]));
       //this.lights[i].setPosition(parseFloat(this.light[i].target[0]),parseFloat(this.light[i].target[1]),parseFloat(this.light[i].target[2]));
-      console.log(this.lights[i]);
+      //console.log(this.lights[i]);
       if(this.light[i][2] == "true"){
         this.lights[i].enable();
       }
@@ -77,20 +72,14 @@ XMLscene.prototype.initLights = function () {
 
       this.lights[i].setVisible(true);
       this.lights[i].update();
-
-      this.lights[i].update();
+      //this.lights[i].update();
       if(this.light[i][2] == "true"){
         this.enableLight[i] = true;
       }
       else{
         this.enableLight[i] = false;}
         this.myInterface.lightBox(i,this.light[i][1]);
-
-
-
       }
-
-
     }
   };
 
@@ -107,9 +96,7 @@ XMLscene.prototype.initLights = function () {
 
   // Handler called when the graph is finally loaded.
   // As loading is asynchronous, this may be called already after the application has started the run loop
-  XMLscene.prototype.onGraphLoaded = function ()
-  {
-    //TODO
+  XMLscene.prototype.onGraphLoaded = function (){
     /*
     this.gl.clearColor(this.graph.background[0],this.graph.background[1],this.graph.background[2],this.graph.background[3]);
     this.lights[0].setVisible(true);
@@ -120,156 +107,131 @@ XMLscene.prototype.initLights = function () {
   };
 
   XMLscene.prototype.processaGrafo= function(nodeName){
+    console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
-    //var appearance = new CGFtexture();
 
     if (nodeName!=null) {
       var node = this.graph[nodeName];
+      console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
+      console.log("TEXTURE "+node.texture+"    "+this.graph.materials[node.texture]+" ____________ "+this.myTextures);
+      if(node.material != "inherit"){   // important: so tenho o 1o material guardado, o resto esta nos components
+        console.log("OTHER: "+node.material);
+        this.myMaterials.push(node.material);
+        material = this.graph.materials[this.myMaterials[this.myMaterials.length -1]];
+      }
+      else {
+        console.log("INHERIT");
+        material=this.graph.materials[this.myMaterials[this.myMaterials.length -1]];
+        this.myMaterials.push(this.myMaterials[this.myMaterials.length -1]);
+      }
 
-      if (node.material != null) {    // nao basta na declaracao ja referir a igualdade?
-        //material = this.graph.materials[node.material];
-        //console.log("---------> "+node.material);
-        if (this.graph.materials[node.material] != null) {
-
-          if (node.material != "inherit") {
-            material = this.graph.materials[node.material];
-            console.log("FIM "+this.graph.materials[node.material]);
-            this.materials.push(material);
-
-            if(node.texture != "inherit" && node.texture != "none"){
-              texture = this.textures[node.texture];
-              this.myTextures.push(texture);
-              material.setTexture(texture);
-            }
-            else if (node.texture == "none") {
-              this.myTextures.push("");
-              console.log("TEXT "+this.myTextures[this.myTextures.length -1]);
-              material.setTexture("");
-            }
-            else {
-              texture = this.myTextures[this.myTextures.length -1];
-
-              material.setTexture(texture);
-            }
-          }
-          else {
-
-          }
+      if (node.texture != "none") {
+        if (node.texture == "inherit") {
+          texture = this.textures[this.myTextures[this.myTextures.length -1]];
+          this.myTextures.push(this.myTextures[this.myTextures.length -1]);
         }
         else {
-          material = this.materials[this.materials.length -1];
-          //console.log("---------> "+material);
-
-          if(node.texture != "inherit" && node.texture != "none"){
-            texture = this.textures[node.texture];
-            this.myTextures.push(texture);
-            material.setTexture(texture);
-          }
-          else if (node.texture == "none") {
-            this.myTextures.push("");
-            console.log("TEXT "+this.myTextures[this.myTextures.length -1]);
-            material.setTexture("");
-          }
-          else {
-            //console.log("---------> "+texture);
-            texture = this.myTextures[this.myTextures.length -1];
-            material.setTexture(texture);
-          }
+          this.myTextures.push(node.texture);
+          texture = this.textures[this.myTextures[this.myTextures.length -1]];
+          material.setTexture(texture);
         }
       }
-      /*
-      if(node.texture != "inherit" && node.texture != "none"){
-      texture = this.textures[node.texture];
-      this.myTextures.push(texture);
-      material.setTexture(texture);
+
+      console.log("MATERIAL ARRAY "+this.myMaterials+" || TEXTURE ARRAY "+this.myTextures);
+      console.log("\tPRIMITIVE "+node.primitive);
+      console.log("\tNÓ: "+node+" CHILDREN: "+node.children);
+
+      if (node.primitive != null) {
+        console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
+        this.pushMatrix();
+          this.multMatrix(node.m);
+          material.apply();
+          this.graph.primitives[node.primitive].display();
+        this.popMatrix();
+        this.myMaterials.pop();
+        this.myTextures.pop();
+        texture=this.textures[this.myTextures[this.myTextures.length -1]];
+        if (typeof texture == "undefined") {
+          material.setTexture();
+        }
+        else {
+          material.setTexture(texture);
+        }
+        console.log("\tFINAL MATERIAL: "+this.myMaterials+" || FINAL TEXTURE "+this.myTextures);
+      }
+      else {
+        for(var i = 0; i < node.children.length; i++){
+          console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
+          this.pushMatrix();    // comecamos a processar o descendente
+            this.multMatrix(node.m);
+            material.apply();
+            this.processaGrafo(node.children[i]);
+          this.popMatrix();     // recuperamos o descendente
+        }
+        this.myMaterials.pop();
+        this.myTextures.pop();
+        texture=this.textures[this.myTextures[this.myTextures.length -1]];
+        if (typeof texture == "undefined") {
+          console.log("LALALA");
+          material.setTexture();
+        }
+        else {
+          console.log("LELELE");
+          material.setTexture(texture);
+        }
+      }
     }
-    else if (node.texture == "none") {
-    this.myTextures.push("");
-    console.log("TEXT "+this.myTextures[this.myTextures.length -1]);
-    material.setTexture("");
-  }
-  else {
-  texture = this.myTextures[this.myTextures.length -1];
-
-  material.setTexture(texture);
-}
-
-*/
-
-
-if (node.primitive != null) {
-  this.pushMatrix();
-  this.multMatrix(node.m);
-  //console.log("AQUI "+ nodeName+"---"+material);
-  console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
-  material.apply();
-  console.log(node);
-  this.graph.primitives[node.primitive].display();
-  this.popMatrix();
-}
-
-for(var i = 0; i < node.children.length; i++){
-  this.pushMatrix();    // comecamos a processar o descendente
-  this.multMatrix(node.m);
-  console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
-  material.apply();
-  //this.applyMaterial(material);
-  //appearance.apply();
-  this.processaGrafo(node.children[i]);
-  this.popMatrix();     // recuperamos o descendente
-}
-
-}
-}
-XMLscene.prototype.updateLights = function () {
-  //this.lights[1].enable();
-  for(var i =0; i < this.lights.length; i++ ){
-    if(this.enableLight[i] == true){
-      this.lights[i].enable();
-    }
-    else{
-      this.lights[i].disable();
-    }
-    this.lights[i].update();
-  }
-}
-XMLscene.prototype.display = function () {
-  // ---- BEGIN Background, camera and axis setup
-
-  // Clear image and depth buffer everytime we update the scene
-  this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
-  this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-
-  // Initialize Model-View matrix as identity (no transformation
-  this.updateProjectionMatrix();
-  this.loadIdentity();
-
-  this.enableTextures(true);
-
-  // Apply transformations corresponding to the camera position relative to the origin
-  this.applyViewMatrix();
-
-  // Draw axis
-  this.axis.display();
-
-  this.setDefaultAppearance();
-
-
-  // ---- END Background, camera and axis setup
-
-  // it is important that things depending on the proper loading of the graph
-  // only get executed after the graph has loaded correctly.
-  // This is one possible way to do it
-  if (this.graph.loadedOk)
-  {
-
-    //console.log(this.primitives[0]);
-    //console.log(this.lights[1]);
-    this.updateLights();
-    //this.updateLights();
-    //console.log(this.scene_root);
-    this.processaGrafo(this.scene_root);
   };
 
-};
+  XMLscene.prototype.updateLights = function () {
+    //this.lights[1].enable();
+    for(var i =0; i < this.lights.length; i++ ){
+      if(this.enableLight[i] == true){
+        this.lights[i].enable();
+      }
+      else{
+        this.lights[i].disable();
+      }
+      this.lights[i].update();
+    }
+  }
+  XMLscene.prototype.display = function () {
+    // ---- BEGIN Background, camera and axis setup
+
+    // Clear image and depth buffer everytime we update the scene
+    this.gl.viewport(0, 0, this.gl.canvas.width, this.gl.canvas.height);
+    this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
+
+    // Initialize Model-View matrix as identity (no transformation
+    this.updateProjectionMatrix();
+    this.loadIdentity();
+
+    this.enableTextures(true);
+
+    // Apply transformations corresponding to the camera position relative to the origin
+    this.applyViewMatrix();
+
+    // Draw axis
+    this.axis.display();
+
+    this.setDefaultAppearance();
+
+
+    // ---- END Background, camera and axis setup
+
+    // it is important that things depending on the proper loading of the graph
+    // only get executed after the graph has loaded correctly.
+    // This is one possible way to do it
+    if (this.graph.loadedOk)
+    {
+
+      //console.log(this.primitives[0]);
+      //console.log(this.lights[1]);
+      this.updateLights();
+      //this.updateLights();
+      //console.log(this.scene_root);
+      this.processaGrafo(this.scene_root);
+    };
+
+  };

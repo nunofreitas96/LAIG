@@ -6,13 +6,13 @@
 	<scene root="root" axis_length="1" />
 
 	<views default="0">
-		<perspective id="0" near="0" far="20" angle="0">
-			<from x="0" y="0" z="0" />
-			<to x="20" y="20" z="20" />
+		<perspective id="0" near=".1" far="500" angle=".4">
+			<from x="40" y="40" z="40" />
+			<to x="0" y="0" z="0" />
 		</perspective>
-		<perspective id="1" near="0" far="20" angle="45">
-			<from x="0" y="0" z="0" />
-			<to x="20" y="20" z="20" />
+		<perspective id="1" near=".1" far="200" angle=".15">
+			<from x="10" y="10" z="10" />
+			<to x="0" y="0" z="0" />
 		</perspective>
 	</views>
 
@@ -49,9 +49,9 @@
 
 
 	<textures>
-		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1"/>
-		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="0.1" length_t="0.1" />
-		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="0.5" />
+		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1" />
+		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="1" length_t="1" />
+		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="1" />
 		<texture id="posterA" file="../resources/images/naruto.png" length_s="1" length_t="1" />
 		<texture id="torusA" file="../resources/images/straw.png" length_s="1" length_t="1" />
 		<texture id="bushA1" file="../resources/images/bush.png" length_s="1" length_t="1" />

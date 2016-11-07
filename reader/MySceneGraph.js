@@ -14,7 +14,6 @@ function MySceneGraph(filename, scene) {
 	this.scene.illumination = [];
 	this.scene.light = [];
 	this.scene.textures = {};
-	this.scene.texSizes = {};
 	this.scene.materials=[];
 	this.scene.components = [];
 	this.scene.primitives = [];
@@ -24,6 +23,8 @@ function MySceneGraph(filename, scene) {
 	this.transformations = {};
 	this.omnilights = [];
 	this.spotlights = [];
+
+	this.scene.views = {};
 	/*
 	* Read the contents of the xml file, and refer to this class for loading and error handlers.
 	* After the file is read, the reader calls onXMLReady on this object.
@@ -142,30 +143,39 @@ MySceneGraph.prototype.parseViews = function(rootElement){
 		}
 		ids[i] = e.id;
 
-		this.scene.perspectives[e.id]=[];
-		this.scene.perspectives[e.id][0] = e.attributes.getNamedItem("near").value;
-		this.scene.perspectives[e.id][1] = e.attributes.getNamedItem("far").value;
-		this.scene.perspectives[e.id][2] = e.attributes.getNamedItem("angle").value;
-		console.log("perspective "+e.id+" near: "+this.scene.perspectives[e.id][0]+" far: "+this.scene.perspectives[e.id][1]+" angle: "+this.scene.perspectives[e.id][2]);
+		var view = {
+			near: null,
+			far: null,
+			angle: null,
+			from: [],
+			to: []
+		};
 
-		var descNN = e.children.length;
-		this.scene.perspectives[e.id].from=[];
-		this.scene.perspectives[e.id].from[0]=e.children[0].attributes.getNamedItem("x").value;
-		this.scene.perspectives[e.id].from[1]=e.children[0].attributes.getNamedItem("y").value;
-		this.scene.perspectives[e.id].from[2]=e.children[0].attributes.getNamedItem("z").value;
-		console.log("\t"+e.id+" perspective from with x:"+this.scene.perspectives[e.id].from[0]+" y:"+this.scene.perspectives[e.id].from[1]+" z:"+this.scene.perspectives[e.id].from[2]);
+		view.near = parseFloat(e.attributes.getNamedItem("near").value);
+		view.far = parseFloat(e.attributes.getNamedItem("far").value);
+		view.angle = parseFloat(e.attributes.getNamedItem("angle").value);
+		view.from = [parseFloat(e.children[0].attributes.getNamedItem("x").value),parseFloat(e.children[0].attributes.getNamedItem("y").value),parseFloat(e.children[0].attributes.getNamedItem("z").value)];
+		view.to = [parseFloat(e.children[1].attributes.getNamedItem("x").value),parseFloat(e.children[1].attributes.getNamedItem("y").value),parseFloat(e.children[1].attributes.getNamedItem("z").value)];
+		this.scene.perspectives[e.id] = view;
 
-		this.scene.perspectives[e.id].to=[];
-		this.scene.perspectives[e.id].to[0]=e.children[1].attributes.getNamedItem("x").value;
-		this.scene.perspectives[e.id].to[1]=e.children[1].attributes.getNamedItem("y").value;
-		this.scene.perspectives[e.id].to[2]=e.children[1].attributes.getNamedItem("z").value;
-		console.log("\t"+e.id+" perspective to with x:"+this.scene.perspectives[e.id].to[0]+" y:"+this.scene.perspectives[e.id].to[1]+" z:"+this.scene.perspectives[e.id].to[2]);
+		// so para ver
+		console.log("perspective "+e.id);
+		console.log("\tnear "+this.scene.perspectives[e.id].near);
+		console.log("\tfar "+this.scene.perspectives[e.id].far);
+		console.log("\tangle "+this.scene.perspectives[e.id].angle);
+		console.log("\tfrom "+this.scene.perspectives[e.id].from);
+		console.log("\tto "+this.scene.perspectives[e.id].to);
+
+
+		this.scene.views[e.id] = new CGFcamera(view.angle, view.near, view.far, vec3.fromValues(view.from[0], view.from[1], view.from[2]), vec3.fromValues(view.to[0], view.to[1], view.to[2]));
+		console.log(this.scene.views[e.id]);
 	}
 
 	if (ids.length = 0) {
 		this.onXMLError("there must be at least one view");
 		return 0;
 	}
+
 
 	return;
 }
@@ -348,7 +358,6 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		var length_s = e.attributes.getNamedItem('length_s').value;
 		var length_t = e.attributes.getNamedItem('length_t').value;
 		this.scene.textures[e.id] = new CGFtexture(this.scene, file, length_t, length_s);
-		this.scene.texSizes[e.id] = [length_t, length_s];
 		console.log("----> "+e.id+", "+this.scene.textures[e.id]);
 		/*
 		this.scene.textures[i][0]=e.attributes.getNamedItem('id').value;
@@ -849,6 +858,10 @@ MySceneGraph.prototype.buildGraph = function(){
 
 	return;
 }
+
+MySceneGraph.prototype.updateView = function () {
+	console.log("OKOKOKOKOKOKOK");
+};
 
 
 /*

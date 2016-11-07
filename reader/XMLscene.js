@@ -104,6 +104,8 @@ XMLscene.prototype.initLights = function () {
     //console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
+    var length_t;
+    var length_s;
 
     if (nodeName!=null) {
       var node = this.graph[nodeName];
@@ -128,6 +130,8 @@ XMLscene.prototype.initLights = function () {
         else {
           this.myTextures.push(node.texture);
           texture = this.textures[this.myTextures[this.myTextures.length -1]];
+          length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
+          length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
           material.setTexture(texture);
         }
       }
@@ -141,6 +145,13 @@ XMLscene.prototype.initLights = function () {
         this.pushMatrix();
         this.multMatrix(node.m);
         material.apply();
+        if(this.graph.primitives[node.primitive].textResize != null){
+          console.log("--------RESIZING---------------");
+          console.log(length_t);
+          console.log(length_s);
+          this.graph.primitives[node.primitive].textResize(length_t,length_s);
+        }
+
         this.graph.primitives[node.primitive].display();
         this.popMatrix();
         this.myMaterials.pop();

@@ -14,6 +14,7 @@ function MySceneGraph(filename, scene) {
 	this.scene.illumination = [];
 	this.scene.light = [];
 	this.scene.textures = {};
+	this.scene.texSizes = {};
 	this.scene.materials=[];
 	this.scene.components = [];
 	this.scene.primitives = [];
@@ -358,6 +359,9 @@ MySceneGraph.prototype.parseTextures = function(rootElement){
 		var length_s = e.attributes.getNamedItem('length_s').value;
 		var length_t = e.attributes.getNamedItem('length_t').value;
 		this.scene.textures[e.id] = new CGFtexture(this.scene, file, length_t, length_s);
+		console.log("----> "+e.id+", "+this.scene.textures[e.id]);
+
+		this.scene.texSizes[e.id] = [length_t, length_s];
 		console.log("----> "+e.id+", "+this.scene.textures[e.id]);
 		/*
 		this.scene.textures[i][0]=e.attributes.getNamedItem('id').value;

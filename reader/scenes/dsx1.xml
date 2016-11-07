@@ -49,9 +49,9 @@
 
 
 	<textures>
-		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1" />
-		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="1" length_t="1" />
-		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="1" />
+		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1"/>
+		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="0.1" length_t="0.1" />
+		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="0.5" />
 		<texture id="posterA" file="../resources/images/naruto.png" length_s="1" length_t="1" />
 		<texture id="torusA" file="../resources/images/straw.png" length_s="1" length_t="1" />
 		<texture id="bushA1" file="../resources/images/bush.png" length_s="1" length_t="1" />

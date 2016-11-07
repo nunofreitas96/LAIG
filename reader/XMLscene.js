@@ -27,15 +27,13 @@ XMLscene.prototype.init = function (application) {
 
   this.myMaterials = [];
   this.myTextures = [];
+
+  this.myView = '';
 };
 
 XMLscene.prototype.initLights = function () {
   for(var i =0; i < this.light.length; i++){
-    console.log(this.light[i]);
-    console.log(this.light[i][0]);
     if(this.light[i][0] == "omni"){
-      console.log("ailmao");
-      console.log(this.lights[i]);
       this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),parseFloat(this.light[i].location[3]));
       this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
       this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
@@ -57,22 +55,17 @@ XMLscene.prototype.initLights = function () {
     }
 
     if(this.light[i][0] == "spot"){
-      //console.log(this.lights[i]);
       this.lights[i].setPosition(parseFloat(this.light[i].location[0]),parseFloat(this.light[i].location[1]),parseFloat(this.light[i].location[2]),1);
       this.lights[i].setAmbient(parseFloat(this.light[i].ambient[0]),parseFloat(this.light[i].ambient[1]),parseFloat(this.light[i].ambient[2]),parseFloat(this.light[i].ambient[3]));
       this.lights[i].setSpecular(parseFloat(this.light[i].specular[0]),parseFloat(this.light[i].specular[1]),parseFloat(this.light[i].specular[2]),parseFloat(this.light[i].specular[3]));
       this.lights[i].setDiffuse(parseFloat(this.light[i].diffuse[0]),parseFloat(this.light[i].diffuse[1]),parseFloat(this.light[i].diffuse[2]),parseFloat(this.light[i].diffuse[3]));
       this.lights[i].setSpotDirection(parseFloat(this.light[i].target[0])- parseFloat(this.light[i].location[0]),parseFloat(this.light[i].target[1]) - parseFloat(this.light[i].location[1]),parseFloat(this.light[i].target[2]) - parseFloat(this.light[i].location[2]));
-      //this.lights[i].setPosition(parseFloat(this.light[i].target[0]),parseFloat(this.light[i].target[1]),parseFloat(this.light[i].target[2]));
-      //console.log(this.lights[i]);
       if(this.light[i][2] == "true"){
         this.lights[i].enable();
       }
-      //this.myInterface.addLightBox(i,this.light[i][1]);
 
       this.lights[i].setVisible(true);
       this.lights[i].update();
-      //this.lights[i].update();
       if(this.light[i][2] == "true"){
         this.enableLight[i] = true;
       }
@@ -84,7 +77,8 @@ XMLscene.prototype.initLights = function () {
   };
 
   XMLscene.prototype.initCameras = function () {
-    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(15, 15, 15), vec3.fromValues(0, 0, 0));
+    this.camera = new CGFcamera(0.4, 0.1, 500, vec3.fromValues(30, 30, 30), vec3.fromValues(0, 0, 0));
+    this.myInterface.setActiveCamera(this.camera);
   };
 
   XMLscene.prototype.setDefaultAppearance = function () {
@@ -107,23 +101,23 @@ XMLscene.prototype.initLights = function () {
   };
 
   XMLscene.prototype.processaGrafo= function(nodeName){
-    console.log("-------------------------- "+nodeName+" --------------------------");
+    //console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
-	var length_t;
-	var length_s;
+    var length_t;
+    var length_s;
 
     if (nodeName!=null) {
       var node = this.graph[nodeName];
-      console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
-      console.log("TEXTURE "+node.texture+"    "+this.graph.materials[node.texture]+" ____________ "+this.myTextures);
+      //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
+      //console.log("TEXTURE "+node.texture+"    "+this.graph.materials[node.texture]+" ____________ "+this.myTextures);
       if(node.material != "inherit"){   // important: so tenho o 1o material guardado, o resto esta nos components
-        console.log("OTHER: "+node.material);
+        //console.log("OTHER: "+node.material);
         this.myMaterials.push(node.material);
         material = this.graph.materials[this.myMaterials[this.myMaterials.length -1]];
       }
       else {
-        console.log("INHERIT");
+        //console.log("INHERIT");
         material=this.graph.materials[this.myMaterials[this.myMaterials.length -1]];
         this.myMaterials.push(this.myMaterials[this.myMaterials.length -1]);
       }
@@ -136,31 +130,29 @@ XMLscene.prototype.initLights = function () {
         else {
           this.myTextures.push(node.texture);
           texture = this.textures[this.myTextures[this.myTextures.length -1]];
-		  length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
-		  console.log("OOOOOOOOOLHHHHHHHHHHA O BOI ");
-		  console.log(length_t);
-		  length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
+          length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
+          length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
           material.setTexture(texture);
         }
       }
 
-      console.log("MATERIAL ARRAY "+this.myMaterials+" || TEXTURE ARRAY "+this.myTextures);
-      console.log("\tPRIMITIVE "+node.primitive);
-      console.log("\tNÓ: "+node+" CHILDREN: "+node.children);
+      //console.log("MATERIAL ARRAY "+this.myMaterials+" || TEXTURE ARRAY "+this.myTextures);
+      //console.log("\tPRIMITIVE "+node.primitive);
+      //console.log("\tNÓ: "+node+" CHILDREN: "+node.children);
 
       if (node.primitive != null) {
-        console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
+        //console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
         this.pushMatrix();
-          this.multMatrix(node.m);
-          material.apply();
-		  if(this.graph.primitives[node.primitive].textResize != null){
-			  console.log("--------RESIZING---------------");
-			  console.log(length_t);
-			  console.log(length_s);
-			  this.graph.primitives[node.primitive].textResize(length_t,length_s);
-		  }
-		  
-          this.graph.primitives[node.primitive].display();
+        this.multMatrix(node.m);
+        material.apply();
+        if(this.graph.primitives[node.primitive].textResize != null){
+          console.log("--------RESIZING---------------");
+          console.log(length_t);
+          console.log(length_s);
+          this.graph.primitives[node.primitive].textResize(length_t,length_s);
+        }
+
+        this.graph.primitives[node.primitive].display();
         this.popMatrix();
         this.myMaterials.pop();
         this.myTextures.pop();
@@ -171,26 +163,24 @@ XMLscene.prototype.initLights = function () {
         else {
           material.setTexture(texture);
         }
-        console.log("\tFINAL MATERIAL: "+this.myMaterials+" || FINAL TEXTURE "+this.myTextures);
+        //console.log("\tFINAL MATERIAL: "+this.myMaterials+" || FINAL TEXTURE "+this.myTextures);
       }
       else {
         for(var i = 0; i < node.children.length; i++){
-          console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
+          //console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
           this.pushMatrix();    // comecamos a processar o descendente
-            this.multMatrix(node.m);
-            material.apply();
-            this.processaGrafo(node.children[i]);
+          this.multMatrix(node.m);
+          material.apply();
+          this.processaGrafo(node.children[i]);
           this.popMatrix();     // recuperamos o descendente
         }
         this.myMaterials.pop();
         this.myTextures.pop();
         texture=this.textures[this.myTextures[this.myTextures.length -1]];
         if (typeof texture == "undefined") {
-          console.log("LALALA");
           material.setTexture();
         }
         else {
-          console.log("LELELE");
           material.setTexture(texture);
         }
       }
@@ -208,7 +198,33 @@ XMLscene.prototype.initLights = function () {
       }
       this.lights[i].update();
     }
-  }
+  };
+
+  XMLscene.prototype.loadView = function () {
+    this.camera = this.views[this.myView];
+    this.myInterface.setActiveCamera(this.camera);
+  };
+
+  XMLscene.prototype.updateView = function () {
+    var size = Object.keys(this.views).length;
+    var myViews = Object.keys(this.views);
+
+    var next=0;
+    for (var i = 0; i < myViews.length; i++) {
+      if (this.myView == myViews[i]) {
+        next = 1;
+      }
+      if(next == 1){
+        this.myView = myViews[(i+1)%size];
+        break;
+      }
+    }
+
+    this.camera = this.views[this.myView];
+    this.myInterface.setActiveCamera(this.camera);
+    console.log("VIEW CHANGED TO: "+this.myView);
+  };
+
   XMLscene.prototype.display = function () {
     // ---- BEGIN Background, camera and axis setup
 
@@ -238,12 +254,11 @@ XMLscene.prototype.initLights = function () {
     // This is one possible way to do it
     if (this.graph.loadedOk)
     {
-
-      //console.log(this.primitives[0]);
-      //console.log(this.lights[1]);
       this.updateLights();
-      //this.updateLights();
-      //console.log(this.scene_root);
+      if (this.myView == '') {
+        this.myView = this.views_default;
+      }
+      this.loadView();
       this.processaGrafo(this.scene_root);
     };
 

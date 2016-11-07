@@ -28,7 +28,7 @@ MyQuad.prototype.textResize = function(length_s, length_t){
 		(this.maxX - this.minX)/length_s, 0,
 		0, (this.minY - this.maxY)/length_t,
 		(this.maxX - this.minX)/length_s, (this.minY - this.maxY)/length_t
-		
+
 	];
 	this.updateTexCoordsGLBuffers();
 }

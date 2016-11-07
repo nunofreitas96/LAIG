@@ -25,7 +25,7 @@
 
 
 	<lights>
-		<omni id="omni1" enabled="false" >
+		<omni id="omni1" enabled="true" >
 			<location x="2" y="1" z="1" w="0" />
 			<ambient r="1" g="1" b="1" a="0" />
 			<diffuse r="1" g="1" b="1" a="0" />
@@ -49,9 +49,9 @@
 
 
 	<textures>
-		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1" />
-		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="1" length_t="1" />
-		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="1" />
+		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1"/>
+		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="0.1" length_t="0.1" />
+		<texture id="panelA" file="../resources/images/panel.png" length_s="1" length_t="0.5" />
 		<texture id="posterA" file="../resources/images/naruto.png" length_s="1" length_t="1" />
 		<texture id="torusA" file="../resources/images/straw.png" length_s="1" length_t="1" />
 		<texture id="bushA1" file="../resources/images/bush.png" length_s="1" length_t="1" />
@@ -282,8 +282,8 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id="Floor" />
 				<componentref id="LeftWall" />
+				<componentref id="Floor" />
 				<componentref id="PlaneWall" />
 				<componentref id="Poster" />
 				<componentref id="Table" />
@@ -316,7 +316,7 @@
 				<material id="3" />
 			</materials>
 
-			<texture id = "inherit" />
+			<texture id = "none" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
@@ -325,7 +325,7 @@
 
 		<component id ="PlaneWall">
 			<transformation>
-				<transformationref id = "PWallT"/>
+				<transformationref id="PWallT"/>
 			</transformation>
 
 			<materials>
@@ -338,97 +338,97 @@
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad1">
+		<component id="UnitCubeQuad1">
 			<transformation>
-				<transformationref id = "quad1T"/>
+				<transformationref id="quad1T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad2">
+		<component id="UnitCubeQuad2">
 			<transformation>
-				<transformationref id = "quad2T"/>
+				<transformationref id="quad2T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad3">
+		<component id="UnitCubeQuad3">
 			<transformation>
-				<transformationref id = "quad3T"/>
+				<transformationref id="quad3T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad4">
+		<component id="UnitCubeQuad4">
 			<transformation>
-				<transformationref id = "quad4T"/>
+				<transformationref id="quad4T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad5">
+		<component id="UnitCubeQuad5">
 			<transformation>
-				<transformationref id = "quad5T"/>
+				<transformationref id="quad5T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad6">
+		<component id="UnitCubeQuad6">
 			<transformation>
-				<transformationref id = "quad6T"/>
+				<transformationref id="quad6T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id ="rectangle"/>
 			</children>
 		</component>
 
-		<component id ="UnitCubeQuad">
+		<component id="UnitCubeQuad">
 			<transformation>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad1"/>
@@ -440,69 +440,69 @@
 			</children>
 		</component>
 
-		<component id = "triangle1">
+		<component id="triangle1">
 			<transformation>
-				<transformationref id = "triangle1T"/>
+				<transformationref id="triangle1T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
-				<primitiveref id = "triangle"/>
+				<primitiveref id="triangle"/>
 			</children>
 		</component>
 
-		<component id = "triangle2">
+		<component id="triangle2">
 			<transformation>
-				<transformationref id = "triangle2T"/>
+				<transformationref id="triangle2T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
-				<primitiveref id = "triangle"/>
+				<primitiveref id="triangle"/>
 			</children>
 		</component>
 
-		<component id = "triangle3">
+		<component id="triangle3">
 			<transformation>
-				<transformationref id = "triangle3T"/>
+				<transformationref id="triangle3T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 
 			<children>
-				<primitiveref id = "triangle"/>
+				<primitiveref id="triangle"/>
 			</children>
 		</component>
 
-		<component id = "triangle4">
+		<component id="triangle4">
 			<transformation>
-				<transformationref id = "triangle4T"/>
+				<transformationref id="triangle4T"/>
 			</transformation>
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="inherit" />
 			<children>
-				<primitiveref id = "triangle"/>
+				<primitiveref id="triangle"/>
 			</children>
 		</component>
 
-		<component id = "Pyramid">
+		<component id="Pyramid">
 			<transformation>
-				<transformationref id = "pyramidT"/>
+				<transformationref id="pyramidT"/>
 			</transformation>
 			<materials>
 				<material id="1" />
 			</materials>
-			<texture id = "inherit" />
+			<texture id="none" />
 			<children>
 				<componentref id="triangle1"/>
 				<componentref id="triangle2"/>
@@ -512,78 +512,74 @@
 			</children>
 		</component>
 
-		<component id = "BushBase">
+		<component id="BushBase">
 			<transformation>
-				<transformationref id = "BushBaseT"/>
+				<transformationref id="BushBaseT"/>
 			</transformation>
-
-			<texture id="bushA1" />
-
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
+			<texture id="bushA3" />
 			<children>
 				<componentref id="UnitCubeQuad" />
 			</children>
 		</component>
 
-		<component id = "BushTronco">
+		<component id="BushTronco">
 			<transformation>
-				<transformationref id = "BushTroncoT"/>
+				<transformationref id="BushTroncoT"/>
 			</transformation>
-
 			<texture id="bushA2" />
-
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 			<children>
 				<primitiveref id ="cilindro"/>
 			</children>
 		</component>
 
-		<component id = "Bush1">
+		<component id="Bush1">
 			<transformation>
-				<transformationref id = "Bush1T"/>
+				<transformationref id="Bush1T"/>
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 			<children>
-				<primitiveref id ="esfera"/>
+				<primitiveref id="esfera"/>
 			</children>
 		</component>
 
-		<component id = "Bush2">
+		<component id="Bush2">
 			<transformation>
-				<transformationref id = "Bush2T"/>
+				<transformationref id="Bush2T"/>
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 			<children>
-				<primitiveref id ="esfera"/>
+				<primitiveref id="esfera"/>
 			</children>
 		</component>
 
-		<component id = "Bush3">
+		<component id="Bush3">
 			<transformation>
-				<transformationref id = "Bush3T"/>
+				<transformationref id="Bush3T"/>
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="bushA3" />
+			<texture id="bushA1" />
 
 
 			<children>
@@ -597,9 +593,9 @@
 				<scale x=".2" y=".2" z=".2" />
 			</transformation>
 			<materials>
-				<material id="inherit" />
+				<material id="1" />
 			</materials>
-			<texture id="inherit" />
+			<texture id="none" />
 			<children>
 				<componentref id="BushBase" />
 				<componentref id="BushTronco" />
@@ -647,10 +643,10 @@
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad"/>
@@ -663,10 +659,10 @@
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad"/>
@@ -679,10 +675,10 @@
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad"/>
@@ -696,10 +692,10 @@
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad"/>
@@ -712,10 +708,10 @@
 			</transformation>
 
 			<materials>
-				<material id="1" />
+				<material id="inherit" />
 			</materials>
 
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<componentref id ="UnitCubeQuad"/>

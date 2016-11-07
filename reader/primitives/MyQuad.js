@@ -22,6 +22,17 @@ function MyQuad(scene, minX, maxX, minY, maxY) {
 MyQuad.prototype = Object.create(CGFobject.prototype);
 MyQuad.prototype.constructor=MyQuad;
 
+MyQuad.prototype.textResize = function(length_s, length_t){
+	this.texCoords = [
+		0, 0,
+		(this.maxX - this.minX)/length_s, 0,
+		0, (this.minY - this.maxY)/length_t,
+		(this.maxX - this.minX)/length_s, (this.minY - this.maxY)/length_t
+		
+	];
+	this.updateTexCoordsGLBuffers();
+}
+
 MyQuad.prototype.initBuffers = function () {
 
 	this.vertices = [
@@ -46,10 +57,10 @@ MyQuad.prototype.initBuffers = function () {
 	];
 
 	this.texCoords = [
-		this.minS, this.minT,
-		this.minS, this.maxT,
-		this.maxS, this.minT,
-		this.maxS, this.maxT
+		this.minX, this.maxY,
+		this.maxX, this.maxY,
+		this.minY, this.minX,
+		this.maxX, this.minY
 	];
 	this.primitiveType=this.scene.gl.TRIANGLES;
 

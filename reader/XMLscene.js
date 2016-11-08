@@ -106,7 +106,7 @@ XMLscene.prototype.initLights = function () {
     var texture = null;
     var length_t;
     var length_s;
-
+	var confirmer = 0;
     if (nodeName!=null) {
       var node = this.graph[nodeName];
       //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
@@ -133,6 +133,7 @@ XMLscene.prototype.initLights = function () {
           length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
           length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
           material.setTexture(texture);
+		  confirmer = 1;
         }
       }
 
@@ -145,8 +146,9 @@ XMLscene.prototype.initLights = function () {
         this.pushMatrix();
         this.multMatrix(node.m);
         material.apply();
-        if(this.graph.primitives[node.primitive].textResize != null){
+        if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
           console.log("--------RESIZING---------------");
+		  console.log(this.graph.primitives[node.primitive]);
           console.log(length_t);
           console.log(length_s);
           this.graph.primitives[node.primitive].textResize(length_t,length_s);

@@ -447,7 +447,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id="triangle"/>

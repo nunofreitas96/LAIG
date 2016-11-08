@@ -60,10 +60,10 @@ MyTriangle.prototype.initBuffers = function() {
 }
 
 
-MyTriangle.prototype.textResize = function(length_s, length_t) {
+MyTriangle.prototype.scaleTexCoords = function(ampS, ampT) {
 	for (var i = 0; i < this.texCoords.length; i += 2) {
-		this.texCoords[i] = this.originalTexCoords[i] / length_s;
-		this.texCoords[i + 1] = this.originalTexCoords[i+1] / length_t;
+		this.texCoords[i] = this.originalTexCoords[i] / ampS;
+		this.texCoords[i + 1] = this.originalTexCoords[i+1] / ampT;
 	}
 
 	this.updateTexCoordsGLBuffers();

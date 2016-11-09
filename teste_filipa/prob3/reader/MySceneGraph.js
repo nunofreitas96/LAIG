@@ -659,6 +659,11 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				var torus = new MyTorus(this.scene,parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseInt(this.scene.primitives[i][4]),parseInt(this.scene.primitives[i][5]));
 				this.primitives[e.id] = torus;
 			}
+			else if (f.tagName == "square") {
+				this.scene.primitives[i][2] = f.attributes.getNamedItem("texangle").value;
+				var square = new MySquare(this.scene,parseFloat(this.scene.primitives[i][2]));
+				this.primitives[e.id] = square;
+			}
 		}
 		else {
 			this.onXMLError("primitive bad definition or id duplicated");

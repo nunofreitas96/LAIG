@@ -767,8 +767,13 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			}
 			else if (f.tagName == "texture") {
 				texts++;
-				this.scene.components[i].texture = f.attributes.getNamedItem('id').value;
-				console.log("\t\ttexture "+this.scene.components[i].texture);
+				this.scene.components[i].texture = [];
+				this.scene.components[i].texture[0] = f.attributes.getNamedItem('id').value;
+				if (f.attributes.length == 2) {
+					this.scene.components[i].texture[1] = f.attributes.getNamedItem('force').value;
+				}
+				console.log("\t\ttexture "+this.scene.components[i].texture[0]);
+				console.log("\t\t\tforce: "+f.attributes.length);
 			}
 			else if (f.tagName == "children") {
 				childs++;
@@ -794,6 +799,7 @@ MySceneGraph.prototype.buildGraph = function(){
 			material : null,
 			m: [],
 			texture: null,
+			textForce: '0',
 			primitive: null,
 			children: []
 		};
@@ -844,7 +850,22 @@ MySceneGraph.prototype.buildGraph = function(){
 		}
 
 		// texture
-		this[no].texture = this.scene.components[i].texture;
+		this[no].texture = this.scene.components[i].texture[0];
+		console.log("---------- "+this.scene.components[i].texture[1]);
+		if (typeof this.scene.components[i].texture[1] != 'undefined' ) {
+			console.log("            DEFINED");
+			this[no].textForce = this.scene.components[i].texture[1];
+			console.log("........... "+this[no].textForce);
+		}/*
+		else {
+			console.log("            UNDEFINED");
+			this[no].textForce = '0';
+			console.log("........... "+this[no].texture.force);
+		}
+		*/
+		console.log("__________ "+this[no].textForce);
+		console.log("");
+
 		//console.log("\t\tchildren: "+this.scene.components[i].children.length);
 		for (var j = 0; j < this.scene.components[i].children.length; j++) {
 			//console.log("\t\t"+this.scene.components[i].children[j]);

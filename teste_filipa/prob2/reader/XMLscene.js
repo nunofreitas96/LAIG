@@ -29,6 +29,8 @@ XMLscene.prototype.init = function (application) {
   this.myTextures = [];
 
   this.myView = '';
+
+  this.force = 0;
 };
 
 XMLscene.prototype.initLights = function () {
@@ -101,14 +103,19 @@ XMLscene.prototype.initLights = function () {
   };
 
   XMLscene.prototype.processaGrafo= function(nodeName){
-    //console.log("-------------------------- "+nodeName+" --------------------------");
+    console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
     var length_t;
     var length_s;
-	var confirmer = 0;
+    var confirmer = 0;
+
+
+
     if (nodeName!=null) {
       var node = this.graph[nodeName];
+
+
       //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
       //console.log("TEXTURE "+node.texture+"    "+this.graph.materials[node.texture]+" ____________ "+this.myTextures);
       if(node.material != "inherit"){   // important: so tenho o 1o material guardado, o resto esta nos components
@@ -122,8 +129,9 @@ XMLscene.prototype.initLights = function () {
         this.myMaterials.push(this.myMaterials[this.myMaterials.length -1]);
       }
 
+
       if (node.texture != "none") {
-        if (node.texture == "inherit") {
+        if (node.texture == "inherit" || this.force == 1) {
           texture = this.textures[this.myTextures[this.myTextures.length -1]];
           this.myTextures.push(this.myTextures[this.myTextures.length -1]);
         }
@@ -133,9 +141,15 @@ XMLscene.prototype.initLights = function () {
           length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
           length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
           material.setTexture(texture);
-		  confirmer = 1;
+          confirmer = 1;
         }
       }
+
+      console.log("force: "+node.textForce);
+      if (node.textForce == '1') {
+        this.force=1;
+      }
+      console.log("FORCE: "+this.force);
 
       //console.log("MATERIAL ARRAY "+this.myMaterials+" || TEXTURE ARRAY "+this.myTextures);
       //console.log("\tPRIMITIVE "+node.primitive);
@@ -148,7 +162,7 @@ XMLscene.prototype.initLights = function () {
         material.apply();
         if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
           console.log("--------RESIZING---------------");
-		  console.log(this.graph.primitives[node.primitive]);
+          console.log(this.graph.primitives[node.primitive]);
           console.log(length_t);
           console.log(length_s);
           this.graph.primitives[node.primitive].textResize(length_t,length_s);
@@ -176,6 +190,7 @@ XMLscene.prototype.initLights = function () {
           this.processaGrafo(node.children[i]);
           this.popMatrix();     // recuperamos o descendente
         }
+        this.force = 0;
         this.myMaterials.pop();
         this.myTextures.pop();
         texture=this.textures[this.myTextures[this.myTextures.length -1]];

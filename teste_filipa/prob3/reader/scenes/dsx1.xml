@@ -53,6 +53,7 @@
 		<texture id="bushA2" file="../resources/images/bole.png" length_s="1" length_t="1" />
 		<texture id="bushA3" file="../resources/images/table.png" length_s="1" length_t="1" />
 		<texture id="sandA" file="../resources/images/sand.png" length_s="1" length_t="1" />
+		<texture id="letterA" file="../resources/images/letter.png" length_s="1" length_t="1" />
 	</textures>
 
 	<materials>
@@ -266,6 +267,9 @@
 		<primitive id="torus">
 			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
+		<primitive id="square">
+			<square texangle="60"/>
+		</primitive>
 	</primitives>
 
 	<components>
@@ -277,14 +281,21 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id="LeftWall" />
-				<componentref id="Floor" />
-				<componentref id="PlaneWall" />
-				<componentref id="Poster" />
-				<componentref id="Table" />
-				<componentref id="Torus" />
-				<componentref id="Pyramid" />
-				<componentref id="Bush" />
+				<componentref id="Square" />
+			</children>
+		</component>
+		<component id ="Square">
+			<transformation>
+
+			</transformation>
+
+			<materials>
+				<material id="4" />
+			</materials>
+			<texture id="letterA" />
+
+			<children>
+				<primitiveref id ="square"/>
 			</children>
 		</component>
 		<component id ="Floor">

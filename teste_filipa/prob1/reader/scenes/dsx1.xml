@@ -10,16 +10,19 @@
 			<from x="40" y="40" z="40" />
 			<to x="0" y="0" z="0" />
 		</perspective>
-		<perspective id="1" near=".1" far="200" angle=".4">
-			<from x="10" y="10" z="25" />
+		<perspective id="1" near=".1" far="200" angle=".15">
+			<from x="10" y="10" z="10" />
 			<to x="0" y="0" z="0" />
 		</perspective>
 	</views>
+
 
 	<illumination doublesided="1" local="1" >
 		<ambient r="100" g="100" b="100" a="100" />
 		<background r="100" g="100" b="100" a="100" />
 	</illumination>
+
+
 
 	<lights>
 		<omni id="omni1" enabled="true" >
@@ -43,6 +46,8 @@
 		</spot>
 	</lights>
 
+
+
 	<textures>
 		<texture id="tabelA" file="../resources/images/wood.png" length_s="1" length_t="1"/>
 		<texture id="floorA" file="../resources/images/floorTexture.png" length_s="0.1" length_t="0.1" />
@@ -54,6 +59,7 @@
 		<texture id="bushA3" file="../resources/images/table.png" length_s="1" length_t="1" />
 		<texture id="sandA" file="../resources/images/sand.png" length_s="1" length_t="1" />
 	</textures>
+
 
 	<materials>
 		<material id="1" >
@@ -266,6 +272,9 @@
 		<primitive id="torus">
 			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
+		<primitive id="diamond">
+			<diamond slices="6" />
+		</primitive>
 	</primitives>
 
 	<components>
@@ -277,14 +286,20 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id="LeftWall" />
-				<componentref id="Floor" />
-				<componentref id="PlaneWall" />
-				<componentref id="Poster" />
-				<componentref id="Table" />
-				<componentref id="Torus" />
-				<componentref id="Pyramid" />
-				<componentref id="Bush" />
+				<componentref id="Diamante" />
+			</children>
+		</component>
+		<component id ="Diamante">
+			<transformation>
+				
+			</transformation>
+
+			<materials>
+				<material id="4" />
+			</materials>
+			<texture id="none" />
+			<children>
+				<primitiveref id ="diamond"/>
 			</children>
 		</component>
 		<component id ="Floor">

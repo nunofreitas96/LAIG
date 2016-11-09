@@ -442,7 +442,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="inherit" />
+			<texture id="tabelA" force="1"/>
 
 			<children>
 				<primitiveref id="triangle"/>
@@ -497,7 +497,7 @@
 			<materials>
 				<material id="1" />
 			</materials>
-			<texture id="sandA" />
+			<texture id="sandA" force="1"/>
 			<children>
 				<componentref id="triangle1"/>
 				<componentref id="triangle2"/>

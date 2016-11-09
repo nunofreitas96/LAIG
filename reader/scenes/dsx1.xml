@@ -52,6 +52,7 @@
 		<texture id="bushA1" file="../resources/images/bush.png" length_s="1" length_t="1" />
 		<texture id="bushA2" file="../resources/images/bole.png" length_s="1" length_t="1" />
 		<texture id="bushA3" file="../resources/images/table.png" length_s="1" length_t="1" />
+		<texture id="sandA" file="../resources/images/sand.png" length_s="1" length_t="1" />
 	</textures>
 
 	<materials>
@@ -441,7 +442,7 @@
 			<materials>
 				<material id="inherit" />
 			</materials>
-			<texture id="tabelA" />
+			<texture id="inherit" />
 
 			<children>
 				<primitiveref id="triangle"/>
@@ -496,7 +497,7 @@
 			<materials>
 				<material id="1" />
 			</materials>
-			<texture id="none" />
+			<texture id="sandA" />
 			<children>
 				<componentref id="triangle1"/>
 				<componentref id="triangle2"/>

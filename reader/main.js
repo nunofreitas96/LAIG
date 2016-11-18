@@ -20,6 +20,7 @@ serialInclude([ '../lib/CGF.js',
                 'primitives/MyTorus.js',
                 'primitives/MyTriangle.js',
                 'primitives/Plane.js',
+                'primitives/Patch.js',
                 'MyInterface.js',
         				'MyLinearAnimation.js',
         				'MyAnimation.js',
@@ -43,7 +44,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-  var filename=getUrlVars()['file'] || "dsx3.xml";
+  var filename=getUrlVars()['file'] || "dsx4.xml";
   //var filename=getUrlVars()['file'] || "LAIG_TP1_DSX_T6_G8_v01/inferno.dsx";
   //var filename=getUrlVars()['file'] || "LAIG_TP1_DSX_T2_G04_v02/LAIG_TP1_DSX_T2_G04_v02.dsx";
 

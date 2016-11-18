@@ -668,6 +668,20 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				console.log("____________________________________________________________ "+plane);
 				this.primitives[e.id] = plane;
 			}
+			else if (f.tagName == 'patch') {
+				this.scene.primitives[i][2] = parseFloat(f.attributes.getNamedItem('orderU').value);
+				this.scene.primitives[i][3] = parseFloat(f.attributes.getNamedItem('orderV').value);
+				this.scene.primitives[i][4] = parseFloat(f.attributes.getNamedItem('partsU').value);
+				this.scene.primitives[i][5] = parseFloat(f.attributes.getNamedItem('partsV').value);
+				var descNN = f.children.length;
+				var controlPoints = [];
+				for (var j = 0; j < descNN; j++) {
+					var g = f.children[j];
+					controlPoints.push([parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value)]);
+				}
+				var surface = new Patch(this.scene, this.scene.primitives[i][2], this.scene.primitives[i][3],this.scene.primitives[i][4], this.scene.primitives[i][5], controlPoints);
+				this.primitives[e.id] = surface;
+			}
 		}
 		else {
 			this.onXMLError("primitive bad definition or id duplicated");

@@ -24,7 +24,11 @@ XMLscene.prototype.init = function (application) {
   this.gl.depthFunc(this.gl.LEQUAL);
 
   this.axis=new CGFaxis(this);
-
+  this.startTime = 0;
+  this.anim = new MyLinearAnimation(this,"aiai",5,[[0,0,0],[1,1,1],[1,2,3],[0,0,0]]);
+  var InitialAngle = 0;
+  var RotationAngle= Math.PI*4;
+  this.anim2 = new MyCircularAnimation(this,"aiai2", 5, [0,0,0],InitialAngle,RotationAngle,1);
   this.myMaterials = [];
   this.myTextures = [];
 
@@ -96,17 +100,26 @@ XMLscene.prototype.initLights = function () {
     this.lights[0].setVisible(true);
     this.lights[0].enable();
     */
-
+	 this.setUpdatePeriod(1);
     this.initLights();
   };
 
+  XMLscene.prototype.update = function (currtime) {
+	  
+	if (this.startTime == 0)
+    this.startTime = currtime;
+
+	this.elapsedTime = (currtime - this.startTime) / 1000;
+  }
   XMLscene.prototype.processaGrafo= function(nodeName){
+    
     //console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
     var length_t;
     var length_s;
 	var confirmer = 0;
+	
     if (nodeName!=null) {
       var node = this.graph[nodeName];
       //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
@@ -144,7 +157,9 @@ XMLscene.prototype.initLights = function () {
       if (node.primitive != null) {
         //console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
         this.pushMatrix();
+		this.anim.apply(this.elapsedTime);
         this.multMatrix(node.m);
+		
         material.apply();
         if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
           console.log("--------RESIZING---------------");
@@ -153,7 +168,7 @@ XMLscene.prototype.initLights = function () {
           console.log(length_s);
           this.graph.primitives[node.primitive].textResize(length_t,length_s);
         }
-
+		
         this.graph.primitives[node.primitive].display();
         this.popMatrix();
         this.myMaterials.pop();
@@ -171,7 +186,7 @@ XMLscene.prototype.initLights = function () {
         for(var i = 0; i < node.children.length; i++){
           //console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
           this.pushMatrix();    // comecamos a processar o descendente
-          this.multMatrix(node.m);
+          //this.multMatrix(node.m);
           material.apply();
           this.processaGrafo(node.children[i]);
           this.popMatrix();     // recuperamos o descendente
@@ -225,6 +240,7 @@ XMLscene.prototype.initLights = function () {
     this.camera = this.views[this.myView];
     this.myInterface.setActiveCamera(this.camera);
     console.log("VIEW CHANGED TO: "+this.myView);
+	
   };
 
   XMLscene.prototype.display = function () {
@@ -254,8 +270,10 @@ XMLscene.prototype.initLights = function () {
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
+
     if (this.graph.loadedOk)
     {
+      
       this.updateLights();
       if (this.myView == '') {
         this.myView = this.views_default;

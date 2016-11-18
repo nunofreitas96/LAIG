@@ -659,6 +659,15 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				var torus = new MyTorus(this.scene,parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),parseInt(this.scene.primitives[i][4]),parseInt(this.scene.primitives[i][5]));
 				this.primitives[e.id] = torus;
 			}
+			else if (f.tagName == 'plane') {
+				this.scene.primitives[i][2] = f.attributes.getNamedItem('dimX').value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem('dimY').value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem('partsX').value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem('partsY').value;
+				var plane = new Plane(this.scene, parseFloat(this.scene.primitives[i][2]), parseFloat(this.scene.primitives[i][3]), parseFloat(this.scene.primitives[i][4]), parseFloat(this.scene.primitives[i][5]));
+				console.log("____________________________________________________________ "+plane);
+				this.primitives[e.id] = plane;
+			}
 		}
 		else {
 			this.onXMLError("primitive bad definition or id duplicated");

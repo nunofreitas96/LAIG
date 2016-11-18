@@ -100,26 +100,26 @@ XMLscene.prototype.initLights = function () {
     this.lights[0].setVisible(true);
     this.lights[0].enable();
     */
-	 this.setUpdatePeriod(1);
+    this.setUpdatePeriod(1);
     this.initLights();
   };
 
   XMLscene.prototype.update = function (currtime) {
-	  
-	if (this.startTime == 0)
+
+    if (this.startTime == 0)
     this.startTime = currtime;
 
-	this.elapsedTime = (currtime - this.startTime) / 1000;
+    this.elapsedTime = (currtime - this.startTime) / 1000;
   }
   XMLscene.prototype.processaGrafo= function(nodeName){
-    
+
     //console.log("-------------------------- "+nodeName+" --------------------------");
     var material = null;  // CGFappearance
     var texture = null;
     var length_t;
     var length_s;
-	var confirmer = 0;
-	
+    var confirmer = 0;
+
     if (nodeName!=null) {
       var node = this.graph[nodeName];
       //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
@@ -146,7 +146,7 @@ XMLscene.prototype.initLights = function () {
           length_t = this.texSizes[this.myTextures[this.myTextures.length -1]][0];
           length_s = this.texSizes[this.myTextures[this.myTextures.length -1]][1];
           material.setTexture(texture);
-		  confirmer = 1;
+          confirmer = 1;
         }
       }
 
@@ -157,18 +157,18 @@ XMLscene.prototype.initLights = function () {
       if (node.primitive != null) {
         //console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
         this.pushMatrix();
-		this.anim.apply(this.elapsedTime);
+        //this.anim.apply(this.elapsedTime);
         this.multMatrix(node.m);
-		
+
         material.apply();
         if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
           console.log("--------RESIZING---------------");
-		  console.log(this.graph.primitives[node.primitive]);
+          console.log(this.graph.primitives[node.primitive]);
           console.log(length_t);
           console.log(length_s);
           this.graph.primitives[node.primitive].textResize(length_t,length_s);
         }
-		
+
         this.graph.primitives[node.primitive].display();
         this.popMatrix();
         this.myMaterials.pop();
@@ -240,7 +240,7 @@ XMLscene.prototype.initLights = function () {
     this.camera = this.views[this.myView];
     this.myInterface.setActiveCamera(this.camera);
     console.log("VIEW CHANGED TO: "+this.myView);
-	
+
   };
 
   XMLscene.prototype.display = function () {
@@ -273,7 +273,7 @@ XMLscene.prototype.initLights = function () {
 
     if (this.graph.loadedOk)
     {
-      
+
       this.updateLights();
       if (this.myView == '') {
         this.myView = this.views_default;

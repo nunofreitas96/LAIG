@@ -674,11 +674,26 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				this.scene.primitives[i][4] = parseFloat(f.attributes.getNamedItem('partsU').value);
 				this.scene.primitives[i][5] = parseFloat(f.attributes.getNamedItem('partsV').value);
 				var descNN = f.children.length;
+				var controlvertexes = [];
 				var controlPoints = [];
 				for (var j = 0; j < descNN; j++) {
 					var g = f.children[j];
-					controlPoints.push([parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value)]);
+					controlvertexes.push([parseFloat(g.attributes.getNamedItem('x').value), parseFloat(g.attributes.getNamedItem('y').value), parseFloat(g.attributes.getNamedItem('z').value), 1]);
 				}
+				var orderU = this.scene.primitives[i][2];
+				var orderV = this.scene.primitives[i][3];
+				var a = 0;
+				for (var j = 0; j <= orderU; j++) {
+					var temp = [];
+					for (var k = 0; k <= orderV; k++) {
+						console.log('U='+j+' V='+k+': '+controlvertexes[a]);
+						temp.push(controlvertexes[a]);
+						a++;
+					}
+					controlPoints.push(temp);
+					console.log('U='+j+'('+temp.length+') : '+temp);
+				}
+				console.log(controlPoints);
 				var surface = new Patch(this.scene, this.scene.primitives[i][2], this.scene.primitives[i][3],this.scene.primitives[i][4], this.scene.primitives[i][5], controlPoints);
 				this.primitives[e.id] = surface;
 			}

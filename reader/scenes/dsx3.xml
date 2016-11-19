@@ -290,7 +290,7 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<primitiveref id="plano" />
+				<primitiveref id="surface" />
 			</children>
 		</component>
 

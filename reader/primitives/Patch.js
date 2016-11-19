@@ -2,7 +2,7 @@
 * Patch
 * @constructor
 */
-function Patch(scene, ordersU, ordersV, divX, divY, controlPoints) {
+function Patch(scene, orderU, orderV, divX, divY, controlPoints) {
   this.scene = scene;
 
   console.log("PATCH ");
@@ -21,12 +21,13 @@ function Patch(scene, ordersU, ordersV, divX, divY, controlPoints) {
   getSurfacePoint = function(u, v) {
     return nurbsSurface.getPoint(u, v);
   };
-
-  var knots1 = getKnotsVector(ordersU);
-  var knots2 = getKnotsVector(ordersV);
+  console.log(orderU);
+  console.log(orderV);
+  var knots1 = getKnotsVector(orderU);
+  var knots2 = getKnotsVector(orderV);
   console.log(controlPoints);
 
-  var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
+  var nurbsSurface = new CGFnurbsSurface(orderU, orderV, knots1, knots2, controlPoints);
   this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY );
 };
 

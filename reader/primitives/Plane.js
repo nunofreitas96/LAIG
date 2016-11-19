@@ -23,26 +23,25 @@ function Plane(scene, dX, dY, divX, divY) {
   var knots1 = getKnotsVector(1);
   var knots2 = getKnotsVector(1);
 
-  var controlvertexes = [	// U = 0
-    [ // V = 0..1;
-      [-2.0, -2.0, 0.0, 1 ],
-      [-2.0,  2.0, 0.0, 1 ]
 
-    ],
-    // U = 1
-    [ // V = 0..1
-      [ 2.0, -2.0, 0.0, 1 ],
-      [ 2.0,  2.0, 0.0, 1 ]
-    ]
-  ];
+  var i = 0;
+  var j = 0;
+  var Dim = 4;
+  var dim = Dim/2;
+  var stepU = 4/dX;
+  var stepV = 4/dY;
 
-  var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlvertexes);
+  var controlPoints = [];
+  for (i = 0; i <= dX; i++) {
+    var temp = [];
+    for (j = 0; j <= dY; j++) {
+      temp.push([-dim+i*stepU, -dim+j*stepV, 0, 1]);
+    }
+    controlPoints.push(temp);
+  }
 
-
-
+  var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
   this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY );
-
-
 };
 
 

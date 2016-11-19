@@ -267,8 +267,18 @@
 			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
     <primitive id="plano">
-			<plane dimX='3' dimY='2' partsX='10' partsY='7' />
+			<plane dimX='1' dimY='1' partsX='10' partsY='7' />
 		</primitive>
+		<primitive id="surface">
+        <patch orderU="2" orderV="1" partsU="10" partsV="10" >
+            <controlpoint x="-1.5" y="-1.5" z="0.0" />
+            <controlpoint x="-1.5" y="1.5" z="0.0" />
+            <controlpoint x="0" y="-1.5" z="3.0" />
+            <controlpoint x="0" y="1.5" z="3.0" />
+            <controlpoint x="1.5" y="-1.5" z="0.0" />
+            <controlpoint x="1.5" y="1.5" z="0.0" />
+         </patch>
+      </primitive>
 	</primitives>
 
 	<components>

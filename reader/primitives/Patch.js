@@ -5,6 +5,8 @@
 function Patch(scene, ordersU, ordersV, divX, divY, controlPoints) {
   this.scene = scene;
 
+  console.log("PATCH ");
+
   getKnotsVector = function (degree) {
     var v = new Array();
     for (var i=0; i<=degree; i++) {
@@ -22,6 +24,7 @@ function Patch(scene, ordersU, ordersV, divX, divY, controlPoints) {
 
   var knots1 = getKnotsVector(ordersU);
   var knots2 = getKnotsVector(ordersV);
+  console.log(controlPoints);
 
   var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
   this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY );

@@ -7,8 +7,8 @@
 
 	<views default="0">
 		<perspective id="0" near=".1" far="500" angle=".4">
-			<from x="40" y="40" z="40" />
-			<to x="0" y="0" z="0" />
+			<from x="20" y="20" z="70" />
+			<to x="10" y="5" z="0" />
 		</perspective>
 		<perspective id="1" near=".1" far="200" angle=".4">
 			<from x="10" y="10" z="25" />
@@ -63,6 +63,7 @@
 		<texture id="casa2A" file="../resources/images/casa2.png" length_s="1" length_t="1" />
 		<texture id="casa3A" file="../resources/images/casa3.png" length_s="1" length_t="1" />
 		<texture id="roofA" file="../resources/images/roof.png" length_s="1" length_t="1" />
+		<texture id="fundoA" file="../resources/images/porto.png" length_s="1" length_t="1" />
 	</textures>
 
 	<materials>
@@ -104,6 +105,14 @@
 			<diffuse r="0.43" g="0.62" b="0.01" a="1" />
 			<specular r="0.8" g="0.2" b="0.8" a="1" />
 			<shininess value="120" />
+		</material>
+
+		<material id="5" >
+			<emission r="0.52" g="0.52" b="0.52" a="1" />
+			<ambient r="0.52" g="0.52" b="0.52" a="1" />
+			<diffuse r="0.52" g="0.52" b="0.52" a="1" />
+			<specular r="0.52" g="0.52" b="0.52" a="1" />
+			<shininess value="20" />
 		</material>
 	</materials>
 
@@ -304,17 +313,17 @@
          </patch>
       </primitive>
 			<primitive id='patch1'>
-				<patch orderU='1' orderV='4' partsU='10' partsV='12'>
-					<controlpoint x='-2' y='-2' z='0' />
-					<controlpoint x='-2' y='-1' z='1' />
-					<controlpoint x='-2' y='-0' z='1' />
-					<controlpoint x='-2' y='1' z='2.5' />
-					<controlpoint x='-2' y='2' z='0' />
-					<controlpoint x='2' y='-2' z='0' />
-					<controlpoint x='2' y='-1' z='1' />
-					<controlpoint x='2' y='-0' z='1' />
-					<controlpoint x='2' y='1' z='2.5' />
-					<controlpoint x='2' y='2' z='0' />
+				<patch orderU='4' orderV='1' partsU='10' partsV='12'>
+					<controlpoint x='-2' y='-2' z='5' />
+					<controlpoint x='-2' y='2' z='5' />
+					<controlpoint x='-1' y='-2' z='1' />
+					<controlpoint x='-1' y='2' z='1' />
+					<controlpoint x='0' y='-2' z='0.5' />
+					<controlpoint x='0' y='2' z='0.5' />
+					<controlpoint x='1' y='-2' z='1' />
+					<controlpoint x='1' y='2' z='1' />
+					<controlpoint x='2' y='-2' z='5' />
+					<controlpoint x='2' y='2' z='5' />
 				</patch>
 			</primitive>
 			<primitive id='patch2'>
@@ -405,6 +414,23 @@
         <componentref id='rua' />
 				<componentref id='tramA' />
 				<componentref id='tramB' />
+				<componentref id='fundo' />
+			</children>
+		</component>
+
+		<component id = "fundo">
+			<transformation>
+				<translate x='8' y='8' z='-5' />
+				<rotate angle='180' axis='z' />
+				<scale x='15' y='8' z='1' />
+
+			</transformation>
+			<materials>
+				<material id = "0" />
+			</materials>
+			<texture id = "fundoA" />
+			<children>
+				<primitiveref id='patch1' />
 			</children>
 		</component>
 
@@ -509,7 +535,7 @@
 
 			</transformation>
 			<materials>
-				<material id = "0" />
+				<material id = "5" />
 			</materials>
 			<texture id = "none" />
 			<children>
@@ -553,7 +579,7 @@
         <scale x='12' y='20' z='1' />
 			</transformation>
 			<materials>
-				<material id = "0" />
+				<material id = "5" />
 			</materials>
 			<texture id = "calcadaA" />
 			<children>

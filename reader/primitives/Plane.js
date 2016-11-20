@@ -40,10 +40,34 @@ function Plane(scene, dX, dY, divX, divY) {
     controlPoints.push(temp);
   }
 
-  var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
+  var controlvertexes = [	// U = 0
+    [ // V = 0..1;
+      [-2.0, -2.0, 0.0, 1 ],
+      [-2.0,  2.0, 0.0, 1 ]
+
+    ],
+    // U = 1
+    [ // V = 0..1
+      [ 2.0, -2.0, 0.0, 1 ],
+      [ 2.0,  2.0, 0.0, 1 ]
+    ]
+  ];
+
+  //var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlPoints);
+  var nurbsSurface = new CGFnurbsSurface(1, 1, knots1, knots2, controlvertexes);
   this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY );
 };
 
+Plane.prototype.textResize = function(length_s, length_t){
+	this.texCoords = [
+		0, 0,
+		(2 - 0)/length_s, 0,
+		0, (0 - 2)/length_t,
+		(2 - 0)/length_s, (0 - 2)/length_t
+
+	];
+	this.updateTexCoordsGLBuffers();
+}
 
 
 Plane.prototype = Object.create(CGFobject.prototype);

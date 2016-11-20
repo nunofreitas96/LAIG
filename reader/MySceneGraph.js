@@ -697,6 +697,9 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				var surface = new Patch(this.scene, this.scene.primitives[i][2], this.scene.primitives[i][3],this.scene.primitives[i][4], this.scene.primitives[i][5], controlPoints);
 				this.primitives[e.id] = surface;
 			}
+			else if (f.tagName == 'vehicle') {
+				this.primitives[e.id] = new MyVehicle(this.scene);
+			}
 		}
 		else {
 			this.onXMLError("primitive bad definition or id duplicated");

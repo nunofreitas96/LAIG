@@ -21,14 +21,13 @@ function Patch(scene, orderU, orderV, divX, divY, controlPoints) {
   getSurfacePoint = function(u, v) {
     return nurbsSurface.getPoint(u, v);
   };
-  console.log(orderU);
-  console.log(orderV);
+
   var knots1 = getKnotsVector(orderU);
   var knots2 = getKnotsVector(orderV);
   console.log(controlPoints);
 
   var nurbsSurface = new CGFnurbsSurface(orderU, orderV, knots1, knots2, controlPoints);
-  this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY );
+  this.obj = new CGFnurbsObject(this.scene, getSurfacePoint, divX, divY);
 };
 
 Patch.prototype = Object.create(CGFobject.prototype);

@@ -277,14 +277,7 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<componentref id="LeftWall" />
-				<componentref id="Floor" />
-				<componentref id="PlaneWall" />
-				<componentref id="Poster" />
-				<componentref id="Table" />
 				<componentref id="Torus" />
-				<componentref id="Pyramid" />
-				<componentref id="Bush" />
 			</children>
 		</component>
 		<component id ="Floor">

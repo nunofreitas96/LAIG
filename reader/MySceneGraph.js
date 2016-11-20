@@ -729,9 +729,9 @@ MySceneGraph.prototype.parseAnimations = function(rootElement){
 		this.onXMLError("components bad definition");
 		return 0;
 	}
-	
+
 	console.log("animations");
-	
+
 	var ids = [];
 	var descN = anims[0].children.length;
 	for(var i =0; i < descN; i++){
@@ -740,7 +740,7 @@ MySceneGraph.prototype.parseAnimations = function(rootElement){
 			this.onXMLError("animation is missing");
 			return 0;
 		}
-		
+
 		this.scene.animations = [];
 		this.scene.animations[i] = [];
 		if(e.tagName == "animation" && ids.indexOf(e.id) <0 ){
@@ -753,23 +753,23 @@ MySceneGraph.prototype.parseAnimations = function(rootElement){
 				var descN2 = e.children.length;
 				for(var j =0; j < descN2; j++){
 					var f = e.children[j];
-					
-					
+
+
 					if(f.tagName == "controlpoint"){
 						this.scene.animations[i][3*(j+1)]   = f.attributes.getNamedItem("xx").value;
 						this.scene.animations[i][3*(j+1)+1] = f.attributes.getNamedItem("yy").value;
 						this.scene.animations[i][3*(j+1)+2] = f.attributes.getNamedItem("zz").value;
-						
+
 						cntrlP.push([parseFloat(this.scene.animations[i][3*(j+1)]),parseFloat(this.scene.animations[i][3*(j+1)+1]),parseFloat(this.scene.animations[i][3*(j+1)+2])]);
 					}
-					
-					
+
+
 				}
 				var lnAnim = new MyLinearAnimation(this.scene,e.id,parseFloat(this.scene.animations[i][1]),cntrlP);
 				this.animations[e.id] = lnAnim;
 				console.log("Animation id: " + this.scene.animations[i][0] + " time " +this.scene.animations[i][1]+ " type " + this.scene.animations[i][2] + "control points: ");
 				console.log(cntrlP);
-				
+
 			}
 			if(this.scene.animations[i][2] == "circular"){
 				this.scene.animations[i][3] = e.attributes.getNamedItem("centerx").value;
@@ -778,17 +778,17 @@ MySceneGraph.prototype.parseAnimations = function(rootElement){
 				this.scene.animations[i][6] = e.attributes.getNamedItem("radius").value;
 				this.scene.animations[i][7] = e.attributes.getNamedItem("startang").value;
 				this.scene.animations[i][8] = e.attributes.getNamedItem("rotang").value;
-			
+
 				var crlAnim = new MyCircularAnimation(this.scene, e.id,parseFloat(this.scene.animations[i][1]),[parseFloat(this.scene.animations[i][3]),parseFloat(this.scene.animations[i][4]),parseFloat(this.scene.animations[i][5])],parseFloat(this.scene.animations[i][7]),parseFloat(this.scene.animations[i][8]),parseFloat(this.scene.animations[i][6]) )
 				this.animations[e.id] = crlAnim;
 				console.log("Animation id: " + this.scene.animations[i][0] + " time " +this.scene.animations[i][1]+ " type " + this.scene.animations[i][2]+ "center:"+ this.scene.animations[i][3]+ "," + this.scene.animations[i][4]+ "," +this.scene.animations[i][5]+ "radius: " + this.scene.animations[i][6]+ "Initial Angle:" + this.scene.animations[i][7]+ "Rotation Angle" + this.scene.animations[i][8] );
 			}
-			
+
 		}
 	}
-	
-	
-	
+
+
+
 }
 
 MySceneGraph.prototype.parseComponents = function(rootElement){
@@ -889,7 +889,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 			}
 			else if (f.tagName == "animation"){
 				anims++;
-				
+
 				for(var k = 0; k < f.children.length; k++){
 					var g = f.children[k];
 					if(g.tagName == "animationref"){
@@ -898,7 +898,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 						//continue;
 					}
 				}
-				
+
 			}
 			else if (f.tagName == "children") {
 				childs++;
@@ -926,7 +926,8 @@ MySceneGraph.prototype.buildGraph = function(){
 			texture: null,
 			primitive: null,
 			animations: [],
-			children: []
+			children: [],
+			flag: 0
 		};
 
 		// material <- o primeiro material
@@ -977,7 +978,7 @@ MySceneGraph.prototype.buildGraph = function(){
 		// texture
 		this[no].texture = this.scene.components[i].texture;
 		//console.log("\t\tchildren: "+this.scene.components[i].children.length);
-		
+
 		this[no].animations = this.scene.components[i].animation;
 		console.log("start search:");
 		console.log(this.scene.components[i].animation);

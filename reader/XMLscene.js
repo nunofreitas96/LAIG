@@ -120,6 +120,8 @@ XMLscene.prototype.initLights = function () {
     var length_s;
     var confirmer = 0;
 
+
+
     if (nodeName!=null) {
       var node = this.graph[nodeName];
       //console.log("MATERIAL "+node.material+"    "+this.graph.materials[node.material]+" ____________ "+this.myMaterials);
@@ -157,8 +159,31 @@ XMLscene.prototype.initLights = function () {
       if (node.primitive != null) {
         //console.log("MATERIAL PRIM "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
         this.pushMatrix();
-        //this.anim.apply(this.elapsedTime);
         this.multMatrix(node.m);
+        if (node.children.length == 0) {
+          for(var j =0; j < node.animations.length; j++){
+            if( this.graph.animations[node.animations[j]] != null){
+              if(j ==0){
+                this.graph.animations[node.animations[j]].apply(this.elapsedTime);
+              }
+              else{
+                var currElapsedTime = this.elapsedTime;
+                for(var k = j -1 ; k >= 0; k--){
+                  currElapsedTime -= this.graph.animations[node.animations[k]].time;
+                }
+                this.graph.animations[node.animations[j]].apply(currElapsedTime);
+              }
+              console.log("ending condition " + this.graph.animations[node.animations[j]].endCond);
+              if(this.graph.animations[node.animations[j]].endCond == 0){
+                console.log("why isnt it working?");
+                break;
+              }else{
+
+              }
+            }
+          }
+        }
+
 
         material.apply();
         if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
@@ -183,34 +208,22 @@ XMLscene.prototype.initLights = function () {
         //console.log("\tFINAL MATERIAL: "+this.myMaterials+" || FINAL TEXTURE "+this.myTextures);
       }
       else {
+
         for(var i = 0; i < node.children.length; i++){
           //console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
           this.pushMatrix();    // comecamos a processar o descendente
           this.multMatrix(node.m);
 
-          for(var j =0; j < node.animations.length; j++){
-            if( this.graph.animations[node.animations[j]] != null){
-              if(j ==0){
-                this.graph.animations[node.animations[j]].apply(this.elapsedTime);
-              }
-              else{
-                var currElapsedTime = this.elapsedTime;
-                for(var k = j -1 ; k >= 0; k--){
-                  currElapsedTime -= this.graph.animations[node.animations[k]].time;
-                }
-                this.graph.animations[node.animations[j]].apply(currElapsedTime);
-              }
-              console.log("ending condition " + this.graph.animations[node.animations[j]].endCond);
-              if(this.graph.animations[node.animations[j]].endCond == 0){
-                console.log("why isnt it working?");
-                break;
-              }else{
-
-              }
-            }
-          }
 
           material.apply();
+          if (node.flag == 0) {
+            for(var j = 0; j < node.animations.length; j++){
+              this.graph[node.children[i]].animations.push(node.animations[j]);
+            }
+            node.flag = 1;
+          }
+
+
           this.processaGrafo(node.children[i]);
           this.popMatrix();     // recuperamos o descendente
         }

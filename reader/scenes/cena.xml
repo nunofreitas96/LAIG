@@ -370,19 +370,25 @@
 		</animation>
 		<animation id="04" span="5" type="linear">
 			<controlpoint xx="0" yy="0" zz="0" />
-			<controlpoint xx="2" yy="0" zz="0" />
-			<controlpoint xx="21" yy="-2.75" zz="0" />
-			<controlpoint xx="22" yy="-2.75" zz="0" />
+			<controlpoint xx="10" yy="0" zz="0" />
+			<controlpoint xx="70" yy="-8.75" zz="0" />
+			<controlpoint xx="80" yy="-8.75" zz="0" />
 		</animation>
 		<animation id="05" span="5" type="linear">
 			<controlpoint xx="0" yy="0" zz="0" />
-			<controlpoint xx="-1" yy="0" zz="0" />
-			<controlpoint xx="-21" yy="2.75" zz="0" />
-			<controlpoint xx="-22" yy="2.75" zz="0" />
+			<controlpoint xx="10" yy="0" zz="0" />
+			<controlpoint xx="70" yy="8.75" zz="0" />
+			<controlpoint xx="80" yy="8.75" zz="0" />
 		</animation>
 		<animation id="06" span="5" type="circular"
-			centerx="0" centery="0" centerz="0"
-			radius="0" startang="0" rotang="6.283" />
+			centerx="10" centery="0" centerz="-10"
+			radius="10" startang="0" rotang="3.14" />
+		<animation id="07" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="15" yy="0" zz="0" />
+			<controlpoint xx="75" yy="-8.75" zz="0" />
+			<controlpoint xx="85" yy="-8.75" zz="0" />
+		</animation>
 	</animations>
 
 	<components>
@@ -412,6 +418,8 @@
 			<texture id = "none" />
 			<animation>
 				<animationref id='04' />
+				<animationref id='06' />
+				<animationref id='05' />
 			</animation>
 			<children>
 				<componentref id='tram1' />
@@ -428,6 +436,8 @@
 			<texture id = "none" />
 			<animation>
 				<animationref id='05' />
+				<animationref id='06' />
+				<animationref id='04' />
 			</animation>
 			<children>
 				<componentref id='tram2' />
@@ -436,8 +446,7 @@
 
 		<component id = "tram1">
 			<transformation>
-				<rotate angle='-90' axis='y' />
-				<translate x='-3' y='0' z='3' />
+				<translate x='-3' y='0' z='12' />
 				<scale x='.3' y='.3' z='.3' />
 			</transformation>
 			<materials>
@@ -452,7 +461,6 @@
 
 		<component id = "tram2">
 			<transformation>
-				<rotate angle='90' axis='y' />
 				<translate x='23' y='-2.75' z='6' />
 				<scale x='.3' y='.3' z='.3' />
 				<rotate angle='180' axis='y' />
@@ -468,8 +476,8 @@
 
 		<component id = "praca1">
 			<transformation>
-				<scale x='8' y='1' z='8' />
-				<translate x='-1' y='0' z='1' />
+				<translate x='-12' y='0' z='14' />
+				<scale x='12' y='1' z='12' />
 				<rotate angle='-90' axis='x' />
 			</transformation>
 			<materials>
@@ -483,8 +491,8 @@
 
 		<component id = "praca2">
 			<transformation>
-				<scale x='8' y='1' z='8' />
-				<translate x='2.47' y='-2.75' z='1' />
+				<translate x='19.5' y='-2.75' z='14' />
+ 				<scale x='12' y='1' z='12' />
 				<rotate angle='-90' axis='x' />
 			</transformation>
 			<materials>
@@ -516,16 +524,33 @@
 				<componentref id='casa8' />
 				<componentref id='casa9' />
 				<componentref id='casa10' />
+				<componentref id='casa11' />
+				<componentref id='casa12' />
+				<componentref id='casa13' />
+				<componentref id='casa14' />
+				<componentref id='casa15' />
+				<componentref id='casa16' />
+				<componentref id='casa17' />
+				<componentref id='casa18' />
+				<componentref id='casa19' />
+				<componentref id='casa20' />
+				<componentref id='casa21' />
+				<componentref id='casa22' />
+				<componentref id='casa01' />
+				<componentref id='casa02' />
+				<componentref id='casa03' />
+				<componentref id='casa04' />
+				<componentref id='casa05' />
 			</children>
 		</component>
 
     <component id = "rampa">
 			<transformation>
 				<rotate angle='-8' axis='z' />
-        <translate x='20' y='0' z='8' />
+        <translate x='20' y='0' z='14' />
         <rotate angle='90' axis='y' />
         <rotate angle='-90' axis='x' />
-        <scale x='6' y='20' z='1' />
+        <scale x='12' y='20' z='1' />
 			</transformation>
 			<materials>
 				<material id = "0" />
@@ -952,6 +977,245 @@
 			</children>
 		</component>
 
+		<component id = "casa11">
+			<transformation>
+				<translate x='-2' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
+
+		<component id = "casa12">
+			<transformation>
+				<translate x='-4' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa13">
+			<transformation>
+				<translate x='-6' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa14">
+			<transformation>
+				<translate x='-8' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
+
+		<component id = "casa15">
+			<transformation>
+				<translate x='-10' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa16">
+			<transformation>
+				<translate x='-12' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa17">
+			<transformation>
+				<translate x='-14' y='0' z='4' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa18">
+			<transformation>
+				<translate x='-14' y='0' z='6' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
+
+		<component id = "casa19">
+			<transformation>
+				<translate x='-14' y='0' z='8' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa20">
+			<transformation>
+				<translate x='-14' y='0' z='10' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa21">
+			<transformation>
+				<translate x='-14' y='0' z='12' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
+
+		<component id = "casa22">
+			<transformation>
+				<translate x='-14' y='0' z='14' />
+				<rotate angle='90' axis='y' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa01">
+			<transformation>
+				<translate x='20' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa02">
+			<transformation>
+				<translate x='22' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa03">
+			<transformation>
+				<translate x='24' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
+
+		<component id = "casa04">
+			<transformation>
+				<translate x='26' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaB" />
+			</children>
+		</component>
+
+		<component id = "casa05">
+			<transformation>
+				<translate x='28' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaA" />
+			</children>
+		</component>
+
+		<component id = "casa06">
+			<transformation>
+				<translate x='30' y='-2.75' z='0' />
+			</transformation>
+			<materials>
+				<material id = "inherit" />
+			</materials>
+			<texture id = "none" />
+			<children>
+        <componentref id="casaC" />
+			</children>
+		</component>
 
 	</components>
 </dsx>

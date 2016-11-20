@@ -672,6 +672,45 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 				console.log("____________________________________________________________ "+plane);
 				this.primitives[e.id] = plane;
 			}
+			else if (f.tagName == 'chessboard') {
+				this.scene.primitives[i][2] = f.attributes.getNamedItem('du').value;
+				this.scene.primitives[i][3] = f.attributes.getNamedItem('dv').value;
+				this.scene.primitives[i][4] = f.attributes.getNamedItem('textureref').value;
+				this.scene.primitives[i][5] = f.attributes.getNamedItem('su').value;
+				this.scene.primitives[i][6] = f.attributes.getNamedItem('sv').value;
+				var descNN = f.children.length;
+				var c1 = [];
+				var c2 = [];
+				var cs = [];
+				for (var j = 0; j < descNN; j++) {
+					var g = f.children[j];
+					if(g.tagName == 'c1'){
+						this.scene.primitives[i][7] = g.attributes.getNamedItem('r').value;
+						this.scene.primitives[i][8] = g.attributes.getNamedItem('g').value;
+						this.scene.primitives[i][9] = g.attributes.getNamedItem('b').value;
+						this.scene.primitives[i][10] = g.attributes.getNamedItem('a').value;
+						c1 = [parseFloat(this.scene.primitives[i][7]),parseFloat(this.scene.primitives[i][8]),parseFloat(this.scene.primitives[i][9]),parseFloat(this.scene.primitives[i][10])];
+					}
+					if(g.tagName == 'c2'){
+						this.scene.primitives[i][11] = g.attributes.getNamedItem('r').value;
+						this.scene.primitives[i][12] = g.attributes.getNamedItem('g').value;
+						this.scene.primitives[i][13] = g.attributes.getNamedItem('b').value;
+						this.scene.primitives[i][14] = g.attributes.getNamedItem('a').value;
+						c2 = [parseFloat(this.scene.primitives[i][11]),parseFloat(this.scene.primitives[i][12]),parseFloat(this.scene.primitives[i][13]),parseFloat(this.scene.primitives[i][14])];
+					}
+					if(g.tagName == 'cs'){
+						this.scene.primitives[i][15] = g.attributes.getNamedItem('r').value;
+						this.scene.primitives[i][16] = g.attributes.getNamedItem('g').value;
+						this.scene.primitives[i][17] = g.attributes.getNamedItem('b').value;
+						this.scene.primitives[i][18] = g.attributes.getNamedItem('a').value;
+						cs = [parseFloat(this.scene.primitives[i][15]),parseFloat(this.scene.primitives[i][16]),parseFloat(this.scene.primitives[i][17]),parseFloat(this.scene.primitives[i][18])];
+					}
+						
+				} 
+				var chess = new MyChessboard(this.scene,this.scene.primitives[i][4],parseFloat(this.scene.primitives[i][2]),parseFloat(this.scene.primitives[i][3]),c1,c2,cs,parseFloat(this.scene.primitives[i][5]),parseFloat(this.scene.primitives[i][6]));
+				this.primitives[e.id] = chess;
+				
+			}
 			else if (f.tagName == 'patch') {
 				this.scene.primitives[i][2] = parseFloat(f.attributes.getNamedItem('orderU').value);
 				this.scene.primitives[i][3] = parseFloat(f.attributes.getNamedItem('orderV').value);

@@ -187,6 +187,27 @@ XMLscene.prototype.initLights = function () {
           //console.log("MATERIAL FOR "+nodeName+" emission: "+material.emission+" ambient: "+material.ambient+" diffuse: "+material.diffuse+" specular: "+material.specular+" shininess: "+material.shininess);
           this.pushMatrix();    // comecamos a processar o descendente
           //this.multMatrix(node.m);
+		  for(var j =0; j < node.animations.length; j++){
+			if( this.graph.animations[node.animations[j]] != null){
+				if(j ==0){
+				this.graph.animations[node.animations[j]].apply(this.elapsedTime);
+				}
+				else{
+					var currElapsedTime = this.elapsedTime;
+					for(var k = j -1 ; k >= 0; k--){
+						currElapsedTime -= this.graph.animations[node.animations[k]].time;
+					}
+					this.graph.animations[node.animations[j]].apply(currElapsedTime);
+				}
+				console.log("ending condition " + this.graph.animations[node.animations[j]].endCond);
+				if(this.graph.animations[node.animations[j]].endCond == 0){
+					console.log("why isnt it working?");
+					break;
+				}else{
+					
+				}
+			}
+		}
           material.apply();
           this.processaGrafo(node.children[i]);
           this.popMatrix();     // recuperamos o descendente

@@ -13,7 +13,7 @@ function MyLinearAnimation(scene, id, time, points) {
 		console.log(this.dist);
 		this.cntrlPDist.push(this.dist);
 	}
-	
+	this.endCond =0;
 	this.speed = this.dist/time;
 	
 	this.prevAngle =0;
@@ -33,8 +33,10 @@ MyLinearAnimation.prototype.apply = function(time) {
 	
 	
 	//moving part
-	if(time > this.time)
+	if(time > this.time){
 		time = this.time;
+		this.endCond = 1;
+		}
 	
 	console.log("time");
 	console.log(time);

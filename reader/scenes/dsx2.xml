@@ -268,6 +268,25 @@
 		</primitive>
 	</primitives>
 
+	<animations>
+		<animation id="01" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="4" yy="4" zz="4" />
+			<controlpoint xx="2" yy="4" zz="6" />
+			<controlpoint xx="7" yy="0" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
+		</animation>
+		<animation id="02" span="5" type="circular"
+			centerx="0" centery="0" centerz="0"
+			radius="2" startang="0" rotang="3.14" />
+		<animation id="03" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="2" />
+			<controlpoint xx="4" yy="4" zz="4" />
+			<controlpoint xx="2" yy="0" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
+		</animation>
+	</animations>
+	
 	<components>
 		<component id = "root">
 			<transformation>
@@ -372,7 +391,11 @@
 				<material id="inherit" />
 			</materials>
 			<texture id="inherit" />
-
+			<animation>
+			<animationref id="01" />
+			<animationref id="02" />
+			<animationref id="03" />
+			</animation>
 			<children>
 				<componentref id ="UnitCubeQuad1"/>
 				<componentref id ="UnitCubeQuad2"/>

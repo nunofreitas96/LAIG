@@ -10,13 +10,16 @@ function MyCircularAnimation(scene, id, time, center, initialAngle, rotationAngl
 	this.radius = radius;
 	this.time = time;
 	this.speed = this.rotationAngle / this.time;
+	this.endCond = 0;
 }
 
 MyCircularAnimation.prototype = Object.create(MyCircularAnimation.prototype);
 
 MyCircularAnimation.prototype.apply = function(time) {
+	var ended =0;
 	if(time > this.time){
 		time = this.time;
+		this.endCond = 1;
 	}
 	this.scene.translate(this.center[0],this.center[1],this.center[2]);
 	console.log("centers", this.center[0],this.center[1],this.center[2]);
@@ -29,5 +32,4 @@ MyCircularAnimation.prototype.apply = function(time) {
 	console.log("currAngle", currAngle," radius", this.radius);
 	//this.scene.translate(this.radius*Math.cos(currAngle), 0,this.radius*Math.sin(currAngle));
 	this.scene.translate(0,0,this.radius);
-	
 }

@@ -20,6 +20,7 @@ function MySceneGraph(filename, scene) {
 	this.scene.primitives = [];
 
 	this.primitives = {};
+	this.animations = {};
 	this.materials = {};
 	this.transformations = {};
 	this.omnilights = [];
@@ -82,6 +83,9 @@ MySceneGraph.prototype.parseSceneDXS = function(rootElement){
 		return 0;
 	}
 	else if (this.parsePrimitives(rootElement) != null) {
+		return 0;
+	}
+	else if (this.parseAnimations(rootElement) != null) {
 		return 0;
 	}
 	else if (this.parseComponents(rootElement) != null) {
@@ -715,6 +719,78 @@ MySceneGraph.prototype.parsePrimitives = function(rootElement){
 	return;
 }
 
+MySceneGraph.prototype.parseAnimations = function(rootElement){
+	var anims = rootElement.getElementsByTagName('animations');
+	if (anims == null) {
+		this.onXMLError("components not defined");
+		return 0;
+	}
+	if (anims.length != 1) {
+		this.onXMLError("components bad definition");
+		return 0;
+	}
+	
+	console.log("animations");
+	
+	var ids = [];
+	var descN = anims[0].children.length;
+	for(var i =0; i < descN; i++){
+		var e = anims[0].children[i];
+		if(e.tagName != "animation"){
+			this.onXMLError("animation is missing");
+			return 0;
+		}
+		
+		this.scene.animations = [];
+		this.scene.animations[i] = [];
+		if(e.tagName == "animation" && ids.indexOf(e.id) <0 ){
+			ids[i] = e.id;
+			this.scene.animations[i][0] = e.id;
+			this.scene.animations[i][1] = e.attributes.getNamedItem("span").value;
+			this.scene.animations[i][2] = e.attributes.getNamedItem("type").value;
+			var cntrlP = [];
+			if(this.scene.animations[i][2] == "linear"){
+				var descN2 = e.children.length;
+				for(var j =0; j < descN2; j++){
+					var f = e.children[j];
+					
+					
+					if(f.tagName == "controlpoint"){
+						this.scene.animations[i][3*(j+1)]   = f.attributes.getNamedItem("xx").value;
+						this.scene.animations[i][3*(j+1)+1] = f.attributes.getNamedItem("yy").value;
+						this.scene.animations[i][3*(j+1)+2] = f.attributes.getNamedItem("zz").value;
+						
+						cntrlP.push([parseFloat(this.scene.animations[i][3*(j+1)]),parseFloat(this.scene.animations[i][3*(j+1)+1]),parseFloat(this.scene.animations[i][3*(j+1)+2])]);
+					}
+					
+					
+				}
+				var lnAnim = new MyLinearAnimation(this.scene,e.id,parseFloat(this.scene.animations[i][1]),cntrlP);
+				this.animations[e.id] = lnAnim;
+				console.log("Animation id: " + this.scene.animations[i][0] + " time " +this.scene.animations[i][1]+ " type " + this.scene.animations[i][2] + "control points: ");
+				console.log(cntrlP);
+				
+			}
+			if(this.scene.animations[i][2] == "circular"){
+				this.scene.animations[i][3] = e.attributes.getNamedItem("centerx").value;
+				this.scene.animations[i][4] = e.attributes.getNamedItem("centery").value;
+				this.scene.animations[i][5] = e.attributes.getNamedItem("centerz").value;
+				this.scene.animations[i][6] = e.attributes.getNamedItem("radius").value;
+				this.scene.animations[i][7] = e.attributes.getNamedItem("startang").value;
+				this.scene.animations[i][8] = e.attributes.getNamedItem("rotang").value;
+			
+				var crlAnim = new MyCircularAnimation(this.scene, e.id,parseFloat(this.scene.animations[i][1]),[parseFloat(this.scene.animations[i][3]),parseFloat(this.scene.animations[i][4]),parseFloat(this.scene.animations[i][5])],parseFloat(this.scene.animations[i][7]),parseFloat(this.scene.animations[i][8]),parseFloat(this.scene.animations[i][6]) )
+				this.animations[e.id] = crlAnim;
+				console.log("Animation id: " + this.scene.animations[i][0] + " time " +this.scene.animations[i][1]+ " type " + this.scene.animations[i][2]+ "center:"+ this.scene.animations[i][3]+ "," + this.scene.animations[i][4]+ "," +this.scene.animations[i][5]+ "radius: " + this.scene.animations[i][6]+ "Initial Angle:" + this.scene.animations[i][7]+ "Rotation Angle" + this.scene.animations[i][8] );
+			}
+			
+		}
+	}
+	
+	
+	
+}
+
 MySceneGraph.prototype.parseComponents = function(rootElement){
 
 	var comps = rootElement.getElementsByTagName('components');
@@ -749,6 +825,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 		var mats = 0;
 		var texts = 0;
 		var childs = 0;
+		var anims = 0;
 
 		this.scene.components[i] = {
 			id: e.attributes.getNamedItem('id').value
@@ -758,8 +835,7 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 		this.scene.components[i].materials = [];
 		//this.scene.components[i].texture = [];
 		this.scene.components[i].children = [];
-
-
+		this.scene.components[i].animation = [];
 		console.log(typeof this.scene.components[i]);
 
 		console.log("\tcomponent "+this.scene.components[i].id);
@@ -811,6 +887,19 @@ MySceneGraph.prototype.parseComponents = function(rootElement){
 				this.scene.components[i].texture = f.attributes.getNamedItem('id').value;
 				console.log("\t\ttexture "+this.scene.components[i].texture);
 			}
+			else if (f.tagName == "animation"){
+				anims++;
+				
+				for(var k = 0; k < f.children.length; k++){
+					var g = f.children[k];
+					if(g.tagName == "animationref"){
+						this.scene.components[i].animation.push(g.attributes.getNamedItem('id').value);
+						console.log("\t\tanimation "+this.scene.components[i].animation);
+						//continue;
+					}
+				}
+				
+			}
 			else if (f.tagName == "children") {
 				childs++;
 				console.log("\t\tchildren");
@@ -836,6 +925,7 @@ MySceneGraph.prototype.buildGraph = function(){
 			m: [],
 			texture: null,
 			primitive: null,
+			animations: [],
 			children: []
 		};
 
@@ -887,6 +977,11 @@ MySceneGraph.prototype.buildGraph = function(){
 		// texture
 		this[no].texture = this.scene.components[i].texture;
 		//console.log("\t\tchildren: "+this.scene.components[i].children.length);
+		
+		this[no].animations = this.scene.components[i].animation;
+		console.log("start search:");
+		console.log(this.scene.components[i].animation);
+		console.log(this[no].animations);
 		for (var j = 0; j < this.scene.components[i].children.length; j++) {
 			//console.log("\t\t"+this.scene.components[i].children[j]);
 			//console.log("\t\t\t"+this.scene.components[i].children[j][0]);

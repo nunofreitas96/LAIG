@@ -267,10 +267,17 @@
 			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
 		<primitive id="chess">
-			<chessboard du="8" dv="8" textureref="../resources/images/board.jpg" su="4" sv="4">
+			<chessboard du="6" dv="6" textureref="../resources/images/board.jpg" su="2" sv="4">
                 <c1 r="0" g="0" b="0" a="1" />
                 <c2 r="1" g="0" b="0" a="1" />
                 <cs r="1" g="1" b="1" a="1" />
+			</chessboard>
+		</primitive>
+		<primitive id="chess2">
+			<chessboard du="8" dv="8" textureref="../resources/images/grass.jpg" su="4" sv="1">
+                <c1 r=".196" g=".714" b=".22" a="1" />
+                <c2 r=".329" g=".902" b=".361" a="1" />
+                <cs r=".204" g=".2" b=".22" a="1" />
 			</chessboard>
 		</primitive>
     <primitive id="plano">
@@ -358,7 +365,7 @@
 			<controlpoint xx="0" yy="0" zz="0" />
 		</animation>
 	</animations>
-	
+
 	<components>
 		<component id = "root">
 			<transformation>
@@ -369,11 +376,13 @@
 			<texture id = "none" />
 			<children>
 				<componentref id="chessboard" />
+				<componentref id="chessboard2" />
 			</children>
 		</component>
 
 		<component id = "chessboard">
 			<transformation>
+				<translate x='-5' y='0' z='0' />
 			</transformation>
 			<materials>
 				<material id = "4" />
@@ -383,6 +392,20 @@
 				<primitiveref id="chess" />
 			</children>
 		</component>
+
+		<component id = "chessboard2">
+			<transformation>
+				<translate x='5' y='0' z='0' />
+			</transformation>
+			<materials>
+				<material id = "4" />
+			</materials>
+			<texture id = "none" />
+			<children>
+				<primitiveref id="chess2" />
+			</children>
+		</component>
+
 		<component id="UnitCubeQuad1">
 			<transformation>
 				<transformationref id="quad1T"/>

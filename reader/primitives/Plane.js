@@ -28,6 +28,7 @@ function Plane(scene, dX, dY, divX, divY) {
   var j = 0;
   var Dim = 4;
   var dim = Dim/2;
+  this.dim=dim;
   var stepU = 4/dX;
   var stepV = 4/dY;
 
@@ -61,14 +62,13 @@ function Plane(scene, dX, dY, divX, divY) {
 Plane.prototype.textResize = function(length_s, length_t){
 	this.texCoords = [
 		0, 0,
-		(2 - 0)/length_s, 0,
-		0, (0 - 2)/length_t,
-		(2 - 0)/length_s, (0 - 2)/length_t
+		(this.dim - (-this.dim))/length_s, 0,
+		0, (-this.dim - this.dim)/length_t,
+		(this.dim - (-this.dim))/length_s, ((-this.dim) - this.dim)/length_t
 
 	];
 	this.updateTexCoordsGLBuffers();
 }
-
 
 Plane.prototype = Object.create(CGFobject.prototype);
 Plane.prototype.constructor = Plane;

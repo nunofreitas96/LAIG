@@ -7,8 +7,8 @@
 
 	<views default="0">
 		<perspective id="0" near=".1" far="500" angle=".4">
-			<from x="40" y="40" z="40" />
-			<to x="0" y="0" z="0" />
+			<from x="20" y="20" z="70" />
+			<to x="10" y="5" z="0" />
 		</perspective>
 		<perspective id="1" near=".1" far="200" angle=".4">
 			<from x="10" y="10" z="25" />
@@ -53,9 +53,28 @@
 		<texture id="bushA2" file="../resources/images/bole.png" length_s="1" length_t="1" />
 		<texture id="bushA3" file="../resources/images/table.png" length_s="1" length_t="1" />
 		<texture id="sandA" file="../resources/images/sand.png" length_s="1" length_t="1" />
+		<texture id="tramSA" file="../resources/images/tram_2.png" length_s="1" length_t="1" />
+    <texture id="tramFA" file="../resources/images/tram_front_2.png" length_s="1" length_t="1" />
+    <texture id="tramBA" file="../resources/images/tram_back.png" length_s="1" length_t="1" />
+    <texture id="tramTA" file="../resources/images/tram_top.png" length_s="1" length_t="1" />
+    <texture id="tramWA" file="../resources/images/tram_wheel.png" length_s="1" length_t="1" />
+		<texture id="calcadaA" file="../resources/images/calcada.png" length_s=".1" length_t=".2" />
+		<texture id="casa1A" file="../resources/images/casa1.png" length_s="1" length_t="1" />
+		<texture id="casa2A" file="../resources/images/casa2.png" length_s="1" length_t="1" />
+		<texture id="casa3A" file="../resources/images/casa3.png" length_s="1" length_t="1" />
+		<texture id="roofA" file="../resources/images/roof.png" length_s="1" length_t="1" />
+		<texture id="fundoA" file="../resources/images/porto.png" length_s="1" length_t="1" />
 	</textures>
 
 	<materials>
+		<material id="0" >
+			<emission r="1" g="1" b="1" a="1" />
+			<ambient r="1" g="1" b="1" a="1" />
+			<diffuse r="1" g="1" b="1" a="1" />
+			<specular r="1" g="1" b="1" a="1" />
+			<shininess value="5" />
+		</material>
+
 		<material id="1" >
 			<emission r="1" g="1" b="1" a="1" />
 			<ambient r="0.11" g="0.42" b="0.5" a="1" />
@@ -86,6 +105,14 @@
 			<diffuse r="0.43" g="0.62" b="0.01" a="1" />
 			<specular r="0.8" g="0.2" b="0.8" a="1" />
 			<shininess value="120" />
+		</material>
+
+		<material id="5" >
+			<emission r="0.52" g="0.52" b="0.52" a="1" />
+			<ambient r="0.52" g="0.52" b="0.52" a="1" />
+			<diffuse r="0.52" g="0.52" b="0.52" a="1" />
+			<specular r="0.52" g="0.52" b="0.52" a="1" />
+			<shininess value="20" />
 		</material>
 	</materials>
 
@@ -267,19 +294,111 @@
 			<torus inner=".425" outer=".4" slices="100" loops="100" />
 		</primitive>
     <primitive id="plano">
-			<plane dimX='2' dimY='1' partsX='10' partsY='7' />
+			<plane dimX='2' dimY='2' partsX='5' partsY='5' />
 		</primitive>
 		<primitive id="surface">
-        <patch orderU="2" orderV="1" partsU="10" partsV="10" >
-            <controlpoint x="-1.5" y="-1.5" z="0.0" />
-            <controlpoint x="-1.5" y="1.5" z="0.0" />
-            <controlpoint x="0" y="-1.5" z="3.0" />
-            <controlpoint x="0" y="1.5" z="3.0" />
-            <controlpoint x="1.5" y="-1.5" z="0.0" />
-            <controlpoint x="1.5" y="1.5" z="0.0" />
+        <patch orderU="2" orderV="3" partsU="20" partsV="20" >
+            <controlpoint x="-2.0" y="-2.0" z="1.0" />
+            <controlpoint x="-2.0" y="-1.0" z="-2.0" />
+            <controlpoint x="-2.0" y="1.0" z="5.0" />
+            <controlpoint x="-2.0" y="2.0" z="-1.0" />
+            <controlpoint x="0" y="-2.0" z="0.0" />
+            <controlpoint x="0" y="-1.0" z="-1.0" />
+            <controlpoint x="0" y="1.0" z="1.5" />
+            <controlpoint x="0" y="2.0" z="0" />
+            <controlpoint x="2.0" y="-2.0" z="-1.0" />
+            <controlpoint x="2.0" y="-1.0" z="2.0" />
+            <controlpoint x="2.0" y="1.0" z="-5.0" />
+            <controlpoint x="2.0" y="2.0" z="1.0" />
          </patch>
       </primitive>
+			<primitive id='patch1'>
+				<patch orderU='4' orderV='1' partsU='10' partsV='12'>
+					<controlpoint x='-2' y='-2' z='5' />
+					<controlpoint x='-2' y='2' z='5' />
+					<controlpoint x='-1' y='-2' z='1' />
+					<controlpoint x='-1' y='2' z='1' />
+					<controlpoint x='0' y='-2' z='0.5' />
+					<controlpoint x='0' y='2' z='0.5' />
+					<controlpoint x='1' y='-2' z='1' />
+					<controlpoint x='1' y='2' z='1' />
+					<controlpoint x='2' y='-2' z='5' />
+					<controlpoint x='2' y='2' z='5' />
+				</patch>
+			</primitive>
+			<primitive id='patch2'>
+				<patch orderU='4' orderV='1' partsU='10' partsV='12'>
+					<controlpoint x='-1.8' y='-2' z='0' />
+					<controlpoint x='-1.8' y='2' z='0' />
+					<controlpoint x='-1' y='-2' z='0.3' />
+					<controlpoint x='-1' y='2' z='0.3' />
+					<controlpoint x='0' y='-2' z='.7' />
+					<controlpoint x='0' y='2' z='.7' />
+					<controlpoint x='1' y='-2' z='.3' />
+					<controlpoint x='1' y='2' z='.3' />
+					<controlpoint x='1.8' y='-2' z='0' />
+					<controlpoint x='1.8' y='2' z='0' />
+				</patch>
+			</primitive>
+      <primitive id='patch3'>
+				<patch orderU='4' orderV='1' partsU='10' partsV='12'>
+					<controlpoint x='-1.8' y='-2' z='0' />
+					<controlpoint x='-1.8' y='2' z='0' />
+					<controlpoint x='-1' y='-2' z='0.2' />
+					<controlpoint x='-1' y='2' z='0.2' />
+					<controlpoint x='0' y='-2' z='.4' />
+					<controlpoint x='0' y='2' z='.4' />
+					<controlpoint x='1' y='-2' z='.2' />
+					<controlpoint x='1' y='2' z='.2' />
+					<controlpoint x='1.8' y='-2' z='0' />
+					<controlpoint x='1.8' y='2' z='0' />
+				</patch>
+			</primitive>
+      <primitive id='vehicle'>
+        <vehicle />
+			</primitive>
+
 	</primitives>
+
+	<animations>
+		<animation id="01" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="4" yy="4" zz="4" />
+			<controlpoint xx="2" yy="4" zz="6" />
+			<controlpoint xx="7" yy="0" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
+		</animation>
+		<animation id="02" span="5" type="circular"
+			centerx="0" centery="0" centerz="0"
+			radius="2" startang="0" rotang="3.14" />
+		<animation id="03" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="2" />
+			<controlpoint xx="4" yy="4" zz="4" />
+			<controlpoint xx="2" yy="0" zz="0" />
+			<controlpoint xx="0" yy="0" zz="0" />
+		</animation>
+		<animation id="04" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="10" yy="0" zz="0" />
+			<controlpoint xx="70" yy="-8.75" zz="0" />
+			<controlpoint xx="80" yy="-8.75" zz="0" />
+		</animation>
+		<animation id="05" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="10" yy="0" zz="0" />
+			<controlpoint xx="70" yy="8.75" zz="0" />
+			<controlpoint xx="80" yy="8.75" zz="0" />
+		</animation>
+		<animation id="06" span="5" type="circular"
+			centerx="10" centery="0" centerz="-10"
+			radius="10" startang="0" rotang="3.14" />
+		<animation id="07" span="5" type="linear">
+			<controlpoint xx="0" yy="0" zz="0" />
+			<controlpoint xx="15" yy="0" zz="0" />
+			<controlpoint xx="75" yy="-8.75" zz="0" />
+			<controlpoint xx="85" yy="-8.75" zz="0" />
+		</animation>
+	</animations>
 
 	<components>
 		<component id = "root">
@@ -290,112 +409,26 @@
 			</materials>
 			<texture id = "none" />
 			<children>
-				<primitiveref id="plano" />
+				<componentref id='plane' />
 			</children>
 		</component>
 
-		<component id="UnitCubeQuad1">
+		<component id = "plane">
 			<transformation>
-				<transformationref id="quad1T"/>
+
 			</transformation>
 			<materials>
-				<material id="inherit" />
+				<material id = "0" />
 			</materials>
-			<texture id="posterA" />
-
+			<texture id = "calcadaA" />
 			<children>
-				<primitiveref id ="rectangle"/>
+				<primitiveref id='plano' />
 			</children>
 		</component>
 
-		<component id="UnitCubeQuad2">
-			<transformation>
-				<transformationref id="quad2T"/>
-			</transformation>
-			<materials>
-				<material id="1" />
-			</materials>
-			<texture id="inherit" />
 
-			<children>
-				<primitiveref id ="rectangle"/>
-			</children>
-		</component>
 
-		<component id="UnitCubeQuad3">
-			<transformation>
-				<transformationref id="quad3T"/>
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="inherit" />
 
-			<children>
-				<primitiveref id ="rectangle"/>
-			</children>
-		</component>
 
-		<component id="UnitCubeQuad4">
-			<transformation>
-				<transformationref id="quad4T"/>
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="inherit" />
-
-			<children>
-				<primitiveref id ="rectangle"/>
-			</children>
-		</component>
-
-		<component id="UnitCubeQuad5">
-			<transformation>
-				<transformationref id="quad5T"/>
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="inherit" />
-
-			<children>
-				<primitiveref id ="rectangle"/>
-			</children>
-		</component>
-
-		<component id="UnitCubeQuad6">
-			<transformation>
-				<transformationref id="quad6T"/>
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="inherit" />
-
-			<children>
-				<primitiveref id ="rectangle"/>
-			</children>
-		</component>
-
-		<component id="UnitCubeQuad">
-			<transformation>
-			</transformation>
-			<materials>
-				<material id="inherit" />
-			</materials>
-			<texture id="inherit" />
-
-			<children>
-				<componentref id ="UnitCubeQuad1"/>
-				<componentref id ="UnitCubeQuad2"/>
-				<componentref id ="UnitCubeQuad3"/>
-				<componentref id ="UnitCubeQuad4"/>
-				<componentref id ="UnitCubeQuad5"/>
-				<componentref id ="UnitCubeQuad6"/>
-			</children>
-		</component>
-
-		</component>
 	</components>
 </dsx>

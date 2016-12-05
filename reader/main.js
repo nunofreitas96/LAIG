@@ -27,6 +27,7 @@ serialInclude([ '../lib/CGF.js',
         		'MyLinearAnimation.js',
         		'MyAnimation.js',
         		'MyCircularAnimation.js',
+				'MyPieceAnimation.js',
 
 
 main=function()
@@ -46,7 +47,7 @@ main=function()
 	// get file name provided in URL, e.g. http://localhost/myproj/?file=myfile.xml
 	// or use "demo.xml" as default (assumes files in subfolder "scenes", check MySceneGraph constructor)
 
-  var filename=getUrlVars()['file'] || "cena.xml";
+  var filename=getUrlVars()['file'] || "pieceTest.xml";
   //var filename=getUrlVars()['file'] || "chesses.xml";
   //var filename=getUrlVars()['file'] || "dsx3.xml";
   //var filename=getUrlVars()['file'] || "LAIG_TP1_DSX_T6_G8_v01/inferno.dsx";

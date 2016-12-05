@@ -25,7 +25,7 @@ XMLscene.prototype.init = function (application) {
 
   this.axis=new CGFaxis(this);
   this.startTime = 0;
-  this.anim = new MyLinearAnimation(this,"aiai",5,[[0,0,0],[1,1,1],[1,2,3],[0,0,0]]);
+  this.anim = new MyPieceAnimation(this,"aiai",2,1,'NW');
   var InitialAngle = 0;
   var RotationAngle= Math.PI*4;
   this.anim2 = new MyCircularAnimation(this,"aiai2", 5, [0,0,0],InitialAngle,RotationAngle,1);
@@ -165,6 +165,7 @@ XMLscene.prototype.initLights = function () {
             if( this.graph.animations[node.animations[j]] != null){
               if(j ==0){
                 this.graph.animations[node.animations[j]].apply(this.elapsedTime);
+				
               }
               else{
                 var currElapsedTime = this.elapsedTime;
@@ -183,8 +184,10 @@ XMLscene.prototype.initLights = function () {
             }
           }
         }
+		
+		this.anim.apply(this.elapsedTime);
 
-
+		
         material.apply();
         if(this.graph.primitives[node.primitive].textResize != null && confirmer ==1 ){
           console.log("--------RESIZING---------------");
@@ -306,7 +309,7 @@ XMLscene.prototype.initLights = function () {
     // it is important that things depending on the proper loading of the graph
     // only get executed after the graph has loaded correctly.
     // This is one possible way to do it
-
+	
     if (this.graph.loadedOk)
     {
 
